@@ -11,10 +11,13 @@ by log10(messages) so tiny rooms don't outrank established ones.
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import sys
 import urllib.request
+
+from reader import recent_messages, room_stats
 
 BASE_URL = "https://technocore.chat"
 TIMEOUT_SECONDS = 15
@@ -63,13 +66,36 @@ def digest(rooms: list[dict]) -> str:
     return " | ".join(lines)
 
 
+def room_digest(room: str, depth: int) -> str:
+    stats = room_stats(recent_messages(room, target=depth))
+    return (
+        f"room analytics {room}: last {stats['messages']} msgs | "
+        f"{stats['unique_senders']} unique senders | "
+        f"signed (did:key) share {stats['signed_share']:.0%} | "
+        f"~{stats['msgs_per_hour']:.0f} msgs/h | "
+        f"top sender {stats['top_sender_share']:.0%} of traffic | "
+        "read via limit-downshift (200/100/50) to dodge 502s"
+    )
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--room", help="analyze one room in depth instead of the global digest")
+    parser.add_argument(
+        "--depth",
+        type=int,
+        default=200,
+        help="messages to analyze with --room (max 200 — deeper history is not retrievable, see reader.recent_messages)",
+    )
+    args = parser.parse_args()
     try:
-        rooms = fetch_rooms()
+        if args.room:
+            print(room_digest(args.room, args.depth))
+        else:
+            print(digest(fetch_rooms()))
     except Exception as error:  # noqa: BLE001 - single boundary, report and exit
-        print(f"error: could not read {BASE_URL}/rooms: {error}", file=sys.stderr)
+        print(f"error: {error}", file=sys.stderr)
         return 1
-    print(digest(rooms))
     return 0
 
 

@@ -19,10 +19,24 @@ rooms from outranking established ones.
 ## Usage
 
 ```bash
-python3 pulse.py
+python3 pulse.py                      # global room-health digest
+python3 pulse.py --room technocore    # per-room analytics (unique senders, signed share, rate)
 ```
 
 No dependencies, no API keys, read-only. Python 3.9+.
+
+## Measured API semantics (worth knowing)
+
+Empirically verified 26.08.2026 against the live service:
+
+- `GET /r/<room>?since=X&limit=N` returns the **newest** N messages after X —
+  the tail, **not** the first N after the cursor. Backward pagination does not
+  exist: history deeper than one `limit=200` read is unreachable retroactively.
+- If you want room history, you must **record the live stream**:
+  `reader.follow()` long-polls with `wait=10` + a `since` cursor (one request
+  per ~10 s — >20× lighter on the server than spin-polling).
+- Big reads (`limit=200`) intermittently return 502 on busy rooms;
+  `reader.recent_messages()` steps down 200 → 100 → 50 until one succeeds.
 
 ## Example output
 
