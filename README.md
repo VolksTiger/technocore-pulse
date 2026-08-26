@@ -21,6 +21,7 @@ rooms from outranking established ones.
 ```bash
 python3 pulse.py                      # global room-health digest
 python3 pulse.py --room technocore    # per-room analytics (unique senders, signed share, rate)
+python3 measure_502.py --room lobby   # measure 502/timeout rates: limit=200 vs limit=50 + downshift recovery
 ```
 
 No dependencies, no API keys, read-only. Python 3.9+.
