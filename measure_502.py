@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import socket
 import time
 import urllib.request
 from datetime import datetime, timezone
@@ -25,8 +26,19 @@ BASE_URL = "https://technocore.chat"
 USER_AGENT = "technocore-pulse-measure/1.0"
 
 
+def _is_timeout(error: BaseException) -> bool:
+    # On Python 3.9 socket.timeout is NOT a subclass of TimeoutError; on 3.10+ it is.
+    # A URLError raised from a timeout carries the socket.timeout as .reason.
+    reason = getattr(error, "reason", None)
+    return (
+        isinstance(error, (socket.timeout, TimeoutError))
+        or isinstance(reason, (socket.timeout, TimeoutError))
+        or "timed out" in str(error).lower()
+    )
+
+
 def timed_read(room: str, limit: int, timeout: float = 15.0) -> dict:
-    """One read. Returns {ok, status, timeout, latency_ms}."""
+    """One read. Returns {ok, status, timeout, latency_ms}. Never raises."""
     url = f"{BASE_URL}/r/{room}?format=json&limit={limit}"
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     start = time.monotonic()
@@ -36,9 +48,9 @@ def timed_read(room: str, limit: int, timeout: float = 15.0) -> dict:
         return {"ok": True, "status": 200, "timeout": False, "latency_ms": round((time.monotonic() - start) * 1000)}
     except HTTPError as error:
         return {"ok": False, "status": error.code, "timeout": False, "latency_ms": round((time.monotonic() - start) * 1000)}
-    except (URLError, TimeoutError) as error:
-        is_timeout = isinstance(error, TimeoutError) or isinstance(getattr(error, "reason", None), TimeoutError)
-        return {"ok": False, "status": None, "timeout": is_timeout, "latency_ms": round((time.monotonic() - start) * 1000)}
+    except (URLError, OSError) as error:
+        # OSError covers socket.timeout and low-level connection resets/EOFs; URLError wraps both.
+        return {"ok": False, "status": None, "timeout": _is_timeout(error), "latency_ms": round((time.monotonic() - start) * 1000)}
 
 
 def blank_tally() -> dict:
@@ -90,6 +102,27 @@ def main() -> int:
     downshift = {"triggered": 0, "recovered_at_100": 0, "recovered_at_50": 0, "still_failed": 0}
     started = datetime.now(timezone.utc)
 
+    def build_report(completed: int) -> dict:
+        recovered = downshift["recovered_at_100"] + downshift["recovered_at_50"]
+        return {
+            "room": args.room,
+            "utc_window": {"start": started.isoformat(), "end": datetime.now(timezone.utc).isoformat()},
+            "pairs_completed": completed,
+            "pairs_requested": args.pairs,
+            "limit_200": summarize(big),
+            "limit_50": summarize(small),
+            "downshift_200_100_50": {
+                **downshift,
+                "recovery_pct": pct(recovered, downshift["triggered"]) if downshift["triggered"] else None,
+            },
+            "method": "alternating paired reads of one room, limit=200 vs limit=50, ~"
+            f"{args.spacing:g}s spacing; on a failed 200 read, retry 100 then 50 and record recovery",
+        }
+
+    def flush(completed: int) -> None:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump(build_report(completed), handle, indent=2)
+
     for i in range(args.pairs):
         # Alternate order each pair so neither limit is systematically favored by burst timing.
         order = [200, 50] if i % 2 == 0 else [50, 200]
@@ -108,25 +141,12 @@ def main() -> int:
         if i < args.pairs - 1:
             time.sleep(args.spacing)
         if (i + 1) % 20 == 0:
+            flush(i + 1)  # crash-safe: never lose more than 20 pairs of data
             print(f"  {i + 1}/{args.pairs} pairs done", flush=True)
 
+    flush(args.pairs)
     ended = datetime.now(timezone.utc)
-    recovered = downshift["recovered_at_100"] + downshift["recovered_at_50"]
-    report = {
-        "room": args.room,
-        "utc_window": {"start": started.isoformat(), "end": ended.isoformat()},
-        "pairs": args.pairs,
-        "limit_200": summarize(big),
-        "limit_50": summarize(small),
-        "downshift_200_100_50": {
-            **downshift,
-            "recovery_pct": pct(recovered, downshift["triggered"]) if downshift["triggered"] else None,
-        },
-        "method": "alternating paired reads of one room, limit=200 vs limit=50, ~"
-        f"{args.spacing:g}s spacing; on a failed 200 read, retry 100 then 50 and record recovery",
-    }
-    with open(args.out, "w", encoding="utf-8") as handle:
-        json.dump(report, handle, indent=2)
+    report = build_report(args.pairs)
 
     print("\n=== 502 measurement ===")
     print(f"room {args.room} | {args.pairs} pairs | {started.strftime('%H:%M')}-{ended.strftime('%H:%MZ')}")
@@ -135,6 +155,7 @@ def main() -> int:
     print(f"limit= 50: {small['ok']}/{small['attempts']} ok ({report['limit_50']['success_pct']}%), "
           f"{small['http_502']} x502 ({report['limit_50']['http_502_pct']}%), {small['timeout']} timeout")
     ds = report["downshift_200_100_50"]
+    recovered = ds["recovered_at_100"] + ds["recovered_at_50"]
     print(f"downshift: {ds['triggered']} triggered, {recovered} recovered ({ds['recovery_pct']}%)")
     print(f"wrote {args.out}")
     return 0
