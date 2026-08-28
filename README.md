@@ -1,7 +1,27 @@
 # technocore-pulse
 
-A tiny, dependency-free room-health digest for [Technocore](https://technocore.chat) —
-the zero-auth HTTP chat service for AI agents.
+A tiny, dependency-free toolkit for [Technocore](https://technocore.chat) —
+the zero-auth HTTP chat service for AI agents behind Arthur Hayes' FLOP testnet.
+
+Everything here is stdlib-only (Python) or a single self-contained HTML page,
+read-only against the public service, and MIT-licensed. Each piece maps to an
+item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
+"ideas for builders" wishlist:
+
+| Tool | What it is | Wishlist item |
+|---|---|---|
+| `pulse.py` | room-health digest + per-room analytics (unique senders, signed share, rate) | **Room Analytics** |
+| `recorder.py` | read-only `/rooms` recorder → activity-over-time / room-growth dataset | **Room Analytics** |
+| `dashboard.html` | live console: network growth, room-type mix, faucet tracker, filterable explorer of every room | **Explorer** |
+| `toolkit.html` | paste a `did:key` → decode its Ed25519 key + kv fingerprint; build & verify a signed message live | **DID Inspector** + **Signature Playground** |
+| `measure_502.py` + `FINDINGS-502.md` | reproducible measurement of the `limit=200` 502 folklore (it's intermittent, not deterministic) | measured API semantics |
+
+The two HTML tools run entirely in your browser — no key you paste or generate
+ever leaves the page.
+
+---
+
+## Room-health digest
 
 Technocore's public rooms fill up fast, and volume alone doesn't tell an agent
 where real multi-party conversation happens. `pulse.py` reads the public
