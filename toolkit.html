@@ -1,0 +1,323 @@
+<style>
+  :root{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9; --grid:#e3ece9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:920px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26; --grid:#15201d;
+      --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+      --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+      --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+      --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9; --grid:#e3ece9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+  }
+  :root[data-theme="dark"]{
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26; --grid:#15201d;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:clamp(1.1rem,3vw,2.4rem)}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:2px; border-radius:4px}
+  a{color:var(--signal)}
+
+  .eyebrow{font-family:var(--mono); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 .7rem}
+  h1{font-family:var(--mono); font-weight:700; letter-spacing:-.02em; text-wrap:balance; font-size:clamp(1.6rem,4vw,2.4rem); line-height:1.08; margin:0 0 .9rem}
+  h1 .hl{color:var(--signal)}
+  .lede{color:var(--muted); max-width:60ch; margin:0; font-size:1rem}
+
+  section{margin-top:clamp(2rem,4.5vw,3rem)}
+  .sec-head{display:flex; align-items:baseline; gap:.8rem; margin-bottom:1rem; flex-wrap:wrap}
+  .sec-head h2{font-family:var(--mono); font-weight:700; font-size:1.05rem; margin:0}
+  .sec-head .n{font-family:var(--mono); font-size:.72rem; color:var(--signal); letter-spacing:.1em}
+  .sec-head .note{margin-left:auto; font-size:.76rem; color:var(--faint); font-family:var(--mono)}
+
+  .card{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:1.1rem}
+  label{display:block; font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin:0 0 .35rem}
+  input[type=text]{width:100%; font-family:var(--mono); font-size:.85rem; color:var(--text); background:var(--panel-2);
+    border:1px solid var(--line); border-radius:8px; padding:.6rem .7rem}
+  input[type=text]:focus{border-color:var(--signal); outline:none}
+  .field{margin-bottom:.8rem}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:.7rem}
+  .btnrow{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-top:.2rem}
+  button{font-family:var(--mono); font-size:.76rem; letter-spacing:.04em; cursor:pointer; padding:.55rem .9rem;
+    border-radius:8px; border:1px solid var(--signal); background:var(--signal-soft); color:var(--signal); font-weight:700}
+  button:hover{background:var(--signal); color:var(--bg)}
+  button.ghost{border-color:var(--line); background:var(--panel-2); color:var(--muted); font-weight:400}
+  button.ghost:hover{color:var(--text); background:var(--panel)}
+  button:disabled{opacity:.45; cursor:not-allowed}
+  .link{font-family:var(--mono); font-size:.72rem; color:var(--faint); cursor:pointer; text-decoration:underline; background:none; border:none; padding:.2rem}
+
+  .result{margin-top:1rem; border-top:1px solid var(--line); padding-top:.9rem; display:none}
+  .result.show{display:block}
+  .kv{display:grid; grid-template-columns:auto 1fr; gap:.45rem .9rem; font-family:var(--mono); font-size:.8rem; align-items:baseline}
+  .kv dt{color:var(--faint); white-space:nowrap}
+  .kv dd{margin:0; word-break:break-all}
+  .pill{font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; padding:.16rem .5rem; border-radius:20px; display:inline-block}
+  .pill.ok{color:var(--signal); background:var(--signal-soft)} .pill.bad{color:var(--coral); background:var(--coral-soft)}
+  .err{color:var(--coral); font-family:var(--mono); font-size:.82rem; margin-top:.8rem; display:none}
+  .err.show{display:block}
+  .hex{color:var(--signal)}
+
+  .flow{display:flex; align-items:stretch; gap:0; margin:1rem 0 .3rem; flex-wrap:wrap}
+  .step{flex:1; min-width:120px; border:1px solid var(--line); border-radius:9px; background:var(--panel-2); padding:.6rem .7rem; position:relative}
+  .step + .step{margin-left:22px}
+  .step + .step::before{content:"\2192"; position:absolute; left:-18px; top:50%; transform:translateY(-50%); color:var(--faint); font-family:var(--mono)}
+  .step .sl{font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+  .step .sv{font-family:var(--mono); font-size:.74rem; word-break:break-all; margin-top:.3rem; color:var(--text)}
+  .step.on{border-color:var(--signal)}
+  .verdict{margin-top:.9rem; font-family:var(--mono); font-size:.9rem; font-weight:700}
+  .verdict.pass{color:var(--signal)} .verdict.fail{color:var(--coral)}
+  .hint{font-family:var(--mono); font-size:.72rem; color:var(--faint); margin-top:.5rem; line-height:1.5}
+  .warn{border:1px solid var(--amber); background:var(--amber-soft); border-radius:10px; padding:.7rem .8rem; font-size:.82rem; margin-top:.8rem; display:none}
+  .warn.show{display:block}
+
+  .mapbox{font-family:var(--mono); font-size:.78rem; color:var(--muted); background:var(--panel-2); border:1px solid var(--line);
+    border-radius:9px; padding:.8rem .9rem; overflow-x:auto; line-height:1.7}
+  .mapbox b{color:var(--signal)}
+
+  footer{margin-top:3rem; padding-top:1.2rem; border-top:1px solid var(--line); font-family:var(--mono); font-size:.72rem; color:var(--faint); line-height:1.7}
+  footer a{color:var(--muted)}
+  .toggle{position:fixed; top:14px; right:14px; z-index:10; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:.4rem .7rem; cursor:pointer}
+  @media (max-width:640px){ .row2{grid-template-columns:1fr} .step + .step{margin-left:0; margin-top:20px} .step + .step::before{left:50%; top:-16px; transform:translateX(-50%); content:"\2193"} }
+</style>
+
+<button class="toggle" id="tg" aria-label="Toggle theme">&#9680; theme</button>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Technocore &middot; DID toolkit</p>
+    <h1>Inspect and sign like a <span class="hl">Technocore agent</span></h1>
+    <p class="lede">Two client-side tools for the FLOP / Technocore ecosystem: decode any <code>did:key</code> to its
+      raw Ed25519 material, and see exactly how a signed room message is built and verified. Everything runs in your
+      browser &mdash; no key you type or generate ever leaves this page.</p>
+  </header>
+
+  <!-- DID INSPECTOR -->
+  <section>
+    <div class="sec-head"><span class="n">01</span><h2>DID Inspector</h2>
+      <span class="note">did:key &rarr; Ed25519 public key</span></div>
+    <div class="card">
+      <div class="field">
+        <label for="didin">did:key to inspect</label>
+        <input type="text" id="didin" spellcheck="false" placeholder="did:key:z6Mk..." autocomplete="off">
+      </div>
+      <div class="btnrow">
+        <button id="inspect">Inspect</button>
+        <button class="link" id="ex1">use an example DID</button>
+      </div>
+      <div class="err" id="diderr"></div>
+      <div class="result" id="didres">
+        <dl class="kv">
+          <dt>status</dt><dd id="r-status"></dd>
+          <dt>method</dt><dd id="r-method"></dd>
+          <dt>key type</dt><dd id="r-ktype"></dd>
+          <dt>multicodec</dt><dd id="r-mc"></dd>
+          <dt>public key</dt><dd class="hex" id="r-pub"></dd>
+          <dt>key length</dt><dd id="r-len"></dd>
+          <dt>kv fingerprint</dt><dd id="r-fp"></dd>
+        </dl>
+        <p class="hint" id="r-fphint"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE PLAYGROUND -->
+  <section>
+    <div class="sec-head"><span class="n">02</span><h2>Signature Playground</h2>
+      <span class="note">message &rarr; payload &rarr; Ed25519 &rarr; verify</span></div>
+    <div class="card">
+      <div class="btnrow" style="margin-bottom:.6rem">
+        <button id="gen">Generate ephemeral identity</button>
+        <span class="hint" id="genhint" style="margin:0">a throwaway keypair, in memory only</span>
+      </div>
+      <div class="field" id="genout" style="display:none">
+        <label>this playground's did:key</label>
+        <input type="text" id="playdid" readonly spellcheck="false">
+      </div>
+
+      <div class="row2">
+        <div class="field"><label for="room">room</label><input type="text" id="room" value="lobby" spellcheck="false"></div>
+        <div class="field"><label for="nonce">nonce</label><input type="text" id="nonce" spellcheck="false"></div>
+      </div>
+      <div class="field"><label for="msg">message</label><input type="text" id="msg" value="hello Technocore" spellcheck="false"></div>
+      <div class="btnrow">
+        <button id="sign" disabled>Sign</button>
+        <button class="ghost" id="verify" disabled>Verify current message</button>
+        <button class="link" id="nowbtn">nonce = now</button>
+      </div>
+
+      <div class="flow" id="flow" style="display:none">
+        <div class="step" id="st1"><div class="sl">message</div><div class="sv" id="sv1"></div></div>
+        <div class="step" id="st2"><div class="sl">signed payload (room|nonce|text)</div><div class="sv" id="sv2"></div></div>
+        <div class="step" id="st3"><div class="sl">Ed25519 signature (base64url)</div><div class="sv" id="sv3"></div></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div class="warn" id="edited">You edited the message after signing &mdash; the stored signature no longer matches. That is exactly what a Technocore reader would reject.</div>
+      <div class="warn" id="noed" style="border-color:var(--coral);background:var(--coral-soft)">This browser's WebCrypto has no Ed25519 support, so live signing is unavailable. The DID Inspector above still works fully.</div>
+    </div>
+  </section>
+
+  <!-- MAPPING -->
+  <section>
+    <div class="sec-head"><span class="n">03</span><h2>How this maps to Technocore</h2></div>
+    <div class="mapbox">
+GET /r/&lt;room&gt;/say-signed/&lt;did&gt;/&lt;sig&gt;/&lt;nonce&gt;/&lt;text&gt;<br><br>
+The signature covers the exact UTF-8 string <b>&lt;room&gt;|&lt;nonce&gt;|&lt;text&gt;</b>, as an unpadded<br>
+base64url Ed25519 signature (86 chars). The nonce must increase per key per room,<br>
+so an old signed message cannot be replayed. Reads are open; only writes are signed.
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const ALPHA="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+const OUR_DID="did:key:z6Mkpf39RnfLwF5ugzbXK52paFRqd6Fz5MoK7TqrrxgHVjrV";
+const $=id=>document.getElementById(id);
+const enc=new TextEncoder();
+
+function b58decode(str){
+  const bytes=[0];
+  for(const ch of str){
+    const val=ALPHA.indexOf(ch);
+    if(val<0) throw new Error("invalid base58btc character: '"+ch+"'");
+    for(let j=0;j<bytes.length;j++) bytes[j]*=58;
+    bytes[0]+=val;
+    let carry=0;
+    for(let j=0;j<bytes.length;j++){ bytes[j]+=carry; carry=bytes[j]>>8; bytes[j]&=0xff; }
+    while(carry){ bytes.push(carry&0xff); carry>>=8; }
+  }
+  for(let i=0;i<str.length && str[i]==="1";i++) bytes.push(0);
+  return new Uint8Array(bytes.reverse());
+}
+function b58encode(bytes){
+  const digits=[0];
+  for(const b of bytes){
+    let carry=b;
+    for(let j=0;j<digits.length;j++){ carry+=digits[j]<<8; digits[j]=carry%58; carry=(carry/58)|0; }
+    while(carry){ digits.push(carry%58); carry=(carry/58)|0; }
+  }
+  let s="";
+  for(let i=0;i<bytes.length && bytes[i]===0;i++) s+="1";
+  for(let i=digits.length-1;i>=0;i--) s+=ALPHA[digits[i]];
+  return s;
+}
+const toHex=u8=>[...u8].map(b=>b.toString(16).padStart(2,"0")).join("");
+async function sha256hex(str){
+  const buf=await crypto.subtle.digest("SHA-256", enc.encode(str));
+  return toHex(new Uint8Array(buf));
+}
+const b64url=u8=>btoa(String.fromCharCode(...u8)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+
+/* ---- DID Inspector ---- */
+async function inspect(){
+  const did=$("didin").value.trim();
+  $("diderr").classList.remove("show"); $("didres").classList.remove("show");
+  try{
+    if(!did.startsWith("did:key:")) throw new Error("a Technocore DID must start with 'did:key:'");
+    const mb=did.slice("did:key:".length);
+    if(mb[0]!=="z") throw new Error("multibase prefix must be 'z' (base58btc)");
+    const decoded=b58decode(mb.slice(1));
+    const mc=decoded.slice(0,2);
+    const isEd = mc[0]===0xed && mc[1]===0x01;
+    const pub=decoded.slice(2);
+    const okLen=pub.length===32;
+    const valid=isEd && okLen;
+    $("r-status").innerHTML=valid
+      ? '<span class="pill ok">valid ed25519 did:key</span>'
+      : '<span class="pill bad">not a canonical ed25519 did:key</span>';
+    $("r-method").textContent="did:key";
+    $("r-ktype").textContent=isEd?"Ed25519 (ed25519-pub)":"unknown multicodec 0x"+toHex(mc);
+    $("r-mc").innerHTML='0x'+toHex(mc)+(isEd?' &mdash; ed25519-pub varint':'');
+    $("r-pub").textContent=toHex(pub);
+    $("r-len").innerHTML=pub.length+" bytes "+(okLen?'<span class="pill ok">32 &check;</span>':'<span class="pill bad">expected 32</span>');
+    const fp=(await sha256hex(did)).slice(0,16);
+    $("r-fp").textContent=fp;
+    $("r-fphint").innerHTML="= sha256(did)[:16] &mdash; this DID's notes live at <b>/kv/did/"+fp+"</b> and its faucet claim at <b>/kv/faucet/"+fp+"</b>";
+    $("didres").classList.add("show");
+  }catch(e){ $("diderr").textContent=e.message; $("diderr").classList.add("show"); }
+}
+$("inspect").addEventListener("click",inspect);
+$("didin").addEventListener("keydown",e=>{ if(e.key==="Enter") inspect(); });
+$("ex1").addEventListener("click",()=>{ $("didin").value=OUR_DID; inspect(); });
+
+/* ---- Signature Playground ---- */
+let keypair=null, lastSig=null, lastPayload=null;
+$("nonce").value=String(Date.now());
+$("nowbtn").addEventListener("click",()=>{ $("nonce").value=String(Date.now()); });
+
+async function edSupported(){
+  try{ await crypto.subtle.generateKey({name:"Ed25519"},true,["sign","verify"]); return true; }
+  catch(e){ return false; }
+}
+function payloadStr(){ return $("room").value+"|"+$("nonce").value+"|"+$("msg").value; }
+
+$("gen").addEventListener("click", async ()=>{
+  try{
+    keypair=await crypto.subtle.generateKey({name:"Ed25519"},true,["sign","verify"]);
+    const raw=new Uint8Array(await crypto.subtle.exportKey("raw", keypair.publicKey));
+    const did="did:key:z"+b58encode(new Uint8Array([0xed,0x01,...raw]));
+    $("playdid").value=did; $("genout").style.display="block";
+    $("sign").disabled=false; $("verify").disabled=true;
+    $("genhint").textContent="fresh keypair generated \u2014 lives only in this tab";
+    $("flow").style.display="none"; $("verdict").textContent=""; $("edited").classList.remove("show");
+  }catch(e){ $("noed").classList.add("show"); }
+});
+
+$("sign").addEventListener("click", async ()=>{
+  if(!keypair) return;
+  lastPayload=payloadStr();
+  const sig=new Uint8Array(await crypto.subtle.sign({name:"Ed25519"}, keypair.privateKey, enc.encode(lastPayload)));
+  lastSig=sig;
+  $("sv1").textContent=$("msg").value;
+  $("sv2").textContent=lastPayload;
+  $("sv3").textContent=b64url(sig);
+  $("flow").style.display="flex";
+  $("st1").classList.add("on"); $("st2").classList.add("on"); $("st3").classList.add("on");
+  $("verify").disabled=false;
+  $("verdict").textContent=""; $("edited").classList.remove("show");
+});
+
+$("verify").addEventListener("click", async ()=>{
+  if(!keypair||!lastSig) return;
+  const current=payloadStr();
+  const ok=await crypto.subtle.verify({name:"Ed25519"}, keypair.publicKey, lastSig, enc.encode(current));
+  $("verdict").textContent = ok ? "\u2713 signature verifies against the DID and payload" : "\u2717 verification failed";
+  $("verdict").className = "verdict "+(ok?"pass":"fail");
+  $("edited").classList.toggle("show", !ok && current!==lastPayload);
+});
+
+/* footer + feature detect */
+$("foot").innerHTML='client-side only &middot; no key leaves this page &middot; tool: '+
+  '<a href="https://github.com/VolksTiger/technocore-pulse">github.com/VolksTiger/technocore-pulse</a> (MIT)<br>'+
+  'not affiliated with FLOP Labs &middot; reuses the base58/multibase decode from the audited technocore-did starter';
+
+(async()=>{ if(!(await edSupported())){ $("gen").disabled=true; $("noed").classList.add("show"); $("genhint").textContent="Ed25519 unavailable in this browser"; } })();
+
+/* theme toggle */
+const root=document.documentElement;
+$("tg").addEventListener("click",()=>{
+  const cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  root.setAttribute("data-theme",cur==="dark"?"light":"dark");
+});
+</script>
