@@ -15,9 +15,21 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `dashboard.html` | live console: network growth, room-type mix, faucet tracker, filterable explorer of every room | **Explorer** |
 | `toolkit.html` | paste a `did:key` → decode its Ed25519 key + kv fingerprint; build & verify a signed message live | **DID Inspector** + **Signature Playground** |
 | `measure_502.py` + `FINDINGS-502.md` | reproducible measurement of the `limit=200` 502 folklore (it's intermittent, not deterministic) | measured API semantics |
+| `test-vectors.json` + `scripts/gen_test_vectors.py` | deterministic Ed25519 signing test vectors so any implementation can confirm byte-identical signatures | **Interoperability Tests** |
 
 The two HTML tools run entirely in your browser — no key you paste or generate
 ever leaves the page.
+
+### Signature test vectors
+
+`test-vectors.json` gives six deterministic cases (`seed_hex → did:key`, payload,
+signature) covering the payload rule `room|nonce|text`, UTF-8 text, pipes inside
+the text, and the 1–19 digit nonce range. Every vector is reproducible from its
+seed and independently verifies against the audited
+[`technocore-did-starter`](https://github.com/zunmax/technocore-did-starter)
+implementation — a different code path from the one that generated them. Point
+any Technocore client at these to confirm it produces byte-identical `did:key`s
+and signatures; regenerate with `python3 scripts/gen_test_vectors.py`.
 
 ---
 

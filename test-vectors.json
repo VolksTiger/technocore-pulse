@@ -1,0 +1,73 @@
+{
+  "schema": "technocore-signature-test-vectors-v1",
+  "description": "Deterministic Ed25519 signing test vectors for Technocore. payload = room|nonce|text (UTF-8); signature = unpadded base64url over payload; did:key = z + base58btc(0xed01 || raw_pubkey); kv_fingerprint = sha256(did)[:16].",
+  "count": 6,
+  "vectors": [
+    {
+      "label": "basic",
+      "seed_hex": "0100000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6MktNWXFy7fn9kNfwfvD9e2rDK3RPetS4MRKtZH8AxQzg9y",
+      "kv_fingerprint": "d9831b340fe2f5a7",
+      "room": "lobby",
+      "nonce": "1700000000000",
+      "text": "hello Technocore",
+      "payload_utf8": "lobby|1700000000000|hello Technocore",
+      "signature_b64url": "G1lkylz6o1zwSuP4Nt8NGQWi62a2Av8Kc4cmuWESQnB9uLmdNqa3J7JSO6GB_oANDVvbybr6vh9qDHQ_z-NsBg"
+    },
+    {
+      "label": "unicode-text",
+      "seed_hex": "0200000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6MkmgoN6DceCkjksTeZo42bhE9MdUpKSfdehRSfrWR9AQPV",
+      "kv_fingerprint": "5844ea6807fca7a6",
+      "room": "technocore",
+      "nonce": "1700000000001",
+      "text": "signé — ümlaut 日本語",
+      "payload_utf8": "technocore|1700000000001|signé — ümlaut 日本語",
+      "signature_b64url": "NrQaF2DOLFZPAPuGoA7yc8drmG_zj6GS7cHnjQ8ozguVdsWPhOQSysGaSjNWLgIkNBtN_6GNzn2dwHFOampABw"
+    },
+    {
+      "label": "pipe-in-text",
+      "seed_hex": "0300000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6MkuBbLDXJVzgPqAFoZUXCkkSXLfDgyBhM6F5Y4Cj1cfJbF",
+      "kv_fingerprint": "d46f1ed4a51abc7f",
+      "room": "meta",
+      "nonce": "1700000000002",
+      "text": "a|b|c keeps only room and nonce as delimiters",
+      "payload_utf8": "meta|1700000000002|a|b|c keeps only room and nonce as delimiters",
+      "signature_b64url": "G51WCZgHqWyEKWBmL-LE2psp-HmrBo5GzLxAjUSWhOWAMylOe7GeVZMD8y5w6I0qQ8hR4OEHLQIiV9zbE-FzCQ"
+    },
+    {
+      "label": "min-nonce",
+      "seed_hex": "0400000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6Mkpwn8ynHkrPdyAPUNQpZRY1EwhexfrSjozfREtGtMnj44",
+      "kv_fingerprint": "ff07b97edb835827",
+      "room": "faucet",
+      "nonce": "1",
+      "text": "edge: single-digit nonce",
+      "payload_utf8": "faucet|1|edge: single-digit nonce",
+      "signature_b64url": "AxR43QUifASWi4Se8Nz1f6U7cdQp02soV3EgX4Dz_TMSZ-tnEWgE8WPDBTkTeVTEtkiUsF3UBZAAeDsdLe_HCw"
+    },
+    {
+      "label": "max-nonce-19",
+      "seed_hex": "0500000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6MkvvcvGYFusrE4NiGvoTMU85EESe2pA22uQT4DDP4D8ceR",
+      "kv_fingerprint": "54cd1428d50cb1c9",
+      "room": "lobby",
+      "nonce": "9999999999999999999",
+      "text": "edge: 19-digit nonce ceiling",
+      "payload_utf8": "lobby|9999999999999999999|edge: 19-digit nonce ceiling",
+      "signature_b64url": "RVBCXoMJ1Ycj8R7RO0pS1uKpE5EGAe59Ut1Y3g4dHEY3hSWMdHuxl3X5yhkKSmsk0UhAmgNceUXSAGC9lROfAg"
+    },
+    {
+      "label": "empty-ish-text",
+      "seed_hex": "0600000000000000000000000000000000000000000000000000000000000000",
+      "did": "did:key:z6Mkhz6HSgEeVKWgzQDY4JA7N7JSiRBYRJVoS7GVy851r7Xz",
+      "kv_fingerprint": "d6eab023be815436",
+      "room": "lobby",
+      "nonce": "1700000000003",
+      "text": ".",
+      "payload_utf8": "lobby|1700000000003|.",
+      "signature_b64url": "WLIePKtijxp9myu1vVdoG70UsHb8EDqT-tADibOOPFSH-Z0fcY4Q-RWNASBwFzCqKiA0uuovAo7aiqfR0HFDAA"
+    }
+  ]
+}
