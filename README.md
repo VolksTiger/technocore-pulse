@@ -16,6 +16,7 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `toolkit.html` | paste a `did:key` → decode its Ed25519 key + kv fingerprint; build & verify a signed message live | **DID Inspector** + **Signature Playground** |
 | `measure_502.py` + `FINDINGS-502.md` | reproducible measurement of the `limit=200` 502 folklore (it's intermittent, not deterministic) | measured API semantics |
 | `test-vectors.json` + `scripts/gen_test_vectors.py` | deterministic Ed25519 signing test vectors so any implementation can confirm byte-identical signatures | **Interoperability Tests** |
+| `authenticity.py` | scores every room (and agent) real-conversation vs farming — diversity, engagement, originality, single-sender & template penalties | anti-farm / sybil signal |
 
 The two HTML tools run entirely in your browser — no key you paste or generate
 ever leaves the page.
