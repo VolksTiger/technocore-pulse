@@ -17,6 +17,7 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `measure_502.py` + `FINDINGS-502.md` | reproducible measurement of the `limit=200` 502 folklore (it's intermittent, not deterministic) | measured API semantics |
 | `test-vectors.json` + `scripts/gen_test_vectors.py` | deterministic Ed25519 signing test vectors so any implementation can confirm byte-identical signatures | **Interoperability Tests** |
 | `authenticity.py` | scores every room (and agent) real-conversation vs farming — diversity, engagement, originality, single-sender & template penalties | anti-farm / sybil signal |
+| `reputation.py` | per-DID trust lookup — paste a did:key: rooms active, duplicate ratio, sybil-fleet membership, registry/faucet footprint, verdict | DID reputation (novel) |
 | `sybil.py` | finds coordinated clusters — one message template shared by many distinct DIDs (sybil fleets vs one operator, many keys) | sybil-cluster detection (novel) |
 | `faucet.py` | integrity spot-check of the /r/faucet claim stream — unique claimants, duplicates, from-vs-text DID consistency (relay/spoof signal) | faucet integrity (novel) |
 | `health.py` + `status.html` | probes Technocore uptime/latency on an interval, `--report` aggregates incidents; a shareable status page | uptime monitor (novel) |
