@@ -1,0 +1,189 @@
+<style>
+  :root{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:920px;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }}
+  :root[data-theme="light"]{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+  }
+  :root[data-theme="dark"]{
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:clamp(1.1rem,3vw,2.4rem)}
+  a{color:var(--signal)}
+  .eyebrow{font-family:var(--mono); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin:0 0 .7rem}
+  h1{font-family:var(--mono); font-weight:700; letter-spacing:-.02em; font-size:clamp(1.6rem,4vw,2.3rem); margin:0 0 1rem}
+
+  .statusbar{display:flex; align-items:center; gap:.9rem; flex-wrap:wrap; border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:1rem 1.1rem}
+  .light{width:14px; height:14px; border-radius:50%}
+  .light.up{background:var(--signal); box-shadow:0 0 0 4px var(--signal-soft)}
+  .light.degraded{background:var(--amber); box-shadow:0 0 0 4px var(--amber-soft)}
+  .light.down{background:var(--coral); box-shadow:0 0 0 4px var(--coral-soft)}
+  .statusbar .now{font-family:var(--mono); font-weight:700; font-size:1.1rem}
+  .statusbar .sub{font-family:var(--mono); font-size:.76rem; color:var(--faint); margin-left:auto; text-align:right}
+
+  .tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-top:1rem}
+  .tile{border:1px solid var(--line); border-radius:11px; background:var(--panel); padding:.8rem .9rem}
+  .tile .v{font-family:var(--mono); font-weight:700; font-size:1.5rem; font-variant-numeric:tabular-nums}
+  .tile .k{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-top:.3rem}
+  .tile.good .v{color:var(--signal)}
+
+  section{margin-top:clamp(1.8rem,4vw,2.6rem)}
+  .sec-head{display:flex; align-items:baseline; gap:.8rem; margin-bottom:.8rem}
+  .sec-head h2{font-family:var(--mono); font-weight:700; font-size:1rem; margin:0}
+  .sec-head .note{margin-left:auto; font-size:.74rem; color:var(--faint); font-family:var(--mono)}
+
+  .bars{display:flex; gap:2px; align-items:flex-end; height:46px; border:1px solid var(--line); border-radius:10px; background:var(--panel); padding:.5rem}
+  .bars i{flex:1; min-width:2px; border-radius:2px; align-self:stretch}
+  .bars i.ok{background:var(--signal)} .bars i.warn{background:var(--amber)} .bars i.bad{background:var(--coral)}
+  .barcap{display:flex; justify-content:space-between; font-family:var(--mono); font-size:.7rem; color:var(--faint); margin-top:.35rem}
+
+  .lat{width:100%; height:120px; display:block; border:1px solid var(--line); border-radius:10px; background:var(--panel)}
+
+  .breakdown{display:flex; gap:.5rem; flex-wrap:wrap}
+  .chip{font-family:var(--mono); font-size:.76rem; border:1px solid var(--line); border-radius:20px; padding:.35rem .7rem}
+  .chip b{font-weight:700}
+  .chip.ok b{color:var(--signal)} .chip.warn b{color:var(--amber)} .chip.bad b{color:var(--coral)}
+
+  .inc{border:1px solid var(--line); border-radius:11px; background:var(--panel); overflow:hidden; font-family:var(--mono); font-size:.8rem}
+  .inc div{padding:.55rem .9rem; border-top:1px solid var(--line)}
+  .inc div:first-child{border-top:none}
+  .inc .none{color:var(--faint)}
+  .inc .win b{color:var(--coral)}
+
+  footer{margin-top:2.6rem; padding-top:1.2rem; border-top:1px solid var(--line); font-family:var(--mono); font-size:.72rem; color:var(--faint); line-height:1.7}
+  footer a{color:var(--muted)}
+  .toggle{position:fixed; top:14px; right:14px; z-index:10; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:.4rem .7rem; cursor:pointer}
+  @media (max-width:640px){ .tiles{grid-template-columns:repeat(2,1fr)} }
+</style>
+
+<button class="toggle" id="tg" aria-label="Toggle theme">&#9680; theme</button>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Technocore &middot; unofficial status</p>
+    <h1>Is Technocore up?</h1>
+  </header>
+
+  <div class="statusbar">
+    <span class="light" id="light"></span>
+    <span class="now" id="now">—</span>
+    <span class="sub" id="sub"></span>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section>
+    <div class="sec-head"><h2>Probe timeline</h2><span class="note" id="tlnote"></span></div>
+    <div class="bars" id="bars"></div>
+    <div class="barcap" id="barcap"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Response time</h2><span class="note">ok-probe latency (ms)</span></div>
+    <svg class="lat" id="lat" preserveAspectRatio="none" aria-hidden="true"></svg>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Status breakdown</h2></div>
+    <div class="breakdown" id="breakdown"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Incidents</h2><span class="note">consecutive-failure windows</span></div>
+    <div class="inc" id="inc"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = {"probes":[{"ts":"2026-08-31T20:01:28.962239+00:00","status":503,"latency_ms":5734,"ok":false},{"ts":"2026-08-31T20:02:04.551723+00:00","status":200,"latency_ms":2437,"ok":true},{"ts":"2026-08-31T20:02:56.873838+00:00","status":503,"latency_ms":246,"ok":false},{"ts":"2026-08-31T20:03:05.266571+00:00","status":503,"latency_ms":553,"ok":false},{"ts":"2026-08-31T20:03:13.990039+00:00","status":200,"latency_ms":286,"ok":true},{"ts":"2026-08-31T20:03:22.458910+00:00","status":200,"latency_ms":308,"ok":true},{"ts":"2026-08-31T20:03:30.905477+00:00","status":200,"latency_ms":297,"ok":true},{"ts":"2026-08-31T20:03:39.341924+00:00","status":200,"latency_ms":2689,"ok":true},{"ts":"2026-08-31T20:03:50.167794+00:00","status":200,"latency_ms":315,"ok":true},{"ts":"2026-08-31T20:03:58.619362+00:00","status":200,"latency_ms":520,"ok":true},{"ts":"2026-08-31T20:04:07.286075+00:00","status":200,"latency_ms":1124,"ok":true},{"ts":"2026-08-31T20:04:16.586890+00:00","status":200,"latency_ms":1095,"ok":true},{"ts":"2026-08-31T20:04:25.831536+00:00","status":200,"latency_ms":310,"ok":true},{"ts":"2026-08-31T20:04:34.286555+00:00","status":"timeout","latency_ms":15078,"ok":false},{"ts":"2026-08-31T20:04:57.515819+00:00","status":503,"latency_ms":247,"ok":false},{"ts":"2026-08-31T20:05:05.916743+00:00","status":503,"latency_ms":263,"ok":false},{"ts":"2026-08-31T20:05:14.323233+00:00","status":503,"latency_ms":292,"ok":false},{"ts":"2026-08-31T20:05:22.824221+00:00","status":503,"latency_ms":264,"ok":false}],"summary":{"uptime_pct":55.6,"ok":10,"p50":520,"p95":2689,"incidents":3,"status_counts":{"503":7,"200":10,"timeout":1},"incident_windows":[["2026-08-31T20:01:28.962239+00:00","2026-08-31T20:02:04.551723+00:00"],["2026-08-31T20:02:56.873838+00:00","2026-08-31T20:03:13.990039+00:00"],["2026-08-31T20:04:34.286555+00:00","ongoing"]]}};
+const CSS = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+const probes = DATA.probes;
+const s = DATA.summary;
+const cls = p => p.ok ? "ok" : (String(p.status)==="503"||String(p.status)==="502" ? "warn" : "bad");
+
+/* status light: based on the last few probes */
+const tail = probes.slice(-5);
+const failTail = tail.filter(p=>!p.ok).length;
+let state = failTail===0 ? "up" : (failTail>=3 ? "down" : "degraded");
+const label = {up:"Operational", degraded:"Degraded", down:"Down"}[state];
+document.getElementById("light").className = "light "+state;
+document.getElementById("now").textContent = label;
+const last = probes[probes.length-1];
+document.getElementById("sub").innerHTML = `last probe ${last.ts.slice(11,19)}Z &middot; ${last.ok?last.latency_ms+'ms':String(last.status)}`;
+
+/* tiles */
+document.getElementById("tiles").innerHTML = [
+  {v:s.uptime_pct+"%", k:"uptime", c:s.uptime_pct>=99?"good":""},
+  {v:s.p50+"ms", k:"latency p50"},
+  {v:s.p95+"ms", k:"latency p95"},
+  {v:s.incidents, k:"incidents"},
+].map(t=>`<div class="tile ${t.c||''}"><div class="v">${t.v}</div><div class="k">${t.k}</div></div>`).join("");
+
+/* probe bars */
+document.getElementById("bars").innerHTML = probes.map(p=>`<i class="${cls(p)}" title="${p.ts.slice(11,19)}Z ${p.ok?p.latency_ms+'ms':p.status}"></i>`).join("");
+document.getElementById("barcap").innerHTML = `<span>${probes[0].ts.slice(5,16).replace('T',' ')}Z</span><span>${probes.length} probes</span><span>${last.ts.slice(5,16).replace('T',' ')}Z</span>`;
+document.getElementById("tlnote").textContent = `${s.ok}/${probes.length} ok`;
+
+/* latency chart (ok probes) */
+(function(){
+  const oks = probes.filter(p=>p.ok);
+  const svg = document.getElementById("lat"), W=100, H=40;
+  if(oks.length<2){ svg.innerHTML=`<text x="4" y="22" font-size="4" fill="${CSS('--faint')}">accumulating…</text>`; svg.setAttribute("viewBox",`0 0 ${W} ${H}`); return; }
+  const idx = oks.map(p=>probes.indexOf(p));
+  const max=Math.max(...oks.map(p=>p.latency_ms)), min=Math.min(...oks.map(p=>p.latency_ms)), span=(max-min)||1;
+  const x=i=>probes.indexOf(oks[i])/(probes.length-1)*W, y=v=>4+(1-(v-min)/span)*(H-8);
+  let line=`M ${x(0).toFixed(2)} ${y(oks[0].latency_ms).toFixed(2)}`;
+  for(let i=1;i<oks.length;i++) line+=` L ${x(i).toFixed(2)} ${y(oks[i].latency_ms).toFixed(2)}`;
+  const col=CSS('--signal');
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  svg.innerHTML=`<defs><linearGradient id="lg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".22"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${line} L ${W} ${H} L 0 ${H} Z" fill="url(#lg)"/>
+    <path d="${line}" fill="none" stroke="${col}" stroke-width="1.4" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
+})();
+
+/* status breakdown */
+const scMeta = st => st==="200" ? "ok" : ((st==="502"||st==="503") ? "warn" : "bad");
+document.getElementById("breakdown").innerHTML = Object.entries(s.status_counts).sort((a,b)=>b[1]-a[1])
+  .map(([st,c])=>`<span class="chip ${scMeta(st)}">${st==="200"?"200 OK":st} <b>${c}</b></span>`).join("");
+
+/* incidents */
+document.getElementById("inc").innerHTML = s.incident_windows.length
+  ? s.incident_windows.map(w=>`<div class="win"><b>&#9632;</b> ${w[0].slice(0,19).replace('T',' ')} &rarr; ${w[1]==='ongoing'?'ongoing':w[1].slice(0,19).replace('T',' ')}</div>`).join("")
+  : `<div class="none">no failure windows in this data</div>`;
+
+/* footer */
+document.getElementById("foot").innerHTML =
+  `probing <b>/r/lobby</b> every 5 min from an independent server &middot; window ${probes[0].ts.slice(0,16).replace('T',' ')} &rarr; ${last.ts.slice(0,16).replace('T',' ')}Z<br>`+
+  `unofficial &middot; not affiliated with FLOP Labs &middot; run your own: <a href="https://github.com/VolksTiger/technocore-pulse">github.com/VolksTiger/technocore-pulse</a> (health.py)`;
+
+const root=document.documentElement;
+document.getElementById("tg").addEventListener("click",()=>{
+  const cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  root.setAttribute("data-theme",cur==="dark"?"light":"dark");
+});
+</script>
