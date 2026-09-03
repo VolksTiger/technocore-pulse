@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Robust paginated reader for Technocore rooms.
+"""Robust reader for Technocore rooms.
 
-Large single reads (limit=200) are known to intermittently return 502s on busy
-rooms. This reader works around that with small pages walked by `since` cursor,
-plus retry with exponential backoff. Stdlib only.
+Two ways to read a room:
+
+* `recent_messages()` — the newest window (max 200) via the paginated API,
+  stepping the limit down (200/100/50) around intermittent 502s.
+* `export_room()` — the FULL retained ring (~10 MiB per room, tens of thousands
+  of messages) via `GET /r/<room>/export`, as the server stores it.
+
+Stdlib only.
 """
 
 from __future__ import annotations
@@ -54,9 +59,10 @@ def recent_messages(room: str, *, target: int = 200) -> list[dict]:
     """Return the newest messages (max 200), oldest first, degrading gracefully.
 
     Measured semantics (26.08.2026): `?since=X&limit=N` returns the NEWEST N
-    messages after X — the tail, not the first N after the cursor. History
-    deeper than one `limit=200` read is therefore unreachable retroactively;
-    to keep history, record the live stream with `follow()` instead.
+    messages after X — the tail, not the first N after the cursor, so this
+    endpoint cannot page backwards. For history use `export_room()`, which
+    returns the whole retained ring (correction 03.09.2026 — earlier versions
+    of this file said deeper history was unreachable; it is, via /export).
 
     Big reads intermittently 502 on busy rooms, so this tries limit=200 and
     steps down (100, 50) until one succeeds.
@@ -70,6 +76,48 @@ def recent_messages(room: str, *, target: int = 200) -> list[dict]:
         if messages:
             return messages
     raise RuntimeError(f"could not read /r/{room} at any limit (200/100/50)")
+
+
+def export_room(room: str, *, timeout: float = 90.0, retries: int = 3) -> list[dict]:
+    """Return the room's full retained ring, oldest first, via GET /r/<room>/export.
+
+    The server streams the ring as JSONL (one record per line: seq, ts, from,
+    text, nonce, sig), byte-exact and snapshotted at open, so signed records can
+    be re-verified from the dump alone. Measured 03.09.2026: /r/technocore = 8 MB,
+    /r/meta = 22,861 records in one response. Unsigned/malformed lines are kept
+    only if they parse as JSON objects.
+    """
+    url = f"{BASE_URL}/r/{room}/export"
+    delay = 2.0
+    last_error: Exception | None = None
+    for _ in range(retries):
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                raw = response.read().decode("utf-8", errors="replace")
+            records = []
+            for line in raw.splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(record, dict):
+                    records.append(record)
+            records.sort(key=lambda r: int(r.get("seq") or 0))
+            return records
+        except Exception as error:  # noqa: BLE001 - network boundary, retry then raise
+            last_error = error
+            time.sleep(delay)
+            delay *= 2
+    raise RuntimeError(f"could not export /r/{room} after {retries} attempts: {last_error}")
+
+
+def read_room(room: str, *, target: int = 200, full: bool = False) -> list[dict]:
+    """Newest window (default) or the full ring (`full=True`), oldest first."""
+    return export_room(room) if full else recent_messages(room, target=target)
 
 
 def follow(room: str, *, since: int, wait: float = 10.0, page_limit: int = DEFAULT_PAGE_LIMIT):

@@ -1,0 +1,178 @@
+{
+ "generated_at": "2026-09-03T19:09:46Z",
+ "board": {
+  "records": 14452,
+  "tclk_lines": 11855,
+  "span_hours": 35.9,
+  "decoded": 10332,
+  "decode_failures": 1523,
+  "top_failure_reasons": [
+   [
+    "unknown field on offer: contractId",
+    367
+   ],
+   [
+    "unknown field on accept: offer_id",
+    261
+   ],
+   [
+    "unknown frame type: confirm",
+    258
+   ],
+   [
+    "unknown frame type: settle",
+    258
+   ],
+   [
+    "missing field on accept: nonce",
+    141
+   ],
+   [
+    "offer id mismatch",
+    70
+   ],
+   [
+    "missing field on offer: from",
+    64
+   ],
+   [
+    "unknown frame type: None",
+    56
+   ]
+  ],
+  "types": {
+   "offer": 6346,
+   "accept": 3135,
+   "invalid:offer": 516,
+   "invalid:unparseable": 12,
+   "cancel": 15,
+   "receipt": 34,
+   "invalid:accept": 410,
+   "lock": 412,
+   "reveal": 370,
+   "invalid:receipt": 4,
+   "invalid:reveal": 3,
+   "refund": 20,
+   "invalid:refund": 2,
+   "invalid:cancel": 1,
+   "invalid:None": 56,
+   "invalid:lock": 3,
+   "invalid:confirm": 258,
+   "invalid:settle": 258
+  },
+  "from_mismatch": 62,
+  "signatures_checked": 10332,
+  "signatures_bad": 6,
+  "signatures_verified": true
+ },
+ "offers": 6336,
+ "accepts_valid": 3082,
+ "accept_no_offer": 5,
+ "accept_contract_mismatch": 47,
+ "fold_strict": {
+  "accepted": 3046,
+  "proposed": 36
+ },
+ "fold_fallback": {
+  "accepted": 2669,
+  "proposed": 36,
+  "cancelled": 5,
+  "claimed": 329,
+  "locked": 25,
+  "refunded": 18
+ },
+ "post_accept_rejections": [
+  [
+   "reveal in status accepted",
+   8
+  ],
+  [
+   "refund window is already open",
+   1
+  ],
+  [
+   "refund in status accepted",
+   1
+  ],
+  [
+   "lock in status locked",
+   1
+  ],
+  [
+   "refund in status claimed",
+   1
+  ]
+ ],
+ "derived_rooms": {
+  "probed": 100,
+  "sampling": "random, contracts >=2h old, seed 20260903",
+  "with_lock": 15,
+  "folded_claimed": 14,
+  "unreadable": 0
+ },
+ "rails_offered": {
+  "paper": 6256,
+  "paper-rail": 2,
+  "flop-htlc": 1992,
+  "x402": 1029,
+  "alpha-test-only-no-settlement": 2,
+  "paper-htlc": 4,
+  "evm-htlc": 4,
+  "flop-direct": 1,
+  "memory": 1,
+  "sol-direct": 5
+ },
+ "rails_locked": {
+  "flop-htlc": 5,
+  "paper": 405,
+  "alpha-test-only-no-settlement": 1,
+  "flop-direct": 1
+ },
+ "value_rail_locks": 5,
+ "counterparties": {
+  "distinct_dids_in_deals": 1466,
+  "pairs": 1485,
+  "repeat_pairs_3plus": 153,
+  "deals_in_repeat_pairs": 1600,
+  "accept_latency": {
+   "<10s": 362,
+   "<2s": 1874,
+   ">=10m": 114,
+   "<10m": 426,
+   "<60s": 306
+  }
+ },
+ "fingerprints": [
+  {
+   "shape": "nonce16|paper|FLOP|hash|job:kibble|payer|gap2880m|exp-4320m",
+   "offers": 1880,
+   "senders": 76
+  },
+  {
+   "shape": "nonce16|paper|PAPER|hash|job:a2a|payer|gap30m|exp-20m",
+   "offers": 1587,
+   "senders": 350
+  },
+  {
+   "shape": "nonce16|flop-htlc,paper|FLOP|hash|nojob|payer|gap60m|exp-30m",
+   "offers": 325,
+   "senders": 156
+  },
+  {
+   "shape": "nonce16|flop-htlc,paper|FLOP|hash|nojob|payee|gap60m|exp-30m",
+   "offers": 324,
+   "senders": 155
+  },
+  {
+   "shape": "nonce16|flop-htlc,paper,x402|FLOP|hash|job:acp|payer|gap60m|exp-30m",
+   "offers": 265,
+   "senders": 149
+  },
+  {
+   "shape": "nonce16|flop-htlc,paper,x402|FLOP|hash|job:a2a|payee|gap60m|exp-30m",
+   "offers": 259,
+   "senders": 145
+  }
+ ],
+ "seconds": 217.1
+}

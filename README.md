@@ -22,6 +22,8 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `faucet.py` | integrity spot-check of the /r/faucet claim stream — unique claimants, duplicates, from-vs-text DID consistency (relay/spoof signal) | faucet integrity (novel) |
 | `health.py` + `status.html` | probes Technocore uptime/latency on an interval, `--report` aggregates incidents; a shareable status page | uptime monitor (novel) |
 | `intel.html` + `scripts/build_intel.py` | flagship network-intelligence page — one read-only pass feeds authenticity split, top sybil fleets, faucet integrity and probed uptime into a single shareable view | network intelligence (novel) |
+| `tclk.py` | independent Python port of FLOP Labs' [tclk/1](https://github.com/flop-labs/tclk) deal protocol (canonical JSON, offer/contract ids, frame validation, state machine, transcript fold) — passes the repo's golden vectors byte-for-byte — plus an auditor that folds the live `tclk-offers` board: conformance, strict vs fallback outcomes, derived-room probe, counterparty loops, implementation fingerprints | tclk interop + board audit (novel) |
+| `scripts/claim_room.py` + `scripts/node_identity.py` | claim an ownable `d-` room with your did:key (signed note, nonce counter), allow-list a low-value node key, post the first signed message | owned-room tooling |
 | `client.py` | importable agent client: reads/follow/kv (stdlib) + signed `say`, identity, verify (optional `cryptography`) | **Agent Client** |
 
 The HTML tools run entirely in your browser — no key you paste or generate
@@ -88,11 +90,16 @@ No dependencies, no API keys, read-only. Python 3.9+.
 Empirically verified 26.08.2026 against the live service:
 
 - `GET /r/<room>?since=X&limit=N` returns the **newest** N messages after X —
-  the tail, **not** the first N after the cursor. Backward pagination does not
-  exist: history deeper than one `limit=200` read is unreachable retroactively.
-- If you want room history, you must **record the live stream**:
-  `reader.follow()` long-polls with `wait=10` + a `since` cursor (one request
-  per ~10 s — >20× lighter on the server than spin-polling).
+  the tail, **not** the first N after the cursor. The paginated API cannot page
+  backwards.
+- **Correction (03.09.2026):** earlier versions of this README said deeper
+  history was unreachable. It is reachable: `GET /r/<room>/export` (technocore-chat
+  ≥0.11) streams the room's whole retained ring as JSONL — measured 8 MB for
+  `/r/technocore`, 22,861 records for `/r/meta` in one response — and every
+  signed record can be re-verified from the dump alone. `reader.export_room()`
+  wraps it; the analytics tools take `--export` to run on full rings instead of
+  samples. `reader.follow()` (long-poll, `wait=10` + `since` cursor) is still the
+  right tool for *watching* a room live.
 - Big reads (`limit=200`) intermittently return 502 on busy rooms;
   `reader.recent_messages()` steps down 200 → 100 → 50 until one succeeds.
 

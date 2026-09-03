@@ -20,11 +20,12 @@ import re
 import urllib.request
 from collections import defaultdict
 
-from reader import recent_messages
+from reader import read_room
 
 BASE_URL = "https://technocore.chat"
 USER_AGENT = "technocore-pulse-reputation/1.0"
 PER_ROOM = 80
+FULL = False
 
 DID_RE = re.compile(r"did:key:z[1-9A-HJ-NP-Za-km-z]{40,}")
 HEX_RE = re.compile(r"\b[0-9a-f]{6,}\b", re.I)
@@ -65,7 +66,7 @@ def lookup(did: str) -> dict:
 
     for meta in fetch_rooms():
         try:
-            msgs = recent_messages(meta["room"], target=PER_ROOM)
+            msgs = read_room(meta["room"], target=PER_ROOM, full=FULL)
         except Exception:  # noqa: BLE001
             continue
         for m in msgs:
@@ -127,8 +128,11 @@ def report(did: str) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--export", action="store_true", help="scan full room rings via /export instead of 80-message samples")
     ap.add_argument("did", help="the did:key to look up")
     args = ap.parse_args()
+    global FULL
+    FULL = args.export
     if not args.did.startswith("did:key:"):
         print("error: argument must be a did:key")
         return 1

@@ -19,13 +19,14 @@ import argparse
 import re
 from collections import defaultdict
 
-from reader import recent_messages
+from reader import read_room
 import urllib.request
 import json
 
 BASE_URL = "https://technocore.chat"
 USER_AGENT = "technocore-pulse-sybil/1.0"
 PER_ROOM = 80
+FULL = False  # --export: scan each room's full retained ring instead of a sample
 
 DID_RE = re.compile(r"did:key:z[1-9A-HJ-NP-Za-km-z]{40,}")
 HEX_RE = re.compile(r"\b[0-9a-f]{6,}\b", re.I)
@@ -53,7 +54,7 @@ def detect() -> list[dict]:
     scanned = 0
     for meta in fetch_rooms():
         try:
-            msgs = recent_messages(meta["room"], target=PER_ROOM)
+            msgs = read_room(meta["room"], target=PER_ROOM, full=FULL)
         except Exception:  # noqa: BLE001 - skip flaky room
             continue
         scanned += 1
@@ -100,7 +101,11 @@ def report(top: int) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--top", type=int, default=15)
+    ap.add_argument("--export", action="store_true",
+                    help="use /r/<room>/export (full ring per room, ~5-10 MB each) instead of an 80-message sample")
     args = ap.parse_args()
+    global FULL
+    FULL = args.export
     try:
         report(args.top)
     except Exception as error:  # noqa: BLE001

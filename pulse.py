@@ -85,7 +85,7 @@ def main() -> int:
         "--depth",
         type=int,
         default=200,
-        help="messages to analyze with --room (max 200 — deeper history is not retrievable, see reader.recent_messages)",
+        help="messages to analyze with --room (max 200 via the paginated API; for the full ring use reader.export_room)",
     )
     args = parser.parse_args()
     try:

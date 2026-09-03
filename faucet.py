@@ -23,14 +23,16 @@ import argparse
 import re
 from collections import Counter
 
-from reader import recent_messages
+from reader import read_room
+
+FULL = False
 
 DID_RE = re.compile(r"did:key:z[1-9A-HJ-NP-Za-km-z]{40,}")
 CLAIM_RE = re.compile(r"FLOP testnet faucet claim\.\s*DID:\s*(did:key:z[1-9A-HJ-NP-Za-km-z]{40,})", re.I)
 
 
 def analyze(sample: int) -> dict:
-    msgs = recent_messages("faucet", target=sample)
+    msgs = read_room("faucet", target=sample, full=FULL)
     n = len(msgs)
     from_dids = Counter()
     text_dids = set()
@@ -73,7 +75,7 @@ def report(sample: int, our_did: str | None) -> None:
     n = a["sampled"] or 1
     pct = lambda x: round(100 * x / n)
     print("Technocore faucet integrity")
-    print(f"sampled {a['sampled']} recent claims (tail; full history isn't retrievable)\n")
+    print(f"sampled {a['sampled']} recent claims (newest window; use --export for the full ring)\n")
     print(f"  unique claimants (from-DID) : {a['unique_claimants']}")
     print(f"  distinct DIDs in text       : {a['unique_claimed_dids']}")
     print(f"  standard claim format       : {a['standard_format']} ({pct(a['standard_format'])}%)")
@@ -97,7 +99,7 @@ def report(sample: int, our_did: str | None) -> None:
           f" (self-claim {round(self_rate*100)}%, dup-claimer {round(dup_rate*100)}%)")
 
     if our_did:
-        msgs = recent_messages("faucet", target=sample)
+        msgs = read_room("faucet", target=sample, full=FULL)
         seen = any(m.get("from") == our_did or our_did in m.get("text", "") for m in msgs)
         print(f"  this agent's DID in window  : {'yes' if seen else 'no (claim is older than the sample tail)'}")
 
@@ -105,8 +107,11 @@ def report(sample: int, our_did: str | None) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--sample", type=int, default=200)
+    ap.add_argument("--export", action="store_true", help="audit the full retained /r/faucet ring via /export instead of a sample")
     ap.add_argument("--did", help="highlight whether this DID appears in the sampled window")
     args = ap.parse_args()
+    global FULL
+    FULL = args.export
     try:
         report(args.sample, args.did)
     except Exception as error:  # noqa: BLE001

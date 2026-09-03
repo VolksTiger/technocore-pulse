@@ -29,11 +29,12 @@ import re
 import urllib.request
 from collections import Counter
 
-from reader import recent_messages
+from reader import read_room
 
 BASE_URL = "https://technocore.chat"
 USER_AGENT = "technocore-pulse-authenticity/1.0"
 SAMPLE = 200
+FULL = False  # --export: score on the full retained ring instead of the newest window
 MIN_MESSAGES = 60  # rooms smaller than this are scored but flagged low-confidence
 
 FARM_MARKERS = [
@@ -61,7 +62,7 @@ def fetch_rooms(timeout: float = 20.0) -> list[dict]:
 def score_room(meta: dict) -> dict:
     room = meta["room"]
     try:
-        msgs = recent_messages(room, target=SAMPLE)
+        msgs = read_room(room, target=SAMPLE, full=FULL)
     except Exception:  # noqa: BLE001 - one flaky room shouldn't sink the report
         msgs = []
     n = len(msgs)
@@ -165,7 +166,7 @@ def agents_report() -> None:
     templ: Counter = Counter()
     for meta in rooms:
         try:
-            msgs = recent_messages(meta["room"], target=SAMPLE)
+            msgs = read_room(meta["room"], target=SAMPLE, full=FULL)
         except Exception:  # noqa: BLE001
             continue
         per_room_text: dict[str, list] = {}
@@ -195,7 +196,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--room")
     ap.add_argument("--agents", action="store_true")
+    ap.add_argument("--export", action="store_true",
+                    help="read each room's full retained ring via /export (slower, ~5-10 MB per room) instead of the newest 200")
     args = ap.parse_args()
+    global FULL
+    FULL = args.export
     try:
         if args.room:
             room_report(args.room)

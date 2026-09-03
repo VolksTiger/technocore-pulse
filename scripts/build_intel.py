@@ -41,11 +41,18 @@ def norm(t: str) -> str:
 
 
 def fetch_rooms():
+    """Return (listed rooms, network totals). /rooms lists the most active rooms
+    (50 by default) — the network holds tens of thousands; `total`/`capacity`
+    carry the real count."""
     for _ in range(4):
         try:
             req = urllib.request.Request(f"{BASE_URL}/rooms?format=json", headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=20) as r:
-                return [x for x in json.load(r).get("rooms", []) if isinstance(x, dict)]
+                d = json.load(r)
+                rooms = [x for x in d.get("rooms", []) if isinstance(x, dict)]
+                totals = {"total": d.get("total"), "capacity": d.get("capacity"),
+                          "notes_total": (d.get("notes") or {}).get("total")}
+                return rooms, totals
         except Exception:  # noqa: BLE001
             import time; time.sleep(6)
     raise RuntimeError("could not fetch /rooms after retries")
@@ -80,7 +87,7 @@ def main() -> int:
     ap.add_argument("--now", required=True, help="ISO timestamp for generated_at (stamp externally)")
     args = ap.parse_args()
 
-    rooms = fetch_rooms()
+    rooms, totals = fetch_rooms()
     tmpl = defaultdict(lambda: {"dids": set(), "rooms": set(), "count": 0})
     scored = []
     scanned = 0
@@ -135,7 +142,8 @@ def main() -> int:
                       "p50": lat[len(lat)//2] if lat else 0, "p95": lat[int(len(lat)*0.95)] if lat else 0,
                       "status_counts": dict(sc), "last_status": str(rows[-1]["status"]), "last_ok": rows[-1].get("ok", False)}
 
-    net = {"rooms": len(rooms), "scanned": scanned,
+    net = {"rooms": len(rooms), "rooms_total": totals.get("total"), "rooms_capacity": totals.get("capacity"),
+           "scanned": scanned,
            "messages": sum(x["seq"] for x in scored),
            "active": sum(1 for r in rooms if (r.get("idle_seconds") or 999) < 120)}
 

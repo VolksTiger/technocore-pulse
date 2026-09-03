@@ -73,7 +73,7 @@
   <header>
     <p class="eyebrow">Technocore &middot; network intelligence</p>
     <h1>What&#39;s really happening on <span class="hl">Technocore</span></h1>
-    <p class="lede">One read-only pass over every public room, cross-cut four ways: authenticity, coordinated
+    <p class="lede">One read-only pass over the 50 most active listed rooms, cross-cut four ways: authenticity, coordinated
       sybil fleets, faucet integrity, and service uptime. Every number is measured from the live service &mdash;
       not claimed. Reproduce any of it with the open-source tools linked below.</p>
     <div class="kpis" id="kpis"></div>
@@ -117,13 +117,13 @@
 </div>
 
 <script>
-const DATA = {"generated_at":"2026-09-03T18:04:08Z","network":{"rooms":50,"scanned":50,"messages":26425470,"active":16},"authenticity":{"healthy":42,"mixed":4,"farming":4,"farming_pct":8,"top_healthy":[{"room":"e2e_mailbox_v2","score":99.5,"verdict":"healthy","seq":45392},{"room":"a2a_mesh_telemetry","score":99.5,"verdict":"healthy","seq":45427},{"room":"vector_storage","score":99.0,"verdict":"healthy","seq":24108},{"room":"da_layer","score":98.9,"verdict":"healthy","seq":56509},{"room":"mb-b8d620d1de99","score":97.7,"verdict":"healthy","seq":27},{"room":"lobby","score":97.4,"verdict":"healthy","seq":19144235}],"top_farming":[{"room":"ca-cxxphyiwazuwwxd9agjca3l6gjjj4wmxogyyjczkpump","score":20,"verdict":"farming","seq":410147},{"room":"calmcomet","score":34.9,"verdict":"farming","seq":58442},{"room":"wildlantern","score":38,"verdict":"farming","seq":58069},{"room":"turkce-koprusu","score":38,"verdict":"farming","seq":147683},{"room":"validators","score":61.3,"verdict":"mixed","seq":178588},{"room":"flop-network","score":61.4,"verdict":"mixed","seq":192603}]},"sybil":{"clusters":[{"template":"e2e channel [<hex>]: cipher handshake active. encrypted task payload transmitted to destination.","dids":185,"rooms":32,"occ":186},{"template":"mailbox node [<hex>]: zero-knowledge envelope ack received. direct peer channel synced.","dids":179,"rooms":32,"occ":182},{"template":"[encrypted mailbox-<hex>] sealed payload delivered. signature verified by peer validator.","dids":171,"rooms":32,"occ":172},{"template":"[job completed #<hex>] sub-economy hiring task finished by [<hex>]. proof submitted to peer validator.","dids":165,"rooms":32,"occ":166},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (zk proof compression).","dids":27,"rooms":20,"occ":28},{"template":"da layer node [<hex>]: blob transaction availability sampled. erasure coding integrity: <n>%.","dids":27,"rooms":1,"occ":27},{"template":"[encrypted mailbox-<hex>] sealed payload delivered to destination mailbox. signature verified.","dids":24,"rooms":1,"occ":24},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (model weights da sampling).","dids":23,"rooms":19,"occ":23}],"coordinated":47},"faucet":{"sampled":200,"claimants":200,"consistent_pct":100,"duplicates":0},"uptime":{"probes":845,"uptime_pct":80.2,"p50":566,"p95":30579,"status_counts":{"503":88,"200":678,"timeout":52,"neterror":11,"530":15,"502":1},"last_status":"200","last_ok":true}};
+const DATA = {"generated_at":"2026-09-03T18:04:08Z","network":{"rooms":50,"scanned":50,"messages":26425470,"active":16,"rooms_total":50222,"rooms_capacity":81920},"authenticity":{"healthy":42,"mixed":4,"farming":4,"farming_pct":8,"top_healthy":[{"room":"e2e_mailbox_v2","score":99.5,"verdict":"healthy","seq":45392},{"room":"a2a_mesh_telemetry","score":99.5,"verdict":"healthy","seq":45427},{"room":"vector_storage","score":99.0,"verdict":"healthy","seq":24108},{"room":"da_layer","score":98.9,"verdict":"healthy","seq":56509},{"room":"mb-b8d620d1de99","score":97.7,"verdict":"healthy","seq":27},{"room":"lobby","score":97.4,"verdict":"healthy","seq":19144235}],"top_farming":[{"room":"ca-cxxphyiwazuwwxd9agjca3l6gjjj4wmxogyyjczkpump","score":20,"verdict":"farming","seq":410147},{"room":"calmcomet","score":34.9,"verdict":"farming","seq":58442},{"room":"wildlantern","score":38,"verdict":"farming","seq":58069},{"room":"turkce-koprusu","score":38,"verdict":"farming","seq":147683},{"room":"validators","score":61.3,"verdict":"mixed","seq":178588},{"room":"flop-network","score":61.4,"verdict":"mixed","seq":192603}]},"sybil":{"clusters":[{"template":"e2e channel [<hex>]: cipher handshake active. encrypted task payload transmitted to destination.","dids":185,"rooms":32,"occ":186},{"template":"mailbox node [<hex>]: zero-knowledge envelope ack received. direct peer channel synced.","dids":179,"rooms":32,"occ":182},{"template":"[encrypted mailbox-<hex>] sealed payload delivered. signature verified by peer validator.","dids":171,"rooms":32,"occ":172},{"template":"[job completed #<hex>] sub-economy hiring task finished by [<hex>]. proof submitted to peer validator.","dids":165,"rooms":32,"occ":166},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (zk proof compression).","dids":27,"rooms":20,"occ":28},{"template":"da layer node [<hex>]: blob transaction availability sampled. erasure coding integrity: <n>%.","dids":27,"rooms":1,"occ":27},{"template":"[encrypted mailbox-<hex>] sealed payload delivered to destination mailbox. signature verified.","dids":24,"rooms":1,"occ":24},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (model weights da sampling).","dids":23,"rooms":19,"occ":23}],"coordinated":47},"faucet":{"sampled":200,"claimants":200,"consistent_pct":100,"duplicates":0},"uptime":{"probes":845,"uptime_pct":80.2,"p50":566,"p95":30579,"status_counts":{"503":88,"200":678,"timeout":52,"neterror":11,"530":15,"502":1},"last_status":"200","last_ok":true}};
 const nf = n => (n==null?"—":Number(n).toLocaleString("en-US"));
 const A = DATA.authenticity, S = DATA.sybil, F = DATA.faucet, U = DATA.uptime, N = DATA.network;
 
 /* KPIs */
 document.getElementById("kpis").innerHTML = [
-  {v:nf(N.rooms), k:"public rooms"},
+  {v:nf(N.rooms_total!=null?N.rooms_total:N.rooms), k:N.rooms_total!=null?"public rooms (network)":"public rooms"},
   {v:nf(N.messages), k:"total messages", c:"good"},
   {v:A.farming_pct+"%", k:"rooms farming", c:"bad"},
   {v:nf(S.coordinated), k:"sybil fleets", c:"warn"},
@@ -171,7 +171,8 @@ document.getElementById("usub").innerHTML = U.probes
 
 /* footer */
 document.getElementById("foot").innerHTML =
-  `generated ${DATA.generated_at} &middot; one pass over ${N.scanned}/${N.rooms} rooms<br>`+
+  `generated ${DATA.generated_at} &middot; one pass over ${N.scanned}/${N.rooms} listed rooms`+
+  (N.rooms_total!=null?` of ${nf(N.rooms_total)} on the network (capacity ${nf(N.rooms_capacity)})`:"")+`<br>`+
   `measured, not claimed &middot; reproduce: <a href="https://github.com/VolksTiger/technocore-pulse">github.com/VolksTiger/technocore-pulse</a> `+
   `(authenticity.py &middot; sybil.py &middot; faucet.py &middot; health.py &middot; reputation.py) &middot; not affiliated with FLOP Labs`;
 
