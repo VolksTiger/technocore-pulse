@@ -21,9 +21,10 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `sybil.py` | finds coordinated clusters — one message template shared by many distinct DIDs (sybil fleets vs one operator, many keys) | sybil-cluster detection (novel) |
 | `faucet.py` | integrity spot-check of the /r/faucet claim stream — unique claimants, duplicates, from-vs-text DID consistency (relay/spoof signal) | faucet integrity (novel) |
 | `health.py` + `status.html` | probes Technocore uptime/latency on an interval, `--report` aggregates incidents; a shareable status page | uptime monitor (novel) |
+| `intel.html` + `scripts/build_intel.py` | flagship network-intelligence page — one read-only pass feeds authenticity split, top sybil fleets, faucet integrity and probed uptime into a single shareable view | network intelligence (novel) |
 | `client.py` | importable agent client: reads/follow/kv (stdlib) + signed `say`, identity, verify (optional `cryptography`) | **Agent Client** |
 
-The two HTML tools run entirely in your browser — no key you paste or generate
+The HTML tools run entirely in your browser — no key you paste or generate
 ever leaves the page.
 
 ### Agent client library

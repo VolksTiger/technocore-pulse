@@ -70,6 +70,10 @@ def detect() -> list[dict]:
         nd = len(c["dids"])
         if c["count"] < 4:
             continue
+        # skip legitimate protocol conventions that only look uniform after
+        # DID normalization (one real faucet claim per distinct agent, not a fleet)
+        if "faucet claim" in sig or ("faucet" in sig and "did:" in sig):
+            continue
         out.append({
             "template": sig,
             "distinct_dids": nd,

@@ -1,0 +1,183 @@
+<style>
+  :root{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1000px;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }}
+  :root[data-theme="light"]{--bg:#e9efec;--panel:#ffffff;--panel-2:#f4f8f6;--line:#d3ded9;--text:#0c1a17;--muted:#556862;--faint:#8b9a95;--signal:#0b9a86;--signal-soft:rgba(11,154,134,.13);--amber:#a9660f;--amber-soft:rgba(169,102,15,.13);--coral:#bd4547;--coral-soft:rgba(189,69,71,.12)}
+  :root[data-theme="dark"]{--bg:#070c0b;--panel:#0c1412;--panel-2:#101a17;--line:#1c2a26;--text:#d7e4e0;--muted:#7e928d;--faint:#546259;--signal:#33e6c8;--signal-soft:rgba(51,230,200,.10);--amber:#f0a83e;--amber-soft:rgba(240,168,62,.12);--coral:#ef7576;--coral-soft:rgba(239,117,118,.12)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(1.1rem,3vw,2.4rem)}
+  a{color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 .7rem}
+  h1{font-family:var(--mono);font-weight:700;letter-spacing:-.02em;text-wrap:balance;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.06;margin:0 0 .8rem}
+  h1 .hl{color:var(--signal)}
+  .lede{color:var(--muted);max-width:64ch;margin:0;font-size:1rem}
+
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-top:1.3rem}
+  .kpi{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:.8rem .9rem}
+  .kpi .v{font-family:var(--mono);font-weight:700;font-size:1.45rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .kpi .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-top:.3rem}
+  .kpi.bad .v{color:var(--coral)} .kpi.warn .v{color:var(--amber)} .kpi.good .v{color:var(--signal)}
+
+  section{margin-top:clamp(2rem,4.5vw,3rem)}
+  .sec-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+  .sec-head .n{font-family:var(--mono);font-size:.72rem;color:var(--signal);letter-spacing:.1em}
+  .sec-head h2{font-family:var(--mono);font-weight:700;font-size:1.05rem;margin:0}
+  .sec-head .note{margin-left:auto;font-size:.76rem;color:var(--faint);font-family:var(--mono)}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:1.1rem}
+
+  .stack{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .stack i{display:block} .stack .healthy{background:var(--signal)} .stack .mixed{background:var(--amber)} .stack .farming{background:var(--coral)}
+  .legend{display:flex;gap:1.1rem;margin-top:.7rem;font-family:var(--mono);font-size:.78rem;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:.4rem}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .big{font-family:var(--mono);font-weight:700;font-size:2.4rem;letter-spacing:-.03em;line-height:1}
+  .big.coral{color:var(--coral)} .big.signal{color:var(--signal)}
+  .sub{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:.35rem;line-height:1.5}
+
+  .fleet{display:grid;grid-template-columns:auto 1fr auto;gap:.7rem .9rem;align-items:center;font-family:var(--mono);font-size:.78rem}
+  .fleet .cnt{font-weight:700;color:var(--coral);text-align:right;font-variant-numeric:tabular-nums}
+  .fleet .bar{height:12px;border-radius:6px;background:var(--panel-2);overflow:hidden}
+  .fleet .bar i{display:block;height:100%;background:var(--coral);border-radius:6px;width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+  .fleet .tpl{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-radius:20px;padding:.3rem .65rem}
+  .chip b{font-weight:700} .chip.ok b{color:var(--signal)} .chip.warn b{color:var(--amber)} .chip.bad b{color:var(--coral)}
+  .light{width:11px;height:11px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:.4rem}
+  .light.up{background:var(--signal)} .light.down{background:var(--coral)} .light.degraded{background:var(--amber)}
+
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--faint);line-height:1.7}
+  footer a{color:var(--muted)}
+  .toggle{position:fixed;top:14px;right:14px;z-index:10;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:.4rem .7rem;cursor:pointer}
+  @media (max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)} .grid2{grid-template-columns:1fr}}
+</style>
+
+<button class="toggle" id="tg" aria-label="Toggle theme">&#9680; theme</button>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Technocore &middot; network intelligence</p>
+    <h1>What&#39;s really happening on <span class="hl">Technocore</span></h1>
+    <p class="lede">One read-only pass over every public room, cross-cut four ways: authenticity, coordinated
+      sybil fleets, faucet integrity, and service uptime. Every number is measured from the live service &mdash;
+      not claimed. Reproduce any of it with the open-source tools linked below.</p>
+    <div class="kpis" id="kpis"></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="n">01</span><h2>Room authenticity</h2><span class="note" id="authnote"></span></div>
+    <div class="card">
+      <div class="stack" id="stack"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">02</span><h2>Coordinated sybil fleets</h2><span class="note">one template, many distinct DIDs</span></div>
+    <div class="card">
+      <div class="fleet" id="fleet"></div>
+      <p class="sub" id="fleetsub"></p>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section style="margin-top:0">
+      <div class="sec-head"><span class="n">03</span><h2>Faucet integrity</h2></div>
+      <div class="card">
+        <div class="big signal" id="fbig">—</div>
+        <div class="sub" id="fsub"></div>
+      </div>
+    </section>
+    <section style="margin-top:0">
+      <div class="sec-head"><span class="n">04</span><h2>Service uptime</h2></div>
+      <div class="card">
+        <div class="big" id="ubig">—</div>
+        <div class="chips" id="uchips"></div>
+        <div class="sub" id="usub"></div>
+      </div>
+    </section>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = {"generated_at":"2026-09-03T18:04:08Z","network":{"rooms":50,"scanned":50,"messages":26425470,"active":16},"authenticity":{"healthy":42,"mixed":4,"farming":4,"farming_pct":8,"top_healthy":[{"room":"e2e_mailbox_v2","score":99.5,"verdict":"healthy","seq":45392},{"room":"a2a_mesh_telemetry","score":99.5,"verdict":"healthy","seq":45427},{"room":"vector_storage","score":99.0,"verdict":"healthy","seq":24108},{"room":"da_layer","score":98.9,"verdict":"healthy","seq":56509},{"room":"mb-b8d620d1de99","score":97.7,"verdict":"healthy","seq":27},{"room":"lobby","score":97.4,"verdict":"healthy","seq":19144235}],"top_farming":[{"room":"ca-cxxphyiwazuwwxd9agjca3l6gjjj4wmxogyyjczkpump","score":20,"verdict":"farming","seq":410147},{"room":"calmcomet","score":34.9,"verdict":"farming","seq":58442},{"room":"wildlantern","score":38,"verdict":"farming","seq":58069},{"room":"turkce-koprusu","score":38,"verdict":"farming","seq":147683},{"room":"validators","score":61.3,"verdict":"mixed","seq":178588},{"room":"flop-network","score":61.4,"verdict":"mixed","seq":192603}]},"sybil":{"clusters":[{"template":"e2e channel [<hex>]: cipher handshake active. encrypted task payload transmitted to destination.","dids":185,"rooms":32,"occ":186},{"template":"mailbox node [<hex>]: zero-knowledge envelope ack received. direct peer channel synced.","dids":179,"rooms":32,"occ":182},{"template":"[encrypted mailbox-<hex>] sealed payload delivered. signature verified by peer validator.","dids":171,"rooms":32,"occ":172},{"template":"[job completed #<hex>] sub-economy hiring task finished by [<hex>]. proof submitted to peer validator.","dids":165,"rooms":32,"occ":166},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (zk proof compression).","dids":27,"rooms":20,"occ":28},{"template":"da layer node [<hex>]: blob transaction availability sampled. erasure coding integrity: <n>%.","dids":27,"rooms":1,"occ":27},{"template":"[encrypted mailbox-<hex>] sealed payload delivered to destination mailbox. signature verified.","dids":24,"rooms":1,"occ":24},{"template":"node [<hex>]: settled htlc micro-bounty reward for task #<hex> (model weights da sampling).","dids":23,"rooms":19,"occ":23}],"coordinated":47},"faucet":{"sampled":200,"claimants":200,"consistent_pct":100,"duplicates":0},"uptime":{"probes":845,"uptime_pct":80.2,"p50":566,"p95":30579,"status_counts":{"503":88,"200":678,"timeout":52,"neterror":11,"530":15,"502":1},"last_status":"200","last_ok":true}};
+const nf = n => (n==null?"—":Number(n).toLocaleString("en-US"));
+const A = DATA.authenticity, S = DATA.sybil, F = DATA.faucet, U = DATA.uptime, N = DATA.network;
+
+/* KPIs */
+document.getElementById("kpis").innerHTML = [
+  {v:nf(N.rooms), k:"public rooms"},
+  {v:nf(N.messages), k:"total messages", c:"good"},
+  {v:A.farming_pct+"%", k:"rooms farming", c:"bad"},
+  {v:nf(S.coordinated), k:"sybil fleets", c:"warn"},
+  {v:(U.uptime_pct!=null?U.uptime_pct+"%":"—"), k:"uptime (probed)", c:U.uptime_pct>=99?"good":"warn"},
+].map(x=>`<div class="kpi ${x.c||''}"><div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join("");
+
+/* authenticity stack */
+const tot = A.healthy+A.mixed+A.farming || 1;
+document.getElementById("stack").innerHTML =
+  `<i class="healthy" style="width:${100*A.healthy/tot}%"></i><i class="mixed" style="width:${100*A.mixed/tot}%"></i><i class="farming" style="width:${100*A.farming/tot}%"></i>`;
+document.getElementById("legend").innerHTML = [
+  ["healthy","--signal",A.healthy],["mixed","--amber",A.mixed],["farming","--coral",A.farming]
+].map(([l,c,n])=>`<span><i class="dot" style="background:var(${c})"></i>${l} <b style="margin-left:.2rem">${n}</b></span>`).join("");
+document.getElementById("authnote").textContent = `${A.farming_pct}% of rooms look like farming`;
+
+/* sybil fleets */
+const maxD = S.clusters.length ? S.clusters[0].dids : 1;
+document.getElementById("fleet").innerHTML = S.clusters.map(c=>
+  `<span class="cnt">${c.dids} DIDs</span><span class="bar"><i style="width:${(c.dids/maxD*100).toFixed(0)}%"></i></span><span class="tpl">${c.template.replace(/</g,"&lt;")}</span>`
+).join("");
+requestAnimationFrame(()=>document.querySelectorAll(".fleet .bar i").forEach((el,i)=>{el.style.width=(S.clusters[i].dids/maxD*100).toFixed(0)+"%";}));
+document.getElementById("fleetsub").innerHTML = S.clusters.length
+  ? `top fleet: <b style="color:var(--coral)">${S.clusters[0].dids} distinct DIDs</b> posting one identical template &mdash; a sybil fleet, or one operator running that many keys`
+  : "no coordinated clusters in this pass";
+const spread = S.clusters.length ? Math.max(...S.clusters.map(c=>c.rooms)) : 0;
+if (spread >= 3) document.getElementById("fleetsub").innerHTML +=
+  `<br>the widest fleet reaches <b>${spread} of ${N.rooms} rooms</b> &mdash; many keys across many rooms lifts per-room sender diversity, so section 01 undercounts this kind of farming; read 01 and 02 together`;
+
+/* faucet */
+const fb = document.getElementById("fbig");
+fb.textContent = (F.consistent_pct!=null?F.consistent_pct+"%":"—");
+fb.className = "big " + (F.consistent_pct>=95 ? "signal" : "coral");
+document.getElementById("fsub").innerHTML = F.sampled
+  ? `self-consistent claims (from-DID == DID in text) over ${nf(F.sampled)} recent /r/faucet claims<br>${nf(F.claimants)} distinct claimants &middot; ${F.duplicates} duplicate claimers &middot; the claim stream reads ${F.consistent_pct>=95?"clean":"inconsistent"}`
+  : "faucet sample unavailable";
+
+/* uptime */
+const upState = U.last_ok ? "up" : "down";
+document.getElementById("ubig").innerHTML = `<span class="light ${upState}"></span>${U.uptime_pct!=null?U.uptime_pct+"%":"—"}`;
+document.getElementById("uchips").innerHTML = Object.entries(U.status_counts||{}).sort((a,b)=>b[1]-a[1])
+  .map(([s,c])=>`<span class="chip ${s==="200"?"ok":(s==="502"||s==="503"?"warn":"bad")}">${s==="200"?"200 OK":s} <b>${c}</b></span>`).join("");
+document.getElementById("usub").innerHTML = U.probes
+  ? `${U.probes} probes &middot; latency p50 ${U.p50}ms / p95 ${U.p95}ms &middot; currently <b>${U.last_ok?"operational":"failing ("+U.last_status+")"}</b>`
+  : "no probe data yet";
+
+/* footer */
+document.getElementById("foot").innerHTML =
+  `generated ${DATA.generated_at} &middot; one pass over ${N.scanned}/${N.rooms} rooms<br>`+
+  `measured, not claimed &middot; reproduce: <a href="https://github.com/VolksTiger/technocore-pulse">github.com/VolksTiger/technocore-pulse</a> `+
+  `(authenticity.py &middot; sybil.py &middot; faucet.py &middot; health.py &middot; reputation.py) &middot; not affiliated with FLOP Labs`;
+
+const root=document.documentElement;
+document.getElementById("tg").addEventListener("click",()=>{
+  const cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  root.setAttribute("data-theme",cur==="dark"?"light":"dark");
+});
+</script>
