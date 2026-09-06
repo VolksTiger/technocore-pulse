@@ -113,7 +113,8 @@ class Venue:
         log(f"posted {frame['type']} → /r/{room} seq {rec['seq']}")
         return rec
 
-    def read(self, room: str, since: int | None = None, limit: int = 100, wait: float | None = None) -> list[dict]:
+    @staticmethod
+    def read_static(room: str, since: int | None = None, limit: int = 100, wait: float | None = None) -> list[dict]:
         q = f"format=json&limit={limit}" + (f"&since={since}" if since is not None else "") + (f"&wait={int(wait)}" if wait else "")
         code, body = get(f"/r/{room}?{q}", timeout=(wait or 0) + 25)
         if code != 200:
@@ -122,6 +123,9 @@ class Venue:
             return [m for m in json.loads(body).get("messages", []) if isinstance(m, dict)]
         except Exception:  # noqa: BLE001
             return []
+
+    def read(self, room: str, since: int | None = None, limit: int = 100, wait: float | None = None) -> list[dict]:
+        return Venue.read_static(room, since, limit, wait)
 
     def watch(self, room: str, since: int, deadline_ms: int, predicate, wait: float = 10.0):
         """Long-poll `room` after `since` until `predicate(record, frame)` returns truthy or the deadline passes."""
@@ -153,16 +157,54 @@ def paper_ref() -> str:
     return "paper-" + secrets.token_hex(6)
 
 
+def board_snapshot() -> list[dict]:
+    """The whole retained ring of tclk-offers (byte-exact /export); the paginated window is far too short."""
+    try:
+        return tclk.load_board(None)
+    except Exception as e:  # noqa: BLE001
+        log(f"export failed ({e}); falling back to the newest window")
+        out = []
+        for m in Venue.read_static(tclk.OFFER_ROOM, limit=200):
+            try:
+                out.append(tclk.transcript_record(tclk.OFFER_ROOM, m))
+            except tclk.FrameError:
+                pass
+        return out
+
+
+def valid_accepts_for(offer: dict, board: list[dict]) -> list[tuple[dict, dict]]:
+    """Accepts a payer's strict fold would take for this offer, oldest first."""
+    out = []
+    for r in board:
+        line = r["line"]
+        if not line.startswith(tclk.TCLK_PREFIX) or '"type":"accept"' not in line or offer["id"] not in line:
+            continue
+        try:
+            f = tclk.decode_frame(line)
+        except tclk.FrameError:
+            continue
+        if f["type"] != "accept" or f["ref"] != offer["id"] or f["from"] != r["sender"] or f["from"] == offer["from"]:
+            continue
+        if tclk.contract_id(offer, f) != f["contract"] or r["ts_ms"] >= offer["expiresMs"]:
+            continue
+        if not tclk.verify_record(r, check_signature=True)[0]:
+            continue
+        out.append((r, f))
+    return sorted(out, key=lambda x: x[0]["seq"])
+
+
 # ── payer ───────────────────────────────────────────────────────────────────
 
-def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int) -> dict:
+def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto: str) -> dict:
     t = now_ms()
     expires = t + accept_wait_min * 60_000
     claim_by = expires + 10 * 60_000
     refund_after = claim_by + 5 * 60_000
+    # measured 06.09.2026: acceptors take offers that carry a `job`; job-less offers sit unanswered
+    job = {"proto": job_proto, "id": "technocore-pulse-" + secrets.token_hex(4)}
     fields = {"type": "offer", "from": v.did, "role": "payer", "amount": amount, "asset": asset, "lock": "hash",
               "rails": ["paper"], "claimByMs": claim_by, "refundAfterMs": refund_after, "expiresMs": expires,
-              "nonce": secrets.token_hex(8)}
+              "job": job, "nonce": secrets.token_hex(8)}
     offer = dict(fields, id=tclk.offer_id(fields))
     tclk.validate_frame(offer)
     log(f"offer id {offer['id'][:18]}… amount {amount} {asset} on paper; accept window {accept_wait_min} min, claimBy +10, refundAfter +5")
@@ -231,41 +273,48 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int) -> dict:
 
 # ── payee ───────────────────────────────────────────────────────────────────
 
-def pick_offer(v: Venue, tries: int) -> tuple[dict, dict] | tuple[None, None]:
-    """Freshest stranger offer we can complete: payer role, hash lock, paper rail, unaccepted."""
-    msgs = v.read(tclk.OFFER_ROOM, limit=200)
-    accepted_refs = set()
+def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude: set) -> tuple[dict, dict, list] | tuple[None, None, None]:
+    """A stranger's offer we can complete: payer role, hash lock, paper rail, carries a job,
+    no VALID accept yet, older than min_age_s (the 2-second bots already passed on it)."""
+    board = board_snapshot()
     offers = []
-    for m in msgs:
-        text = m.get("text") or ""
-        if not text.startswith(tclk.TCLK_PREFIX):
+    for r in board:
+        line = r["line"]
+        if not line.startswith(tclk.TCLK_PREFIX) or '"type":"offer"' not in line:
             continue
         try:
-            rec = tclk.transcript_record(tclk.OFFER_ROOM, m)
-            f = tclk.decode_frame(text)
+            f = tclk.decode_frame(line)
         except tclk.FrameError:
             continue
-        if f["from"] != rec["sender"]:
-            continue
-        if f["type"] == "accept":
-            accepted_refs.add(f["ref"])
-        elif f["type"] == "offer":
-            offers.append((rec, f))
+        if f["type"] == "offer" and f["from"] == r["sender"]:
+            offers.append((r, f))
     t = now_ms()
-    good = [(r, f) for r, f in offers
-            if f["role"] == "payer" and f["lock"] == "hash" and f["from"] != v.did and f["id"] not in accepted_refs
-            and any(rail.strip().lower() in ("paper", "paperrail", "paper-rail") for rail in f["rails"])
-            and f["expiresMs"] > t + 90_000 and f["refundAfterMs"] > t + 6 * 60_000]
-    good.sort(key=lambda x: x[0]["seq"], reverse=True)
-    log(f"board: {len(offers)} offers in window, {len(good)} acceptable (payer, hash, paper, unaccepted, not expiring)")
-    return good[0] if good else (None, None)
+    good = []
+    for r, f in offers:
+        if f["role"] != "payer" or f["lock"] != "hash" or f["from"] == v.did or f["id"] in tried or "job" not in f:
+            continue
+        if f["job"]["proto"] in exclude:
+            continue
+        if not any(rail.strip().lower() in ("paper", "paperrail", "paper-rail") for rail in f["rails"]):
+            continue
+        if f["expiresMs"] < t + 90_000 or f["refundAfterMs"] < t + 6 * 60_000 or t - r["ts_ms"] < min_age_s * 1000:
+            continue
+        if valid_accepts_for(f, board):
+            continue
+        good.append((r, f))
+    rank = {p: i for i, p in enumerate(prefer)}
+    good.sort(key=lambda x: (rank.get(x[1]["job"]["proto"], len(rank)), -x[0]["seq"]))
+    log(f"board: {len(offers)} offers on the ring, {len(good)} acceptable (payer, hash, paper, job, no valid accept, age>={min_age_s}s)")
+    return (good[0][0], good[0][1], board) if good else (None, None, None)
 
 
-def run_payee(v: Venue, lock_wait_min: int, tries: int = 3) -> dict:
+def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], exclude: set, tries: int = 3) -> dict:
+    tried: set = set()
     for attempt in range(1, tries + 1):
-        orec, offer = pick_offer(v, tries)
+        orec, offer, _board = pick_offer(v, tried, min_age_s, prefer, exclude)
         if offer is None:
             return {"role": "payee", "status": "no acceptable offer on the board"}
+        tried.add(offer["id"])
         v.records.append(orec)
         state = tclk.open_contract(offer)
         preimage = secrets.token_bytes(32)
@@ -279,12 +328,11 @@ def run_payee(v: Venue, lock_wait_min: int, tries: int = 3) -> dict:
             return {"role": "payee", "status": "dry-run", "offer_id": offer["id"], "contract": accept["contract"]}
         state, ok, reason = tclk.apply_frame(state, accept, arec["ts_ms"])
         assert ok, reason
-        # someone else may have accepted first (60% of accepts land within 2 s): the payer folds the FIRST valid one
-        earlier = [m for m in v.read(tclk.OFFER_ROOM, since=orec["seq"], limit=100)
-                   if (m.get("text") or "").startswith(tclk.TCLK_PREFIX) and f'"ref":"{offer["id"]}"' in m.get("text", "")
-                   and '"type":"accept"' in m.get("text", "") and int(m.get("seq") or 0) < arec["seq"]]
+        # someone else may have accepted first: the payer folds the FIRST *valid* accept (malformed
+        # accepts — 78 on today's board — do not count, so validate instead of string-matching)
+        earlier = [(r, f) for r, f in valid_accepts_for(offer, board_snapshot()) if r["seq"] < arec["seq"]]
         if earlier:
-            log(f"a competing accept (seq {earlier[0].get('seq')}) precedes ours; our accept is moot — cancelling and retrying ({attempt}/{tries})")
+            log(f"a valid competing accept (seq {earlier[0][0]['seq']}) precedes ours; our accept is moot — cancelling and retrying ({attempt}/{tries})")
             v.post(tclk.OFFER_ROOM, {"type": "cancel", "from": v.did, "contract": accept["contract"], "reason": "superseded by an earlier accept"})
             continue
         contract = accept["contract"]
@@ -325,12 +373,7 @@ def run_payee(v: Venue, lock_wait_min: int, tries: int = 3) -> dict:
 
 def strict_fold(v: Venue, contract: str | None, offer_id: str | None) -> str:
     """Re-read the board + deal room from the venue and fold strictly, like any auditor."""
-    recs = []
-    for m in v.read(tclk.OFFER_ROOM, limit=200):
-        try:
-            recs.append(tclk.transcript_record(tclk.OFFER_ROOM, m))
-        except tclk.FrameError:
-            pass
+    recs = list(board_snapshot())
     if contract:
         for m in v.read(tclk.deal_room(contract), limit=100):
             try:
@@ -355,7 +398,12 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--role", choices=["payer", "payee", "both"], default="payer")
     ap.add_argument("--identity", default=os.path.expanduser("~/dev/technocore-did/identity.pem"))
-    ap.add_argument("--amount", default="1000")
+    ap.add_argument("--amount", default="200")
+    ap.add_argument("--job-proto", default="a2a", help="job.proto on our offer (acceptors ignore job-less offers)")
+    ap.add_argument("--min-age", type=int, default=20, help="payee: only offers older than this many seconds (the 2 s bots skipped them)")
+    ap.add_argument("--prefer", default="a2a,flop-harness,blockrewards",
+                    help="payee: job.proto preference order (measured 06.09: a2a payers lock 9/25, flop-harness 6/25, blockrewards 3/25)")
+    ap.add_argument("--exclude", default="pin,kibble,acp", help="payee: job.proto families whose payers never lock (0/25 probed)")
     ap.add_argument("--asset", default="FLOP")
     ap.add_argument("--accept-wait", type=int, default=10, help="payer: minutes to wait for an accept (offer expiresMs)")
     ap.add_argument("--lock-wait", type=int, default=10, help="payee: minutes to wait for the payer's lock")
@@ -369,7 +417,8 @@ def main() -> int:
     roles = ["payer", "payee"] if a.role == "both" else [a.role]
     for role in roles:
         try:
-            res = run_payer(v, a.amount, a.asset, a.accept_wait) if role == "payer" else run_payee(v, a.lock_wait)
+            res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto) if role == "payer" \
+                else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p})
         except Exception as e:  # noqa: BLE001
             res = {"role": role, "status": f"error: {e}"}
         log(f"{role}: {res['status']}")

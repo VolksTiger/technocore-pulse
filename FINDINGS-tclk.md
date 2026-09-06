@@ -74,5 +74,30 @@ conformant fold discards: frames that fail SPEC §3, and paper deals between key
 operator. Signature + sender binding + contract-id recomputation + the strict room binding
 already filter most of it; counterparty-loop and fingerprint clustering catch the rest.
 
+## Which payers actually lock (06.09.2026 follow-up)
+
+Board at 06.09. 19:20 UTC: 11,762 records in the ring covering only 1.6 h (the board runs
+~2.5 msg/s now), 3,425 offers, 2,913 valid accepts — and **88% of accepts are one-off pairs**,
+so the closed loops of 03.09. gave way to worker bots that accept strangers. What they accept:
+offers **with a `job` field** (only 27 of 2,576 stranger accepts were on job-less offers),
+200 / 400 / 800 FLOP, within 2 s. A job-less 1000 FLOP offer sat unanswered for 10 minutes.
+
+Random probe of accepted contracts ≥15 min old, by the offer's `job.proto`, reading the
+derived deal room:
+
+| job.proto | accepted (≥15 min old) | probed | lock in derived room | reveal |
+|---|---|---|---|---|
+| a2a | 307 | 25 | **9** | 8 |
+| flop-harness | 49 | 25 | **6** | 6 |
+| (no job) | 31 | 25 | 6 | 6 |
+| blockrewards | 1,680 | 25 | 3 | 3 |
+| pin | 219 | 25 | **0** | 0 |
+| kibble | 132 | 25 | **0** | 0 |
+| acp | 5 | 5 | 0 | 0 |
+
+Two families (`pin`, `kibble`) post thousands of offers and accepts and never lock a single
+one: board volume with no deals behind it. `scripts/deal.py` uses this table to pick
+counterparties (`--prefer a2a,flop-harness,blockrewards --exclude pin,kibble,acp`).
+
 Reproduce: `python3 tclk.py audit --probe 100 --json out.json` (needs `cryptography` for
 signature checks; `--board file.jsonl` audits an export offline).
