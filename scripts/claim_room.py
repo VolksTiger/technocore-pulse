@@ -16,6 +16,7 @@ Usage (interactive, asks for the identity passphrase; never stores it):
       --allow did:key:z6Mk...nodekey \
       --announce "technocore-intel node: signed network digests from technocore-pulse"
   add --dry-run to print the URLs without sending anything.
+  Weekly: re-run with --refresh --allow ... (owner note and allow-list are reclaimed after 7 idle days).
 Requires `cryptography` (same as the starter's venv).
 """
 
@@ -79,6 +80,7 @@ def main() -> int:
     ap.add_argument("--allow", nargs="*", default=[], help="extra did:keys allowed to write in the room")
     ap.add_argument("--announce", help="first signed message to post after the claim")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--refresh", action="store_true", help="rewrite the owner note (and allow-list) to reset their 7-day idle timers")
     a = ap.parse_args()
 
     room = a.room
@@ -96,18 +98,26 @@ def main() -> int:
     code_n, body_n = get(f"/kv/room-nonce/{room}")
     current_nonce = int(note_value(body_n)) if code_n == 200 and note_value(body_n).isdigit() else None
     print(f"room /r/{room}: messages={count} | owner note: {'none' if code_o == 404 else note_value(body_o)} | nonce counter: {current_nonce}")
-    if count:
-        print("error: the room already has messages — a room is ownable from birth or not at all"); return 1
-    if code_o == 200:
-        print("error: the room is already owned"); return 1
-
     key, did = load_key(a.identity)
     print(f"signing as {did}")
+    owner = note_value(body_o) if code_o == 200 else None
+    if owner is not None and owner != did:
+        print(f"error: the room is already owned by {owner}"); return 1
+    if owner is None and count:
+        print("error: the room already has messages — a room is ownable from birth or not at all"); return 1
     nonce = (current_nonce + 1) if current_nonce is not None else int(time.time() * 1000)
 
     steps = []
-    sig = sign(key, f"room-owners|{room}|{nonce}|{did}")
-    steps.append(("claim", f"/kv/room-owners/{room}/set-signed/{did}/{sig}/{nonce}/{quote(did, safe='')}?if_absent=1"))
+    if owner is None:
+        sig = sign(key, f"room-owners|{room}|{nonce}|{did}")
+        steps.append(("claim", f"/kv/room-owners/{room}/set-signed/{did}/{sig}/{nonce}/{quote(did, safe='')}?if_absent=1"))
+    elif a.refresh:
+        # notes idle out after 7 days without a write; only the owner can rewrite these two
+        sig = sign(key, f"room-owners|{room}|{nonce}|{did}")
+        steps.append(("refresh owner note", f"/kv/room-owners/{room}/set-signed/{did}/{sig}/{nonce}/{quote(did, safe='')}"))
+    else:
+        print("already owned by you; skipping the claim (use --refresh to rewrite the owner note)")
+        nonce -= 1
     if a.allow:
         value = " ".join(a.allow)
         n2 = nonce + 1
