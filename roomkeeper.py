@@ -146,6 +146,7 @@ def main() -> int:
     ap.add_argument("--did", required=True, help="the MAIN did:key (for the registry note value)")
     ap.add_argument("--fp", required=True, help="kv fingerprint = sha256(main did)[:16]")
     ap.add_argument("--node-key", default=os.path.join(HOME, "node.pem"))
+    ap.add_argument("--did-tokens", default="tclk1:paper", help="capability tokens kept after the DID in our registry note")
     ap.add_argument("--every", type=float, default=6.0, help="hours between digests")
     ap.add_argument("--once", action="store_true", help="run one cycle and exit")
     a = ap.parse_args()
@@ -158,12 +159,14 @@ def main() -> int:
         # registry note: hourly retry until it lands, then refresh every 72h
         if now - last_did >= 3600:
             code, body = get(f"/kv/did/{a.fp}")
-            if code == 200 and note_value(body) == a.did:
-                if now - last_did >= 72 * 3600:
-                    code, body = get(f"/kv/did/{a.fp}/set/{quote(a.did, safe='')}")
+            current = note_value(body) if code == 200 else ""
+            wanted = f"{a.did} {a.did_tokens}".strip()  # DID first, then capability tokens (tclk1:<rails>)
+            if current.startswith(a.did):
+                if now - last_did >= 72 * 3600 or current != wanted:
+                    code, body = get(f"/kv/did/{a.fp}/set/{quote(wanted, safe='')}")
                     log(f"did note refreshed: HTTP {code} {body.strip()[:80]}")
             else:
-                code, body = get(f"/kv/did/{a.fp}/set/{quote(a.did, safe='')}?if_absent=1")
+                code, body = get(f"/kv/did/{a.fp}/set/{quote(wanted, safe='')}?if_absent=1")
                 log(f"did note claim attempt: HTTP {code} {body.strip()[:80]}")
             last_did = now
         # faucet note: rewrite same value every 72h

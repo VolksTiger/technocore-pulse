@@ -257,7 +257,7 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
     if reveal is not None:
         receipt = {"type": "receipt", "from": v.did, "contract": contract, "outcome": "claimed", "rail": "paper", "ref": ref}
         v.post(room, receipt)
-        return {"role": "payer", "status": "claimed", "contract": contract, "room": room, "counterparty": accept["from"]}
+        return {"role": "payer", "status": "claimed", "contract": contract, "offer_id": offer["id"], "room": room, "counterparty": accept["from"]}
     # refund window open: wait until the venue clock passes refundAfterMs, then refund
     while now_ms() < refund_after + 2000:
         time.sleep(1)
@@ -268,10 +268,45 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
         log(f"refund rejected by our own machine: {reason}")
     receipt = {"type": "receipt", "from": v.did, "contract": contract, "outcome": "refunded", "rail": "paper", "ref": ref}
     v.post(room, receipt)
-    return {"role": "payer", "status": "refunded", "contract": contract, "room": room, "counterparty": accept["from"]}
+    return {"role": "payer", "status": "refunded", "contract": contract, "offer_id": offer["id"], "room": room, "counterparty": accept["from"]}
 
 
 # ── payee ───────────────────────────────────────────────────────────────────
+
+_LOCK_HISTORY: dict[str, int] = {}
+
+
+def payer_lock_history(payer: str, board: list[dict], offers_by_id: dict, max_probe: int = 2) -> int:
+    """How many of this payer's past accepted contracts show a `lock` from them in the derived
+    room (probed, cached). A payer with one observed lock is a counterparty; a payer with
+    hundreds of accepts and no lock is board volume."""
+    if payer in _LOCK_HISTORY:
+        return _LOCK_HISTORY[payer]
+    t = now_ms()
+    contracts = []
+    for r in board:
+        line = r["line"]
+        if not line.startswith(tclk.TCLK_PREFIX) or '"type":"accept"' not in line:
+            continue
+        try:
+            f = tclk.decode_frame(line)
+        except tclk.FrameError:
+            continue
+        o = offers_by_id.get(f.get("ref"))
+        if o is None or o[1]["from"] != payer or f["from"] == payer or t - r["ts_ms"] < 5 * 60_000:
+            continue
+        if tclk.contract_id(o[1], f) == f["contract"]:
+            contracts.append(f["contract"])
+    seen = 0
+    for c in contracts[:max_probe]:
+        for m in Venue.read_static(tclk.deal_room(c), limit=50):
+            text = m.get("text") or ""
+            if text.startswith(tclk.TCLK_PREFIX) and '"type":"lock"' in text and m.get("from") == payer:
+                seen += 1
+                break
+    _LOCK_HISTORY[payer] = seen
+    return seen
+
 
 def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude: set) -> tuple[dict, dict, list] | tuple[None, None, None]:
     """A stranger's offer we can complete: payer role, hash lock, paper rail, carries a job,
@@ -305,6 +340,18 @@ def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude:
     rank = {p: i for i, p in enumerate(prefer)}
     good.sort(key=lambda x: (rank.get(x[1]["job"]["proto"], len(rank)), -x[0]["seq"]))
     log(f"board: {len(offers)} offers on the ring, {len(good)} acceptable (payer, hash, paper, job, no valid accept, age>={min_age_s}s)")
+    # rank by evidence: payers seen locking in a derived room come first
+    offers_by_id = {f["id"]: (r, f) for r, f in offers}
+    payers = []
+    for r, f in good:
+        if f["from"] not in payers:
+            payers.append(f["from"])
+        if len(payers) >= 20:
+            break
+    history = {pdid: payer_lock_history(pdid, board, offers_by_id) for pdid in payers}
+    proven = [pdid[:30] + "…" for pdid, n in history.items() if n]
+    log(f"probed {len(history)} payers' past deal rooms: {len(proven)} with an observed lock {proven[:4]}")
+    good.sort(key=lambda x: (-history.get(x[1]["from"], 0), rank.get(x[1]["job"]["proto"], len(rank)), -x[0]["seq"]))
     return (good[0][0], good[0][1], board) if good else (None, None, None)
 
 
@@ -358,14 +405,14 @@ def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], e
             # a room for nothing, so the cancel goes on the board next to the accept (the fallback
             # fold accepts it; the strict fold ignores it and the offer simply expires).
             v.post(tclk.OFFER_ROOM, {"type": "cancel", "from": v.did, "contract": contract, "reason": "payer never locked"})
-            return {"role": "payee", "status": "cancelled (no lock)", "contract": contract, "counterparty": offer["from"]}
+            return {"role": "payee", "status": "cancelled (no lock)", "contract": contract, "offer_id": offer["id"], "counterparty": offer["from"]}
         reveal = {"type": "reveal", "from": v.did, "contract": contract, "ref": lock["ref"], "secret": "0x" + preimage.hex()}
         rrec = v.post(room, reveal)
         state, ok, reason = tclk.apply_frame(state, reveal, rrec["ts_ms"])
         assert ok, reason
         log("revealed — claimed. waiting up to 3 min for the payer's receipt…")
         v.watch(room, rrec["seq"], now_ms() + 180_000, lambda r, f: f["type"] == "receipt" and f["contract"] == contract)
-        return {"role": "payee", "status": "claimed", "contract": contract, "room": room, "counterparty": offer["from"]}
+        return {"role": "payee", "status": "claimed", "contract": contract, "offer_id": offer["id"], "room": room, "counterparty": offer["from"]}
     return {"role": "payee", "status": "gave up after competing accepts"}
 
 
@@ -385,7 +432,8 @@ def strict_fold(v: Venue, contract: str | None, offer_id: str | None) -> str:
         line = r["line"]
         if not line.startswith(tclk.TCLK_PREFIX):
             continue
-        if (offer_id and f'"id":"{offer_id}"' in line) or (offer_id and f'"ref":"{offer_id}"' in line) or (contract and f'"contract":"{contract}"' in line):
+        if (offer_id and (f'"id":"{offer_id}"' in line or f'"ref":"{offer_id}"' in line or f'"contract":"{offer_id}"' in line)) \
+                or (contract and f'"contract":"{contract}"' in line):
             chain.append(r)
     chain = sorted(chain, key=lambda r: (0 if '"type":"offer"' in r["line"] else 1, r["ts_ms"], r["seq"]))
     state, steps = tclk.fold_transcript(chain, "strict", check_signature=True)
