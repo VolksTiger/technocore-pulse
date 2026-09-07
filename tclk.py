@@ -24,6 +24,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -46,7 +47,7 @@ HEX33 = re.compile(r"^0x[0-9a-f]{66}$")
 DID = re.compile(r"^did:key:z6Mk[1-9A-HJ-NP-Za-km-z]{44}$")
 AMOUNT = re.compile(r"^[1-9][0-9]*$")
 ASSET = re.compile(r"^[A-Za-z0-9_-]{1,32}$")
-LEGACY_RAIL = re.compile(r"^[a-z0-9][a-z0-9._-]{0,63}$")
+LEGACY_RAIL = re.compile(r"^(?:[a-z0-9][a-z0-9._-]{0,63}|PaperRail)$")
 NONCE = re.compile(r"^[0-9a-f]{8,64}$")
 SCALAR_HEX = re.compile(r"^0x(?:[0-9a-f]{2}){1,32}$")
 STATEMENT = re.compile(r"^0x(?:[0-9a-f]{64}|[0-9a-f]{66})$")
@@ -140,9 +141,26 @@ def _verify_point_witness(statement: str, secret: str) -> bool:
 
 # ── canonical encoding & ids (port of frames.ts) ─────────────────────────────
 
+def _js_normalize_numbers(value):
+    """JS has one number type: a `5.0` JSON literal and a `5` literal are indistinguishable
+    once parsed, so JSON.stringify always renders an integral value without a decimal point.
+    Python keeps int/float apart, so collapse any integral, finite float to int before
+    serializing — otherwise a frame carrying e.g. claimByMs=1e9 would hash/encode differently
+    here than in the reference."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, float):
+        return int(value) if math.isfinite(value) and value.is_integer() else value
+    if isinstance(value, dict):
+        return {k: _js_normalize_numbers(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_js_normalize_numbers(v) for v in value]
+    return value
+
+
 def canonical_json(value) -> str:
     """Sorted keys, compact separators, non-ASCII \\uXXXX-escaped (JSON.stringify + toAscii)."""
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return json.dumps(_js_normalize_numbers(value), sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
 
 def domain_hash(tag: str, payload: str) -> str:
@@ -158,8 +176,52 @@ def contract_id(offer: dict, accept_core: dict) -> str:
     return domain_hash("contract", canonical_json({"offer": offer, "accept": core}))
 
 
+def _utf16_len(text: str) -> int:
+    """Count UTF-16 code units like JS `.length` (technocore's actual 4096-char cap): a
+    codepoint outside the BMP counts as 2, not 1, unlike Python's codepoint-counting len()."""
+    return len(text) + sum(1 for ch in text if ord(ch) > 0xFFFF)
+
+
+_PRINTABLE_ASCII = re.compile(r"[\x20-\x7e]*")
+
+
+def _require_canonical_rail(value: str):
+    """Port of requireCanonicalRail (rails.ts): new emissions must already spell a
+    registered rail id exactly (no alias, no case folding) -- decoding stays lenient
+    (LEGACY_RAIL), but encoding does not."""
+    canonical = normalize_rail(value)
+    if value != canonical:
+        fail(f"non-canonical rail id: {value}; use {canonical}")
+
+
+def _validate_emission_rails(frame: dict):
+    """Port of validateEmissionRails (frames.ts): new tclk/1 emissions use the closed
+    registry even though decoding retains the original, wider grammar."""
+    t = frame["type"]
+    if t == "offer":
+        for rail in frame["rails"]:
+            _require_canonical_rail(rail)
+        if len(set(frame["rails"])) != len(frame["rails"]):
+            fail("rails must not contain duplicates")
+    elif t == "lock":
+        _require_canonical_rail(frame["rail"])
+    elif t == "receipt" and "rail" in frame:
+        _require_canonical_rail(frame["rail"])
+
+
 def encode_frame(frame: dict) -> str:
-    return TCLK_PREFIX + canonical_json(frame)
+    """Port of encodeFrame (frames.ts): validate, enforce the closed rail registry, then
+    the venue caps (4096 UTF-16 units, printable ASCII only). Fail-closed like TS -- never
+    emit a line for a frame the reference implementation would refuse to."""
+    validated = validate_frame(frame)
+    _validate_emission_rails(validated)
+    line = TCLK_PREFIX + canonical_json(validated)
+    length = _utf16_len(line)
+    if length > MAX_FRAME_CHARS:
+        fail(f"frame exceeds the {MAX_FRAME_CHARS}-char room-message cap ({length})")
+    if not _PRINTABLE_ASCII.fullmatch(line):
+        fail("frame line contains non-printable-ASCII characters")
+    return line
 
 
 def deal_room(contract: str) -> str:
@@ -186,8 +248,20 @@ def _req_str(v, name, rx=None):
     return v
 
 
+def _is_safe_int(v) -> bool:
+    """Port of JS `Number.isSafeInteger`: true for an int, or a float with an integral,
+    finite value, within +/-(2**53-1); false for bool (a JS boolean is not a `number`)."""
+    if isinstance(v, bool):
+        return False
+    if isinstance(v, int):
+        return -(2**53 - 1) <= v <= 2**53 - 1
+    if isinstance(v, float):
+        return math.isfinite(v) and v.is_integer() and -(2**53 - 1) <= v <= 2**53 - 1
+    return False
+
+
 def _req_ms(v, name):
-    if isinstance(v, bool) or not isinstance(v, int) or v <= 0 or v > 2**53 - 1:
+    if not _is_safe_int(v) or v <= 0:
         fail(f"{name} must be a positive unix-ms integer")
     return v
 
@@ -299,8 +373,9 @@ def validate_frame(frame) -> dict:
 def decode_frame(text: str) -> dict:
     if not text.startswith(TCLK_PREFIX):
         fail("not a tclk/1 line")
-    if len(text) > MAX_FRAME_CHARS:
-        fail("frame exceeds the 4096-char room-message cap")
+    length = _utf16_len(text)
+    if length > MAX_FRAME_CHARS:
+        fail(f"frame exceeds the {MAX_FRAME_CHARS}-char room-message cap ({length})")
     try:
         parsed = json.loads(text[len(TCLK_PREFIX):])
     except json.JSONDecodeError:
@@ -342,10 +417,15 @@ def open_contract(offer: dict) -> dict:
             "contract": None, "statement": None, "rail": None, "railRef": None, "secret": None}
 
 
-def apply_frame(state: dict, frame: dict, now_ms: int):
-    """Return (new_state, ok, reason). Never throws on a bad frame."""
+def apply_frame(state: dict, frame: dict, now_ms):
+    """Return (new_state, ok, reason). Never throws on a bad frame or a bad now_ms."""
     def reject(reason):
         return state, False, reason
+    # Port of machine.ts:100-103: clock validation runs before frame validation. bool is
+    # rejected too -- a JS boolean fails Number.isFinite(), and Python's bool-is-an-int
+    # would otherwise silently become 0/1 in the comparisons below.
+    if isinstance(now_ms, bool) or not isinstance(now_ms, (int, float)) or not math.isfinite(now_ms) or now_ms < 0:
+        return reject("tclk: nowMs must be a finite non-negative number")
     try:
         validate_frame(frame)
     except FrameError as e:
@@ -490,17 +570,35 @@ def transcript_record(room: str, m: dict) -> dict:
 
 
 def verify_record(rec: dict, check_signature: bool = True):
-    """(ok, reason). Signature check is skipped (ok) when cryptography is missing."""
-    if rec["nonce"] is None or rec["sig"] is None:
+    """(ok, reason). Port of verifyTranscriptRecord (transcript.ts:78-111): structural
+    checks (room, seq, timestamp, line/sender shape) run before nonce/sig/signature, and a
+    record failing any of them must never reach open_contract/apply_frame -- missing or
+    malformed time fails closed (SPEC.md:64), it never falls back to the auditor's clock.
+    Signature check is skipped (ok) when cryptography is missing."""
+    room = rec.get("room")
+    if not isinstance(room, str) or not ROOM_NAME.match(room):
+        return False, "record has an invalid room name"
+    seq = rec.get("seq")
+    if not _is_safe_int(seq) or seq < 0:
+        return False, "record seq must be a non-negative safe integer"
+    ts_ms = rec.get("ts_ms")
+    if not _is_safe_int(ts_ms) or ts_ms < 0:
+        return False, "record timestampMs must be a non-negative safe integer"
+    if not isinstance(rec.get("line"), str):
+        return False, "record line must be a string"
+    if not isinstance(rec.get("sender"), str):
+        return False, "record sender must be a string"
+    nonce, sig = rec.get("nonce"), rec.get("sig")
+    if nonce is None or sig is None:
         return False, "record is unsigned"
-    if not REC_NONCE.match(rec["nonce"]):
+    if not isinstance(nonce, str) or not REC_NONCE.match(nonce):
         return False, "record nonce is not canonical decimal"
-    if not REC_SIG.match(rec["sig"]):
+    if not isinstance(sig, str) or not REC_SIG.match(sig):
         return False, "record signature is not canonical base64url"
     if not rec["sender"].startswith("did:key:z"):
         return False, "record sender is not an Ed25519 did:key"
     if check_signature:
-        v = _verify_ed25519(rec["sender"], rec["sig"], f"{rec['room']}|{rec['nonce']}|{rec['line']}")
+        v = _verify_ed25519(rec["sender"], sig, f"{room}|{nonce}|{rec['line']}")
         if v is False:
             return False, "record signature does not verify"
     return True, None
@@ -540,7 +638,12 @@ def fold_transcript(records: list, room_binding: str = "strict", check_signature
                 allowed.add(OFFER_ROOM)
         if rec["room"] not in allowed:
             steps.append(dict(base, type=frame["type"], ok=False, reason=f"{frame['type']} must be posted in {sorted(allowed)[0]}")); continue
-        state, ok, reason = apply_frame(state, frame, rec["ts_ms"])
+        try:
+            state, ok, reason = apply_frame(state, frame, rec["ts_ms"])
+        except Exception as e:  # noqa: BLE001 -- belt-and-suspenders: apply_frame (F) should
+            # never throw now that now_ms is guarded, but a crash here must still degrade to
+            # one rejected step, not a blown-up fold.
+            steps.append(dict(base, type=frame["type"], ok=False, reason=f"apply_frame crashed: {e}")); continue
         steps.append(dict(base, type=frame["type"], ok=ok, reason=reason))
     return state, steps
 
