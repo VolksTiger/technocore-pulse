@@ -281,16 +281,9 @@ def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_w
         return {"status": "superseded", "offer_id": offer["id"]}
     contract = accept["contract"]
     room = tclk.deal_room(contract)
-
-    hb = {"type": "heartbeat", "from": v.did, "contract": contract, "nonce": secrets.token_hex(8), "note": "brwork: answer ready"}
-    hrec = v.post(room, hb)  # creates the deal room
-    st["rooms"] += 1
-    state, ok, reason = tclk.apply_frame(state, hb, hrec["ts_ms"])
-    assert ok, reason
-
-    if answer == "__ATTEST__":
-        att = post_text(v, room, f"tclk-attest {contract}")
-        answer = f"attested seq {att.get('seq')}"
+    # No heartbeat before the lock: in every judged room we sampled the payer's lock is seq 1, so the
+    # payer creates the room. A heartbeat first would spend one of our 20 rooms/day on every attempt
+    # the poster ignores (18 rooms burned on 07.09. for one lock); a missed bid must cost nothing.
 
     deadline = min(now_ms() + lock_wait_s * 1000, offer["refundAfterMs"] - 60_000)
 
@@ -307,9 +300,18 @@ def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_w
 
     lrec, lock = v.watch(room, 0, deadline, is_lock, wait=5.0)
     if lock is None:
-        v.post(room, {"type": "cancel", "from": v.did, "contract": contract, "reason": "payer never locked"})
-        return {"status": "cancelled (no lock)", "offer_id": offer["id"], "contract": contract, "payer": offer["from"]}
+        # a cancel would have to go into the derived room and would create it (one room); the offer
+        # simply expires unanswered on the poster's side, and the accept is moot without a lock
+        return {"status": "no lock (left to expire)", "offer_id": offer["id"], "contract": contract, "payer": offer["from"]}
     log(f"locked by the payer {(lrec['ts_ms'] - arec['ts_ms']) / 1000:.1f} s after our accept")
+
+    hb = {"type": "heartbeat", "from": v.did, "contract": contract, "nonce": secrets.token_hex(8), "note": "brwork: answer ready"}
+    hrec = v.post(room, hb)  # the room already exists (the lock created it) — no room quota spent
+    state, ok, reason = tclk.apply_frame(state, hb, hrec["ts_ms"])
+    assert ok, reason
+    if answer == "__ATTEST__":
+        att = post_text(v, room, f"tclk-attest {contract}")
+        answer = f"attested seq {att.get('seq')}"
 
     post_text(v, room, answer)  # the deliverable: exactly one signed line
     # no `ref`: optional per SPEC §3.4, and folds in the wild reject a reveal that carries it (Pharos: 103 deals lost)
