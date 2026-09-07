@@ -333,7 +333,10 @@ def payer_lock_history(payer: str, board: list[dict], offers_by_id: dict, pairs:
     return len(payees)
 
 
-def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude: set) -> tuple[dict, dict, list] | tuple[None, None, None]:
+JUDGED_JOB_PREFIXES = {"census", "math", "probe", "attest", "val", "task", "inf", "review", "verify", "extract"}
+
+
+def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude: set, allow_judged: bool = False) -> tuple[dict, dict, list] | tuple[None, None, None]:
     """A stranger's offer we can complete: payer role, hash lock, paper rail, carries a job,
     no VALID accept yet, older than min_age_s (the 2-second bots already passed on it)."""
     board = board_snapshot()
@@ -355,6 +358,8 @@ def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude:
             continue
         if f["job"]["proto"] in exclude:
             continue
+        if not allow_judged and (f["job"].get("id") or "").split("-")[0] in JUDGED_JOB_PREFIXES:
+            continue  # a judged task (blockrewards open slice, also republished under a2a): revealing without a deliverable scores a FAIL — brwork.py does those
         if not any(rail.strip().lower() in ("paper", "paperrail", "paper-rail") for rail in f["rails"]):
             continue
         if f["expiresMs"] < t + 90_000 or f["refundAfterMs"] < t + 6 * 60_000 or t - r["ts_ms"] < min_age_s * 1000:
@@ -382,13 +387,13 @@ def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude:
     return (good[0][0], good[0][1], board) if good else (None, None, None)
 
 
-def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], exclude: set, tries: int = 3) -> dict:
+def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], exclude: set, tries: int = 3, allow_judged: bool = False) -> dict:
     """One accepted deal at a time; a payer that never locks is cancelled (derived room) and the next
     ranked payer is tried — measured a2a lock rate is ~36%, so one attempt is a coin flip."""
     tried: set = set()  # offer ids and payer DIDs already used this run
     cancelled: list = []
     for attempt in range(1, tries + 1):
-        orec, offer, _board = pick_offer(v, tried, min_age_s, prefer, exclude)
+        orec, offer, _board = pick_offer(v, tried, min_age_s, prefer, exclude, allow_judged)
         if offer is None:
             return {"role": "payee", "status": "no acceptable offer on the board"}
         tried.add(offer["id"])
@@ -496,6 +501,9 @@ def main() -> int:
     ap.add_argument("--accept-wait", type=int, default=10, help="payer: minutes to wait for an accept (offer expiresMs)")
     ap.add_argument("--lock-wait", type=int, default=10, help="payee: minutes to wait for the payer's lock")
     ap.add_argument("--attempts", type=int, default=3, help="payee: payers to try in turn when one never locks (each costs one derived room)")
+    ap.add_argument("--allow-judged", action="store_true", help="payee: also take judged-task offers (census-/math-/…); only with a deliverable in hand")
+    ap.add_argument("--say", nargs=2, metavar=("ROOM", "TEXT"),
+                    help="repair: post one signed plain-text message (e.g. a late deliverable) into ROOM, then exit")
     ap.add_argument("--cancel", metavar="CONTRACT",
                     help="repair: post a `cancel` for this accepted contract in its derived room, then strict-fold and exit")
     ap.add_argument("--dry-run", action="store_true")
@@ -504,6 +512,21 @@ def main() -> int:
     key, did = load_key(a.identity)
     v = Venue(key, did, a.dry_run)
     log(f"acting as {did}")
+    if a.say:
+        room, text = a.say
+        nonce = str(now_ms())
+        sig = base64.urlsafe_b64encode(key.sign(f"{room}|{nonce}|{text}".encode("utf-8"))).decode("ascii").rstrip("=")
+        path = f"/r/{room}/say-signed/{did}/{sig}/{nonce}/{quote(text, safe='')}?format=json"
+        if a.dry_run:
+            log(f"[dry-run] would POST text → /r/{room}: {text}")
+            return 0
+        code, body = get(path, retries=6)
+        if code != 200:
+            raise SystemExit(f"POST text to /r/{room} failed: HTTP {code} {body.strip()[:200]}")
+        seq = next((m.get("seq") for m in json.loads(body).get("messages", []) if m.get("text") == text and m.get("from") == did), None)
+        log(f"posted text → /r/{room} seq {seq}: {text}")
+        print(json.dumps([{"role": "say", "room": room, "seq": seq, "text": text}], indent=1))
+        return 0
     if a.cancel:
         room = tclk.deal_room(a.cancel)
         v.post(room, {"type": "cancel", "from": did, "contract": a.cancel, "reason": "payer never locked"})
@@ -516,7 +539,7 @@ def main() -> int:
     for role in roles:
         try:
             res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto) if role == "payer" \
-                else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p}, a.attempts)
+                else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p}, a.attempts, a.allow_judged)
         except Exception as e:  # noqa: BLE001
             res = {"role": role, "status": f"error: {e}"}
         log(f"{role}: {res['status']}")
