@@ -61,7 +61,12 @@ def get(path: str, timeout: float = 30.0, retries: int = 3):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.status, r.read().decode("utf-8", errors="replace")
         except urllib.error.HTTPError as e:
-            return e.code, e.read().decode("utf-8", errors="replace")
+            body = e.read().decode("utf-8", errors="replace")
+            if e.code in (502, 503, 504, 520, 521, 522, 529) and attempt < retries - 1:
+                time.sleep(delay)  # the venue is flaky (80% probed uptime); a terminal frame must land
+                delay *= 2
+                continue
+            return e.code, body
         except Exception as e:  # noqa: BLE001
             if attempt == retries - 1:
                 return 0, str(e)
@@ -92,7 +97,7 @@ class Venue:
         if self.dry_run:
             log(f"[dry-run] would POST {frame['type']} → /r/{room}: {line[:110]}…")
             return None
-        code, body = get(path)
+        code, body = get(path, retries=6)
         if code != 200:
             raise RuntimeError(f"POST {frame['type']} to /r/{room} failed: HTTP {code} {body.strip()[:200]}")
         rec = None
@@ -276,10 +281,28 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
 _LOCK_HISTORY: dict[str, int] = {}
 
 
-def payer_lock_history(payer: str, board: list[dict], offers_by_id: dict, max_probe: int = 2) -> int:
-    """How many of this payer's past accepted contracts show a `lock` from them in the derived
-    room (probed, cached). A payer with one observed lock is a counterparty; a payer with
-    hundreds of accepts and no lock is board volume."""
+def accept_pairs(board: list[dict], offers_by_id: dict) -> set[tuple[str, str]]:
+    """(payer, payee) pairs seen on the board — the loop detector's input."""
+    pairs = set()
+    for r in board:
+        line = r["line"]
+        if not line.startswith(tclk.TCLK_PREFIX) or '"type":"accept"' not in line:
+            continue
+        try:
+            f = tclk.decode_frame(line)
+        except tclk.FrameError:
+            continue
+        o = offers_by_id.get(f.get("ref"))
+        if o is not None and f["from"] != o[1]["from"]:
+            pairs.add((o[1]["from"], f["from"]))
+    return pairs
+
+
+def payer_lock_history(payer: str, board: list[dict], offers_by_id: dict, pairs: set, max_probe: int = 4) -> int:
+    """Distinct payees this payer has been seen locking with in a derived room, excluding
+    reciprocal pairs (the payee also pays this payer = a self-dealing loop; 52% of board deals).
+    A payer who locks only with its own fleet never locks with us — 07.09.: 20/20 "proven"
+    payers, 0 locks for a stranger."""
     if payer in _LOCK_HISTORY:
         return _LOCK_HISTORY[payer]
     t = now_ms()
@@ -296,16 +319,18 @@ def payer_lock_history(payer: str, board: list[dict], offers_by_id: dict, max_pr
         if o is None or o[1]["from"] != payer or f["from"] == payer or t - r["ts_ms"] < 5 * 60_000:
             continue
         if tclk.contract_id(o[1], f) == f["contract"]:
-            contracts.append(f["contract"])
-    seen = 0
-    for c in contracts[:max_probe]:
+            contracts.append((f["contract"], f["from"]))
+    payees = set()
+    for c, payee in contracts[:max_probe]:
+        if (payee, payer) in pairs:  # reciprocal = loop, not evidence of dealing with strangers
+            continue
         for m in Venue.read_static(tclk.deal_room(c), limit=50):
             text = m.get("text") or ""
             if text.startswith(tclk.TCLK_PREFIX) and '"type":"lock"' in text and m.get("from") == payer:
-                seen += 1
+                payees.add(payee)
                 break
-    _LOCK_HISTORY[payer] = seen
-    return seen
+    _LOCK_HISTORY[payer] = len(payees)
+    return len(payees)
 
 
 def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude: set) -> tuple[dict, dict, list] | tuple[None, None, None]:
@@ -326,7 +351,7 @@ def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude:
     t = now_ms()
     good = []
     for r, f in offers:
-        if f["role"] != "payer" or f["lock"] != "hash" or f["from"] == v.did or f["id"] in tried or "job" not in f:
+        if f["role"] != "payer" or f["lock"] != "hash" or f["from"] == v.did or f["id"] in tried or f["from"] in tried or "job" not in f:
             continue
         if f["job"]["proto"] in exclude:
             continue
@@ -348,20 +373,26 @@ def pick_offer(v: Venue, tried: set, min_age_s: int, prefer: list[str], exclude:
             payers.append(f["from"])
         if len(payers) >= 20:
             break
-    history = {pdid: payer_lock_history(pdid, board, offers_by_id) for pdid in payers}
-    proven = [pdid[:30] + "…" for pdid, n in history.items() if n]
-    log(f"probed {len(history)} payers' past deal rooms: {len(proven)} with an observed lock {proven[:4]}")
+    pairs = accept_pairs(board, offers_by_id)
+    history = {pdid: payer_lock_history(pdid, board, offers_by_id, pairs) for pdid in payers}
+    proven = [f"{pdid[:30]}…×{n}" for pdid, n in sorted(history.items(), key=lambda x: -x[1]) if n]
+    log(f"probed {len(history)} payers' past deal rooms: {len(proven)} locked with a non-loop stranger, "
+        f"{sum(1 for n in history.values() if n >= 2)} with >=2 distinct: {proven[:4]}")
     good.sort(key=lambda x: (-history.get(x[1]["from"], 0), rank.get(x[1]["job"]["proto"], len(rank)), -x[0]["seq"]))
     return (good[0][0], good[0][1], board) if good else (None, None, None)
 
 
 def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], exclude: set, tries: int = 3) -> dict:
-    tried: set = set()
+    """One accepted deal at a time; a payer that never locks is cancelled (derived room) and the next
+    ranked payer is tried — measured a2a lock rate is ~36%, so one attempt is a coin flip."""
+    tried: set = set()  # offer ids and payer DIDs already used this run
+    cancelled: list = []
     for attempt in range(1, tries + 1):
         orec, offer, _board = pick_offer(v, tried, min_age_s, prefer, exclude)
         if offer is None:
             return {"role": "payee", "status": "no acceptable offer on the board"}
         tried.add(offer["id"])
+        tried.add(offer["from"])
         v.records.append(orec)
         state = tclk.open_contract(offer)
         preimage = secrets.token_bytes(32)
@@ -400,12 +431,21 @@ def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], e
         log(f"contract {contract[:18]}…; waiting for the payer's lock in /r/{room} (up to {lock_wait_min} min)…")
         lrec, lock = v.watch(room, 0, deadline, is_lock)
         if lock is None:
-            # cancel in `accepted` belongs in the derived deal room per §2; that room is created by
-            # the payer's lock, which never came — creating it ourselves just to say so would spend
-            # a room for nothing, so the cancel goes on the board next to the accept (the fallback
-            # fold accepts it; the strict fold ignores it and the offer simply expires).
-            v.post(tclk.OFFER_ROOM, {"type": "cancel", "from": v.did, "contract": contract, "reason": "payer never locked"})
-            return {"role": "payee", "status": "cancelled (no lock)", "contract": contract, "offer_id": offer["id"], "counterparty": offer["from"]}
+            # cancel in `accepted` belongs in the derived deal room per §2 (the strict fold rejected a
+            # board cancel on 07.09.); posting it there creates the room — one room per failed deal,
+            # well inside the 20/day client quota. Board cancel only as a fallback if the venue 5xx's.
+            cancel = {"type": "cancel", "from": v.did, "contract": contract, "reason": "payer never locked"}
+            try:
+                v.post(room, cancel)
+            except RuntimeError as e:
+                log(f"derived-room cancel failed ({e}); posting it on the board as a fallback")
+                v.post(tclk.OFFER_ROOM, cancel)
+            cancelled.append({"contract": contract, "offer_id": offer["id"], "counterparty": offer["from"]})
+            if attempt < tries:
+                log(f"payer never locked; trying the next ranked payer ({attempt + 1}/{tries})")
+                continue
+            return {"role": "payee", "status": f"cancelled (no lock, {len(cancelled)} payers tried)", "contract": contract,
+                    "offer_id": offer["id"], "counterparty": offer["from"], "cancelled": cancelled}
         reveal = {"type": "reveal", "from": v.did, "contract": contract, "ref": lock["ref"], "secret": "0x" + preimage.hex()}
         rrec = v.post(room, reveal)
         state, ok, reason = tclk.apply_frame(state, reveal, rrec["ts_ms"])
@@ -455,18 +495,28 @@ def main() -> int:
     ap.add_argument("--asset", default="FLOP")
     ap.add_argument("--accept-wait", type=int, default=10, help="payer: minutes to wait for an accept (offer expiresMs)")
     ap.add_argument("--lock-wait", type=int, default=10, help="payee: minutes to wait for the payer's lock")
+    ap.add_argument("--attempts", type=int, default=3, help="payee: payers to try in turn when one never locks (each costs one derived room)")
+    ap.add_argument("--cancel", metavar="CONTRACT",
+                    help="repair: post a `cancel` for this accepted contract in its derived room, then strict-fold and exit")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
     key, did = load_key(a.identity)
     v = Venue(key, did, a.dry_run)
     log(f"acting as {did}")
+    if a.cancel:
+        room = tclk.deal_room(a.cancel)
+        v.post(room, {"type": "cancel", "from": did, "contract": a.cancel, "reason": "payer never locked"})
+        status = "dry-run" if a.dry_run else strict_fold(v, a.cancel, None)
+        log(f"cancel posted to /r/{room}; strict fold from the venue → {status}")
+        print(json.dumps([{"role": "repair", "contract": a.cancel, "strict_fold_on_venue": status}], indent=1))
+        return 0
     results = []
     roles = ["payer", "payee"] if a.role == "both" else [a.role]
     for role in roles:
         try:
             res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto) if role == "payer" \
-                else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p})
+                else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p}, a.attempts)
         except Exception as e:  # noqa: BLE001
             res = {"role": role, "status": f"error: {e}"}
         log(f"{role}: {res['status']}")
