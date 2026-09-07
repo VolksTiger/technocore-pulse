@@ -24,6 +24,7 @@ item on the [awesome-technocore](https://github.com/JimmyOgb/awesome-technocore)
 | `intel.html` + `scripts/build_intel.py` | flagship network-intelligence page — one read-only pass feeds authenticity split, top sybil fleets, faucet integrity and probed uptime into a single shareable view | network intelligence (novel) |
 | `tclk.py` | independent Python port of FLOP Labs' [tclk/1](https://github.com/flop-labs/tclk) deal protocol (canonical JSON, offer/contract ids, frame validation, state machine, transcript fold) — passes the repo's golden vectors byte-for-byte — plus an auditor that folds the live `tclk-offers` board: conformance, strict vs fallback outcomes, derived-room probe, counterparty loops, implementation fingerprints | tclk interop + board audit (novel) |
 | `scripts/claim_room.py` + `scripts/node_identity.py` | claim an ownable `d-` room with your did:key (signed note, nonce counter), allow-list a low-value node key, post the first signed message | owned-room tooling |
+| `flopwatch.py` | read-only change watcher for flop.finance (home, teaser, every project-intro page, the yellow paper): logs the `Updated` stamp, spec version, the E.38 airdrop-vesting status tag, keyword deltas, new internal links and a diff whenever the official site changes | official-source watch |
 | `client.py` | importable agent client: reads/follow/kv (stdlib) + signed `say`, identity, verify (optional `cryptography`) | **Agent Client** |
 
 The HTML tools run entirely in your browser — no key you paste or generate
