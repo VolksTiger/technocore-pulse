@@ -2,31 +2,35 @@
 """brwork — a bounded blockrewards worker for one DID (payee side of tclk/1 paper deals).
 
 blockrewards (community program, not Flop Labs) posts small, objectively judged tasks as tclk
-offers on /r/tclk-offers with job.proto=blockrewards; the spec is inline in a /kv note and
-mirrored at https://flop-market.pages.dev/open.json. The worker:
+offers on /r/tclk-offers (job.proto=blockrewards, or judged job ids republished under a2a);
+the spec is a /kv note named in job.context. Measured on the board (Pharos digest, 07.09.):
+posters lock the FIRST bidder 96% of the time, median 1 s after the offer — an offer that is
+minutes old and still unaccepted is one whose poster does not lock. So the worker:
 
-  1. reads open.json, decodes each offer frame, and SOLVES the task first (brsolve.py) —
-     an offer is accepted only when the answer is already in hand (a wrong answer costs -5,
-     a skipped task costs nothing);
-  2. accepts on the board, posts a heartbeat in the derived deal room (creates it — one of the
-     client's 20 rooms/day), waits for the payer's lock, delivers the answer as ONE signed
-     message in the deal room, reveals, waits for the receipt/verdict;
-  3. stops at --max-deals, --hours, or the daily caps (rooms, deals per payer).
+  1. follows /r/tclk-offers live (long-poll) and looks only at offers from posters that
+     actually judge (DIDs that post 'review … PASS|FAIL' verdicts in /r/tclk-deliveries);
+  2. SOLVES the task first (brsolve.py) — an offer is accepted only with the answer in hand
+     (a wrong answer costs -5, a skipped task costs nothing) — and bids within seconds;
+  3. posts a heartbeat in the derived deal room (creates it — one of the client's 20 rooms a
+     day), waits for the payer's lock, delivers the answer as ONE signed message, reveals
+     WITHOUT the optional `ref` (folds in the wild reject it — we lost our first deal to that),
+     and records the verdict the payer posts in the room;
+  4. stops at --max-deals, --hours, or the daily caps (rooms, deals per poster).
 
 Runs in the foreground with the passphrase entered once; nothing is stored. Paper rail only.
 
-    python3 scripts/brwork.py --dry-run            # plan only: which offers we could answer
-    python3 scripts/brwork.py --max-deals 5 --hours 1
+    python3 scripts/brwork.py --dry-run --hours 0.2   # follow for 12 min, post nothing
+    python3 scripts/brwork.py --max-deals 3 --hours 1
 """
 
 from __future__ import annotations
 
 import argparse
 import base64
-import re
 import hashlib
 import json
 import os
+import re
 import secrets
 import sys
 import time
@@ -38,17 +42,16 @@ sys.path.insert(0, os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 import tclk  # noqa: E402
 import brsolve  # noqa: E402
-from deal import Venue, get, load_key, log, now_ms, board_snapshot, valid_accepts_for  # noqa: E402
+from deal import Venue, get, load_key, log, now_ms  # noqa: E402
 
-OPEN_URL = "https://flop-market.pages.dev/open.json"  # mirror; it went 7 h stale on 07.09., so the live board is the source
-KV_URL = "https://technocore.chat"
 JUDGED_PREFIXES = ("census-", "math-", "probe-", "attest-", "val-", "task-", "inf-")
 KV_RE = re.compile(r"/kv/[A-Za-z0-9_.~:@+-]+/[A-Za-z0-9_.~:@+-]+")
 STATE_DIR = os.path.expanduser("~/.technocore-pulse/brwork")
 STATE_FILE = os.path.join(STATE_DIR, "state.json")
-ROOMS_PER_DAY = 18          # venue quota is 20 rooms/day per client; keep a margin for deal.py
+ROOMS_PER_DAY = 18            # venue quota is 20 rooms/day per client; keep a margin for deal.py
 DEALS_PER_PAYER_PER_DAY = 20  # blockrewards scores at most 20 deals per poster->worker pair per UTC day
 DELIVERIES_ROOM = "tclk-deliveries"
+UA = "technocore-pulse-brwork/1.1"
 
 
 # ── state (daily caps, offers already handled) ─────────────────────────────
@@ -73,6 +76,13 @@ def save_state(st: dict) -> None:
 
 
 # ── venue helpers ──────────────────────────────────────────────────────────
+
+def http_json(url: str, timeout: float = 120.0):
+    import urllib.request  # noqa: PLC0415
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8", "replace"))
+
 
 def post_text(v: Venue, room: str, text: str) -> dict:
     """Sign and post one plain (non-frame) message; return the stored record."""
@@ -105,15 +115,15 @@ def fetch_url(url: str) -> str | None:
         return None
     import urllib.request  # noqa: PLC0415
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "technocore-pulse-brwork/1.0"})
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=30) as r:
             return r.read().decode("utf-8", "replace")
     except Exception:  # noqa: BLE001
         return None
 
 
-def verdict_for(contract: str) -> str | None:
-    """The judge posts 'review <offer> contract <contract16> payee <x> PASS|FAIL n — reason' in tclk-deliveries."""
+def verdict_in_deliveries(contract: str) -> str | None:
+    """The judge mirrors verdicts into tclk-deliveries as 'review <offer> contract <c16> payee <x> PASS|FAIL n — …'."""
     key = contract[:18]
     for m in Venue.read_static(DELIVERIES_ROOM, limit=200):
         t = m.get("text") or ""
@@ -122,7 +132,40 @@ def verdict_for(contract: str) -> str | None:
     return None
 
 
-# ── planning ───────────────────────────────────────────────────────────────
+# ── posters worth bidding on ───────────────────────────────────────────────
+
+def poster_stats() -> dict | None:
+    """Verdicts per poster DID over the retained ring of /r/tclk-deliveries — a poster that posts
+    'review … PASS|FAIL' lines is one that locks, reads deliverables and judges. (tape.json names
+    posters by operator label, not DID, so it cannot be matched to offers.) None when unreachable."""
+    code, body = get(f"/r/{DELIVERIES_ROOM}/export", timeout=120, retries=2)
+    if code != 200:
+        log(f"deliveries export unavailable (HTTP {code}); no poster filter this run")
+        return None
+    stats: dict = {}
+    n = 0
+    for line in body.splitlines():
+        try:
+            m = json.loads(line)
+        except ValueError:
+            continue
+        n += 1
+        text = m.get("text") or ""
+        if text.startswith("review ") and (" PASS " in text or " FAIL " in text) and m.get("from"):
+            stats[m["from"]] = stats.get(m["from"], 0) + 1
+    log(f"deliveries export: {n} records, {len(stats)} posters posting verdicts")
+    return stats
+
+
+def poster_key(posters: dict, did: str) -> int | None:
+    """Judged-event count for a poster DID; the tape names DIDs in full or by their last 8/12 chars."""
+    for k in (did, did[-8:], did[-12:], did[-16:], did[len("did:key:"):]):
+        if k in posters:
+            return posters[k]
+    return None
+
+
+# ── task text ──────────────────────────────────────────────────────────────
 
 _NOTE_CACHE: dict = {}
 
@@ -158,44 +201,28 @@ def is_task_offer(f: dict) -> bool:
     return job.get("proto") == "blockrewards" or (job.get("id") or "").startswith(JUDGED_PREFIXES)
 
 
-def open_offers(our_did: str, min_mins: int, families: set, st: dict) -> tuple[list[dict], list[dict]]:
-    """Live board (byte-exact export): task offers we could still take. Returns (candidates, board)."""
-    board = board_snapshot()
-    t = now_ms()
-    out = []
-    for r in board:
-        line = r["line"]
-        if not line.startswith(tclk.TCLK_PREFIX) or '"type":"offer"' not in line:
-            continue
-        try:
-            f = tclk.decode_frame(line)
-        except tclk.FrameError:
-            continue
-        if f["type"] != "offer" or f["from"] != r["sender"] or f["role"] != "payer" or f["lock"] != "hash" or f["from"] == our_did:
-            continue
-        if not is_task_offer(f) or f["id"] in st["tried"]:
-            continue
-        if not any(tclk.normalize_rail(x) == "paper" for x in f["rails"]):
-            continue
-        if f["expiresMs"] < t + min_mins * 60_000 or f["refundAfterMs"] < t + 5 * 60_000:
-            continue
-        if st["per_payer"].get(f["from"], 0) >= DEALS_PER_PAYER_PER_DAY:
-            continue
-        if valid_accepts_for(f, board):
-            continue
-        out.append({"offer": f, "rec": r, "mins": (f["expiresMs"] - t) // 60_000, "amount": int(f["amount"])})
-    out.sort(key=lambda c: (-c["amount"], -c["mins"]))
-    return out, board
-
-
-def with_spec(c: dict, families: set) -> bool:
-    """Attach spec/family/material (fetching /kv notes); False when the task text is unreadable or filtered."""
-    spec = task_spec(c["offer"])
-    if not spec:
+def eligible(f: dict, our_did: str, st: dict, t: int) -> bool:
+    if f["type"] != "offer" or f["role"] != "payer" or f["lock"] != "hash" or f["from"] == our_did:
         return False
+    if not is_task_offer(f) or f["id"] in st["tried"]:
+        return False
+    if not any(tclk.normalize_rail(x) == "paper" for x in f["rails"]):
+        return False
+    if f["expiresMs"] < t + 90_000 or f["refundAfterMs"] < t + 4 * 60_000:
+        return False
+    if st["per_payer"].get(f["from"], 0) >= DEALS_PER_PAYER_PER_DAY:
+        return False
+    return True
+
+
+def solve_offer(f: dict, families: set) -> tuple[str | None, str | None]:
+    """(family, answer) — answer None when the task is unreadable, filtered or not solvable with certainty."""
+    spec = task_spec(f)
+    if not spec:
+        return None, None
     family = brsolve.classify(spec)
     if families and family not in families:
-        return False
+        return family, None
     body, material = brsolve.split_material(spec)
     if material is None:
         for path in KV_RE.findall(body):
@@ -203,56 +230,59 @@ def with_spec(c: dict, families: set) -> bool:
                 material = kv_note(path)
                 if material:
                     break
-    c.update({"spec": body, "material": material, "family": family})
-    return True
-
-
-def plan(cands: list[dict], families: set, limit: int = 40) -> list[dict]:
-    """Solve before accepting: only offers whose answer is already in hand survive."""
-    planned = []
-    for c in cands[:limit]:
-        if not with_spec(c, families):
-            continue
-        if c["family"] == "review":
-            answer = brsolve.solve_review(c["spec"], fetch=fetch_url)
-        else:
-            answer = brsolve.solve(c["spec"], c["material"])
-        if answer is None:
-            continue
-        c["answer"] = answer
-        planned.append(c)
-    planned.sort(key=lambda c: (-c["amount"], -(c["mins"] or 0)))
-    return planned
+    if family == "review":
+        return family, brsolve.solve_review(body, fetch=fetch_url)
+    return family, brsolve.solve(body, material)
 
 
 # ── one deal ───────────────────────────────────────────────────────────────
 
-def work_one(v: Venue, c: dict, lock_wait_min: int, st: dict) -> dict:
-    offer, answer, contract_note = c["offer"], c["answer"], c["family"]
-    if valid_accepts_for(offer, board_snapshot()):
-        return {"status": "taken before we accepted", "offer_id": offer["id"]}
-    v.records.append(c["rec"])
+def watch_verdict(v: Venue, room: str, since: int, payer: str, contract: str, wait_ms: int) -> tuple[str | None, str | None]:
+    """After our reveal: the payer's receipt/refund frame and/or its 'review … PASS|FAIL' line in the room."""
+    outcome = verdict = None
+    cursor = since
+    deadline = now_ms() + wait_ms
+    while now_ms() < deadline and (outcome is None or verdict is None):
+        for m in v.read(room, since=cursor, limit=50, wait=10):
+            cursor = max(cursor, int(m.get("seq") or 0))
+            text = m.get("text") or ""
+            if m.get("from") != payer:
+                continue
+            if text.startswith("review "):
+                verdict = text[:240]
+            elif text.startswith(tclk.TCLK_PREFIX):
+                try:
+                    fr = tclk.decode_frame(text)
+                except tclk.FrameError:
+                    continue
+                if fr.get("contract") == contract and fr["type"] in ("receipt", "refund"):
+                    outcome = fr["type"] + ":" + str(fr.get("outcome") or fr.get("reason") or "")
+    return outcome, verdict
+
+
+def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_wait_s: int, st: dict,
+             accepts_seen: dict) -> dict:
+    v.records.append(orec)
     state = tclk.open_contract(offer)
     preimage = secrets.token_bytes(32)
     statement = "0x" + hashlib.sha256(preimage).hexdigest()
     core = {"from": v.did, "ref": offer["id"], "statement": statement, "nonce": secrets.token_hex(8)}
     accept = dict({"type": "accept"}, **core, contract=tclk.contract_id(offer, core))
     tclk.validate_frame(accept)
-    log(f"[{c['family']}] accepting {offer['id'][:18]}… from {offer['from'][:30]}… ({offer['amount']} {offer['asset']}); answer: {answer[:80]}")
     arec = v.post(tclk.OFFER_ROOM, accept)
     if v.dry_run:
         return {"status": "dry-run", "offer_id": offer["id"], "answer": answer}
     state, ok, reason = tclk.apply_frame(state, accept, arec["ts_ms"])
     assert ok, reason
-    earlier = [(r, f) for r, f in valid_accepts_for(offer, board_snapshot()) if r["seq"] < arec["seq"]]
-    if earlier:
-        log(f"a valid competing accept (seq {earlier[0][0]['seq']}) precedes ours; our accept is moot")
+    first = accepts_seen.get(offer["id"])
+    if first is not None and first < arec["seq"]:
+        log(f"an accept (seq {first}) preceded ours ({arec['seq']}); posters lock the first bidder — standing down")
         v.post(tclk.OFFER_ROOM, {"type": "cancel", "from": v.did, "contract": accept["contract"], "reason": "superseded by an earlier accept"})
         return {"status": "superseded", "offer_id": offer["id"]}
     contract = accept["contract"]
     room = tclk.deal_room(contract)
 
-    hb = {"type": "heartbeat", "from": v.did, "contract": contract, "nonce": secrets.token_hex(8), "note": "brwork: solving"}
+    hb = {"type": "heartbeat", "from": v.did, "contract": contract, "nonce": secrets.token_hex(8), "note": "brwork: answer ready"}
     hrec = v.post(room, hb)  # creates the deal room
     st["rooms"] += 1
     state, ok, reason = tclk.apply_frame(state, hb, hrec["ts_ms"])
@@ -262,7 +292,7 @@ def work_one(v: Venue, c: dict, lock_wait_min: int, st: dict) -> dict:
         att = post_text(v, room, f"tclk-attest {contract}")
         answer = f"attested seq {att.get('seq')}"
 
-    deadline = min(now_ms() + lock_wait_min * 60_000, offer["refundAfterMs"] - 60_000)
+    deadline = min(now_ms() + lock_wait_s * 1000, offer["refundAfterMs"] - 60_000)
 
     def is_lock(r, f):
         nonlocal state
@@ -275,89 +305,134 @@ def work_one(v: Venue, c: dict, lock_wait_min: int, st: dict) -> dict:
         state = new
         return True
 
-    log(f"contract {contract[:18]}…; waiting for the payer's lock in /r/{room} (up to {lock_wait_min} min)…")
-    lrec, lock = v.watch(room, 0, deadline, is_lock)
+    lrec, lock = v.watch(room, 0, deadline, is_lock, wait=5.0)
     if lock is None:
         v.post(room, {"type": "cancel", "from": v.did, "contract": contract, "reason": "payer never locked"})
-        return {"status": "cancelled (no lock)", "offer_id": offer["id"], "contract": contract}
+        return {"status": "cancelled (no lock)", "offer_id": offer["id"], "contract": contract, "payer": offer["from"]}
+    log(f"locked by the payer {(lrec['ts_ms'] - arec['ts_ms']) / 1000:.1f} s after our accept")
 
     post_text(v, room, answer)  # the deliverable: exactly one signed line
-    reveal = {"type": "reveal", "from": v.did, "contract": contract, "ref": lock["ref"], "secret": "0x" + preimage.hex()}
+    # no `ref`: optional per SPEC §3.4, and folds in the wild reject a reveal that carries it (Pharos: 103 deals lost)
+    reveal = {"type": "reveal", "from": v.did, "contract": contract, "secret": "0x" + preimage.hex()}
     rrec = v.post(room, reveal)
     state, ok, reason = tclk.apply_frame(state, reveal, rrec["ts_ms"])
     assert ok, reason
     st["per_payer"][offer["from"]] = st["per_payer"].get(offer["from"], 0) + 1
-    log("revealed — claimed. waiting up to 3 min for the receipt/verdict…")
-    rec, receipt = v.watch(room, rrec["seq"], now_ms() + 180_000,
-                           lambda r, f: f["type"] == "receipt" and f["contract"] == contract)
-    verdict = verdict_for(contract)
-    res = {"status": "claimed", "offer_id": offer["id"], "contract": contract, "room": room, "family": contract_note,
-           "amount": offer["amount"], "answer": answer, "receipt": receipt.get("outcome") if receipt else None, "verdict": verdict}
-    log(f"verdict: {verdict or 'not posted yet'}")
+    log("revealed — claimed. waiting up to 3 min for the payer's receipt and verdict…")
+    outcome, verdict = watch_verdict(v, room, rrec["seq"], offer["from"], contract, 180_000)
+    if verdict is None:
+        verdict = verdict_in_deliveries(contract)
+    res = {"status": "claimed", "offer_id": offer["id"], "contract": contract, "room": room, "family": family,
+           "amount": offer["amount"], "payer": offer["from"], "answer": answer, "outcome": outcome, "verdict": verdict}
+    log(f"outcome: {outcome or 'none yet'} | verdict: {verdict or 'not posted yet'}")
     return res
 
 
-# ── main loop ──────────────────────────────────────────────────────────────
+# ── follow the board ───────────────────────────────────────────────────────
+
+def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
+    latest = Venue.read_static(tclk.OFFER_ROOM, limit=1)
+    cursor = max((int(m.get("seq") or 0) for m in latest), default=0)
+    accepts_seen: dict = {}
+    stop_at = now_ms() + int(a.hours * 3600_000)
+    done = 0
+    seen = skipped_poster = unsolved = 0
+    last_report = now_ms()
+    log(f"following /r/{tclk.OFFER_ROOM} from seq {cursor}; posters filter: "
+        f"{'off' if posters is None else str(len(posters)) + ' judged posters'}; families: {sorted(families) or 'all'}")
+    while done < a.max_deals and now_ms() < stop_at:
+        if st["rooms"] >= ROOMS_PER_DAY:
+            log("daily room cap reached; stopping")
+            break
+        msgs = Venue.read_static(tclk.OFFER_ROOM, since=cursor, limit=100, wait=10)
+        t = now_ms()
+        for m in msgs:
+            seq = int(m.get("seq") or 0)
+            cursor = max(cursor, seq)
+            text = m.get("text") or ""
+            if not text.startswith(tclk.TCLK_PREFIX):
+                continue
+            if '"type":"accept"' in text:
+                try:
+                    fr = tclk.decode_frame(text)
+                except tclk.FrameError:
+                    continue
+                accepts_seen.setdefault(fr.get("ref"), seq)
+                continue
+            if '"type":"offer"' not in text:
+                continue
+            try:
+                f = tclk.decode_frame(text)
+            except tclk.FrameError:
+                continue
+            if f.get("from") != m.get("from") or not eligible(f, v.did, st, t):
+                continue
+            seen += 1
+            njudged = poster_key(posters, f["from"]) if posters is not None else None
+            if posters is not None and njudged is None:
+                skipped_poster += 1
+                continue
+            if f["id"] in accepts_seen:
+                continue
+            family, answer = solve_offer(f, families)
+            if answer is None:
+                unsolved += 1
+                continue
+            try:
+                orec = tclk.transcript_record(tclk.OFFER_ROOM, m)
+            except tclk.FrameError:
+                continue
+            age = (now_ms() - orec["ts_ms"]) / 1000
+            if njudged is None:
+                njudged = "?"
+            log(f"[{family}] {f['id'][:18]}… {f['amount']} {f['asset']} from {f['from'][:26]}… ({njudged} judged events) "
+                f"age {age:.1f} s → {answer[:70]}")
+            if v.dry_run:
+                log("  [dry-run] would accept now")
+                continue
+            st["tried"].append(f["id"])
+            try:
+                res = work_one(v, f, orec, family, answer, a.lock_wait, st, accepts_seen)
+            except Exception as e:  # noqa: BLE001
+                res = {"status": f"error: {e}", "offer_id": f["id"]}
+            res["ts"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            st["results"].append(res)
+            save_state(st)
+            log(f"result: {res['status']}")
+            if res["status"].startswith("claimed"):
+                done += 1
+            if done >= a.max_deals or st["rooms"] >= ROOMS_PER_DAY:
+                break
+            cursor = max(cursor, max((int(x.get("seq") or 0) for x in Venue.read_static(tclk.OFFER_ROOM, limit=1)), default=cursor))
+            break  # re-read from the venue after a deal; anything we skipped was bid on long ago
+        if now_ms() - last_report > 120_000:
+            log(f"… task offers seen {seen}, skipped (poster not judging) {skipped_poster}, unsolved {unsolved}, deals {done}")
+            last_report = now_ms()
+    return done
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--identity", default=os.path.expanduser("~/dev/technocore-did/identity.pem"))
-    ap.add_argument("--max-deals", type=int, default=5)
+    ap.add_argument("--max-deals", type=int, default=3)
     ap.add_argument("--hours", type=float, default=1.0)
-    ap.add_argument("--min-mins", type=int, default=5, help="skip offers with fewer minutes left")
-    ap.add_argument("--lock-wait", type=int, default=5, help="minutes to wait for the payer's lock")
-    ap.add_argument("--families", default="", help="comma list to restrict (e.g. protocol,math,attest); empty = all solvable")
-    ap.add_argument("--dry-run", action="store_true", help="plan only; post nothing")
+    ap.add_argument("--lock-wait", type=int, default=90, help="seconds to wait for the payer's lock (judging posters lock in ~1 s)")
+    ap.add_argument("--families", default="", help="comma list to restrict (e.g. protocol,census,math); empty = all solvable")
+    ap.add_argument("--any-poster", action="store_true", help="also bid on posters with no judged events in tape.json")
+    ap.add_argument("--dry-run", action="store_true", help="follow and solve, post nothing")
     a = ap.parse_args()
 
     key, did = load_key(a.identity)
     v = Venue(key, did, a.dry_run)
     st = load_state()
     families = {f.strip() for f in a.families.split(",") if f.strip()}
-    log(f"acting as {did}; today: rooms {st['rooms']}/{ROOMS_PER_DAY}, deals done {len(st['results'])}")
-    stop_at = now_ms() + int(a.hours * 3600_000)
-    done = 0
-    while done < a.max_deals and now_ms() < stop_at:
-        if st["rooms"] >= ROOMS_PER_DAY:
-            log("daily room cap reached; stopping")
-            break
-        try:
-            cands, _board = open_offers(did, a.min_mins, families, st)
-            planned = plan(cands, families)
-        except Exception as e:  # noqa: BLE001
-            log(f"board/plan failed ({e}); retrying in 60 s")
-            time.sleep(60)
-            continue
-        fam = {}
-        for c in cands:
-            if "family" in c:
-                fam[c["family"]] = fam.get(c["family"], 0) + 1
-        log(f"open task offers: {len(cands)} (families read {fam}); answerable now: {len(planned)} "
-            f"{[(c['family'], c['amount'], c['mins']) for c in planned[:6]]}")
-        if a.dry_run:
-            for c in planned:
-                log(f"  would take [{c['family']}] {c['offer']['id'][:18]}… {c['amount']} FLOP → {c['answer'][:100]}")
-            return 0
-        if not planned:
-            time.sleep(90)
-            continue
-        c = planned[0]
-        st["tried"].append(c["offer"]["id"])
-        try:
-            res = work_one(v, c, a.lock_wait, st)
-        except Exception as e:  # noqa: BLE001
-            res = {"status": f"error: {e}", "offer_id": c["offer"]["id"]}
-        res["ts"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        st["results"].append(res)
-        save_state(st)
-        log(f"result: {res['status']}")
-        if res["status"].startswith("claimed"):
-            done += 1
-        time.sleep(15)
-    passes = sum(1 for r in st["results"] if r.get("verdict", "") and " PASS " in r["verdict"])
-    fails = sum(1 for r in st["results"] if r.get("verdict", "") and " FAIL " in r["verdict"])
+    log(f"acting as {did}; today: rooms {st['rooms']}/{ROOMS_PER_DAY}, attempts {len(st['results'])}")
+    posters = None if a.any_poster else poster_stats()
+    done = follow(v, a, st, families, posters)
+    passes = sum(1 for r in st["results"] if " PASS " in (r.get("verdict") or ""))
+    fails = sum(1 for r in st["results"] if " FAIL " in (r.get("verdict") or ""))
     log(f"session over: {done} claimed this run; today {len(st['results'])} attempts, verdicts PASS {passes} / FAIL {fails}, rooms {st['rooms']}")
-    print(json.dumps(st["results"][-a.max_deals:], indent=1))
+    print(json.dumps(st["results"][-max(a.max_deals, 1):], indent=1))
     return 0
 
 

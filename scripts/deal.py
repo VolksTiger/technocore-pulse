@@ -451,7 +451,9 @@ def run_payee(v: Venue, lock_wait_min: int, min_age_s: int, prefer: list[str], e
                 continue
             return {"role": "payee", "status": f"cancelled (no lock, {len(cancelled)} payers tried)", "contract": contract,
                     "offer_id": offer["id"], "counterparty": offer["from"], "cancelled": cancelled}
-        reveal = {"type": "reveal", "from": v.did, "contract": contract, "ref": lock["ref"], "secret": "0x" + preimage.hex()}
+        # no `ref`: optional per SPEC §3.4, and folds in the wild reject a reveal that carries it
+        # (Pharos digest 07.09.: 103 deals lost; our first claimed deal was refunded for exactly that)
+        reveal = {"type": "reveal", "from": v.did, "contract": contract, "secret": "0x" + preimage.hex()}
         rrec = v.post(room, reveal)
         state, ok, reason = tclk.apply_frame(state, reveal, rrec["ts_ms"])
         assert ok, reason
