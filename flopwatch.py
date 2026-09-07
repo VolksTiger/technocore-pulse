@@ -49,6 +49,9 @@ VERSION_RE = re.compile(r"Version\s+([\d.]+\s*\([a-z]+\))")
 STATE_DIR = os.path.expanduser("~/.technocore-pulse/flopwatch")
 EVENTS = os.path.expanduser("~/.technocore-pulse/flopwatch.jsonl")
 UA = "technocore-pulse/flopwatch (read-only; github.com/VolksTiger/technocore-pulse)"
+# The other official surface: a new repo in the FLOP Labs org (node, faucet, testnet docs) is
+# the signal that the testnet is real; the site may lag it by days.
+GITHUB_ORG = "https://api.github.com/orgs/flop-labs/repos?per_page=100"
 
 
 def fetch(path, timeout=30):
@@ -167,12 +170,47 @@ def append_event(ev):
         f.write(json.dumps(ev, ensure_ascii=False) + "\n")
 
 
+def check_github():
+    """Event when the flop-labs org gains a repo (or one is renamed away)."""
+    req = urllib.request.Request(GITHUB_ORG, headers={"User-Agent": UA, "Accept": "application/vnd.github+json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            repos = json.loads(r.read().decode("utf-8", "replace"))
+    except (urllib.error.URLError, OSError, ValueError) as exc:
+        return {"ts": now(), "page": "github:flop-labs", "error": str(exc)[:200]}
+    if not isinstance(repos, list):
+        return {"ts": now(), "page": "github:flop-labs", "error": str(repos)[:200]}
+    names = sorted(r["name"] for r in repos)
+    p = os.path.join(STATE_DIR, "github.json")
+    prev = json.load(open(p))["names"] if os.path.exists(p) else None
+    os.makedirs(STATE_DIR, exist_ok=True)
+    with open(p, "w") as f:
+        json.dump({"names": names, "ts": now()}, f)
+    if prev is None:
+        return {"ts": now(), "page": "github:flop-labs", "baseline": True,
+                "meta": {"sha": "-", "chars": len(names), "updated": None, "version": None, "e38": None, "kw": {}, "repos": names}}
+    if prev == names:
+        return None
+    added = sorted(set(names) - set(prev))
+    removed = sorted(set(prev) - set(names))
+    return {"ts": now(), "page": "github:flop-labs", "updated": [None, None], "version": [None, None], "e38": [None, None],
+            "chars": [len(prev), len(names)], "kw_delta": {}, "new_links": ["github.com/flop-labs/" + a for a in added],
+            "diff_lines": len(added) + len(removed),
+            "diff": ["+" + a for a in added] + ["-" + r for r in removed]}
+
+
 def run_once(verbose=True):
     events = []
     for path in PAGES:
         ev = check_page(path)
         if ev is None:
             continue
+        events.append(ev)
+        append_event(ev)
+        if verbose:
+            print(json.dumps(ev, ensure_ascii=False))
+    ev = check_github()
+    if ev is not None:
         events.append(ev)
         append_event(ev)
         if verbose:
@@ -194,6 +232,9 @@ def report(last=20):
     for r in rows[-last:]:
         if "baseline" in r:
             m = r["meta"]
+            if "repos" in m:
+                print("%s  BASELINE %-22s repos=%s" % (r["ts"], r["page"], ", ".join(m["repos"])))
+                continue
             print("%s  BASELINE %-22s updated=%s version=%s e38=%s chars=%d" % (
                 r["ts"], r["page"], m.get("updated"), m.get("version"), m.get("e38"), m["chars"]))
         elif "error" in r:
