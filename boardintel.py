@@ -90,6 +90,19 @@ JOB_FAMILY_PREFIXES = ("census-", "math-", "val-", "task-", "inf-", "probe-", "a
 
 # ── fetch + save (live) ──────────────────────────────────────────────────────
 
+def prune_snapshots(keep: int) -> None:
+    """Delete all but the newest `keep` snapshot files in SNAPSHOT_DIR."""
+    try:
+        names = sorted(f for f in os.listdir(SNAPSHOT_DIR) if f.endswith(".jsonl"))
+    except FileNotFoundError:
+        return
+    for f in names[:-keep]:
+        try:
+            os.remove(os.path.join(SNAPSHOT_DIR, f))
+        except OSError:
+            pass
+
+
 def fetch_and_save(path: str, kind: str, ts: str) -> str:
     """GET a venue /export via deal.get (reused: retries/backoff already written there) and
     save the raw body verbatim, so a live run is byte-for-byte reproducible offline later."""
@@ -609,6 +622,8 @@ def build_argparser() -> argparse.ArgumentParser:
     ap.add_argument("--report", action="store_true", help="print a human-readable report to stdout")
     ap.add_argument("--top", type=int, default=20, help="posters to rank by verdicts (default 20)")
     ap.add_argument("--no-verify", action="store_true", help="skip Ed25519 record-signature verification")
+    ap.add_argument("--out", help="append the JSON result as one line to this JSONL file (the page builder reads it)")
+    ap.add_argument("--every", type=float, default=0, help="minutes between runs; 0 = run once (pm2 mode: --every 30 --out ~/.technocore-pulse/boardintel.jsonl)")
     return ap
 
 
@@ -641,11 +656,7 @@ def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool
     }
 
 
-def main() -> int:
-    args = build_argparser().parse_args()
-    if not args.json and not args.report:
-        args.report = True  # sensible default for an interactive run
-
+def run_once(args) -> int:
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     board_path, deliveries_path = args.board, args.deliveries
     try:
@@ -658,11 +669,31 @@ def main() -> int:
         print(f"error: {e}", file=sys.stderr)
         return 1
 
+    if args.out:
+        os.makedirs(os.path.dirname(os.path.expanduser(args.out)) or ".", exist_ok=True)
+        with open(os.path.expanduser(args.out), "a", encoding="utf-8") as f:
+            f.write(json.dumps(result, sort_keys=False) + "\n")
     if args.json:
         print(json.dumps(result, indent=1, sort_keys=False))
     if args.report:
         print(format_report(result))
     return 0
+
+
+def main() -> int:
+    args = build_argparser().parse_args()
+    if not args.json and not args.report and not args.out:
+        args.report = True  # sensible default for an interactive run
+    if not args.every:
+        return run_once(args)
+    while True:  # recorder mode: the board's retained window is ~0.5 h, so a series is the only history
+        try:
+            rc = run_once(args)
+            prune_snapshots(keep=24)  # two exports of ~8 MB per run; keep the last 12 h reproducible
+            print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} run done rc={rc}", flush=True)
+        except Exception as e:  # noqa: BLE001
+            print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')} run failed: {e}", flush=True)
+        time.sleep(args.every * 60)
 
 
 if __name__ == "__main__":
