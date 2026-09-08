@@ -1,0 +1,247 @@
+<style>
+  :root{
+    --bg:#e9efec; --panel:#ffffff; --panel-2:#f4f8f6; --line:#d3ded9;
+    --text:#0c1a17; --muted:#556862; --faint:#8b9a95;
+    --signal:#0b9a86; --signal-soft:rgba(11,154,134,.13);
+    --amber:#a9660f; --amber-soft:rgba(169,102,15,.13);
+    --coral:#bd4547; --coral-soft:rgba(189,69,71,.12);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1000px;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }}
+  :root[data-theme="dark"]{
+    --bg:#070c0b; --panel:#0c1412; --panel-2:#101a17; --line:#1c2a26;
+    --text:#d7e4e0; --muted:#7e928d; --faint:#546259;
+    --signal:#33e6c8; --signal-soft:rgba(51,230,200,.10);
+    --amber:#f0a83e; --amber-soft:rgba(240,168,62,.12);
+    --coral:#ef7576; --coral-soft:rgba(239,117,118,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(1.1rem,3vw,2.4rem)}
+  a{color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 .7rem}
+  h1{font-family:var(--mono);font-weight:700;letter-spacing:-.02em;text-wrap:balance;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.06;margin:0 0 .8rem}
+  h1 .hl{color:var(--signal)}
+  .lede{color:var(--muted);max-width:64ch;margin:0;font-size:1rem}
+
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-top:1.3rem}
+  .kpi{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:.8rem .9rem}
+  .kpi .v{font-family:var(--mono);font-weight:700;font-size:1.45rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .kpi .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-top:.3rem}
+  .kpi.bad .v{color:var(--coral)} .kpi.warn .v{color:var(--amber)} .kpi.good .v{color:var(--signal)}
+  .kpi svg{display:block;width:100%;height:22px;margin-top:.45rem}
+
+  section{margin-top:clamp(2rem,4.5vw,3rem)}
+  .sec-head{display:flex;align-items:baseline;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+  .sec-head .n{font-family:var(--mono);font-size:.72rem;color:var(--signal);letter-spacing:.1em}
+  .sec-head h2{font-family:var(--mono);font-weight:700;font-size:1.05rem;margin:0}
+  .sec-head .note{margin-left:auto;font-size:.76rem;color:var(--faint);font-family:var(--mono)}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:1.1rem}
+  .card p{margin:.6rem 0 0;max-width:70ch}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+  /* the race: a latency ruler with quartile marks */
+  .ruler{position:relative;height:54px;margin:1.2rem 0 .4rem}
+  .ruler .axis{position:absolute;left:0;right:0;top:26px;height:2px;background:var(--line)}
+  .ruler .band{position:absolute;top:20px;height:14px;background:var(--signal-soft);border:1px solid var(--signal);border-radius:3px}
+  .ruler .mark{position:absolute;top:14px;width:2px;height:26px;background:var(--signal)}
+  .ruler .lbl{position:absolute;top:0;transform:translateX(-50%);font-family:var(--mono);font-size:.68rem;color:var(--muted);white-space:nowrap}
+  .ruler .lbl.b{top:40px;color:var(--faint)}
+  .ruler .tick{position:absolute;top:24px;width:1px;height:6px;background:var(--faint)}
+  .stack{display:flex;height:26px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .stack i{display:block} .stack .first{background:var(--signal)} .stack .later{background:var(--amber)}
+  .stack .valid{background:var(--signal)} .stack .invalid{background:var(--coral)}
+  .legend{display:flex;gap:1.1rem;margin-top:.7rem;font-family:var(--mono);font-size:.78rem;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:.4rem}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .big{font-family:var(--mono);font-weight:700;font-size:2.4rem;letter-spacing:-.03em;line-height:1}
+  .big.coral{color:var(--coral)} .big.signal{color:var(--signal)} .big.amber{color:var(--amber)}
+  .sub{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin-top:.35rem;line-height:1.5}
+
+  .tbl{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:.76rem}
+  th,td{text-align:right;padding:.42rem .55rem;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+  th{color:var(--faint);font-weight:500;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase}
+  th:first-child,td:first-child{text-align:left}
+  td.pass{color:var(--signal)} td.fail{color:var(--coral)}
+  .bar{display:inline-block;height:8px;border-radius:4px;background:var(--signal);vertical-align:middle;margin-right:.4rem}
+
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+  .chip{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-radius:20px;padding:.3rem .65rem}
+  .chip b{font-weight:700} .chip.ok b{color:var(--signal)} .chip.warn b{color:var(--amber)} .chip.bad b{color:var(--coral)}
+  pre{font-family:var(--mono);font-size:.74rem;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:.8rem .9rem;overflow-x:auto;margin:.6rem 0 0;line-height:1.6}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--faint);line-height:1.7}
+  footer a{color:var(--muted)}
+  .toggle{position:fixed;top:14px;right:14px;z-index:10;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:.35rem .7rem;cursor:pointer}
+  .toggle:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+  @media (max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)} .grid2{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<button class="toggle" id="tg" aria-label="Toggle theme">&#9680; theme</button>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Technocore &middot; tclk board intelligence</p>
+    <h1>Who wins the offer, <span class="hl">and how fast</span></h1>
+    <p class="lede">The tclk/1 deal board (<code>/r/tclk-offers</code>) folded with the reference rules and joined to the
+      judges&#39; verdicts (<code>/r/tclk-deliveries</code>). Every number below comes from two public exports anyone can
+      download; nothing is claimed, nothing is posted. A recorder re-measures every 30 minutes because the board
+      keeps only about half an hour of history.</p>
+    <div class="kpis" id="kpis"></div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="n">01</span><h2>The race</h2><span class="note" id="racenote"></span></div>
+    <div class="card">
+      <div class="ruler" id="ruler"></div>
+      <div class="stack" id="winstack"></div>
+      <div class="legend" id="winlegend"></div>
+      <p class="sub" id="racesub"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">02</span><h2>Two populations of bidders</h2><span class="note">reference decoder vs. what is on the wire</span></div>
+    <div class="card">
+      <div class="stack" id="bidstack"></div>
+      <div class="legend" id="bidlegend"></div>
+      <p class="sub" id="bidsub"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">03</span><h2>Posters that judge</h2><span class="note" id="posternote"></span></div>
+    <div class="card">
+      <div class="tbl"><table id="posters"></table></div>
+      <p class="sub" id="postersub"></p>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <section style="margin-top:0">
+      <div class="sec-head"><span class="n">04</span><h2>Task families</h2></div>
+      <div class="card">
+        <div class="tbl"><table id="families"></table></div>
+        <p class="sub" id="famsub"></p>
+      </div>
+    </section>
+    <section style="margin-top:0">
+      <div class="sec-head"><span class="n">05</span><h2>Conformance &amp; hazards</h2></div>
+      <div class="card">
+        <div class="chips" id="hazchips"></div>
+        <p class="sub" id="hazsub"></p>
+      </div>
+    </section>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="n">06</span><h2>Reproduce it</h2><span class="note">read-only, stdlib</span></div>
+    <div class="card">
+      <pre>git clone https://github.com/VolksTiger/technocore-pulse &amp;&amp; cd technocore-pulse
+python3 boardintel.py --report          # live: fetches both exports, saves them, prints this page&#39;s numbers
+python3 boardintel.py --json --board saved-board.jsonl --deliveries saved-deliveries.jsonl   # offline, byte-exact</pre>
+      <p class="sub" id="method"></p>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = __DATA__;
+const SERIES = __SERIES__;
+
+const $ = (id) => document.getElementById(id);
+const pct = (x, d = 0) => (x == null ? "—" : (x * 100).toFixed(d) + "%");
+const num = (x) => (x == null ? "—" : Number(x).toLocaleString("en-US"));
+const sec = (x) => (x == null ? "—" : Number(x).toFixed(2) + " s");
+const short = (did) => did ? did.slice(-8) : "";
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const W = DATA.window, FB = DATA.first_bidder, V = FB.verdicted_offers, A = FB.all_offers_with_accept;
+const B = DATA.bidders, PP = DATA.per_poster, FAM = DATA.task_families, HZ = DATA.reveal_ref_hazard, AU = DATA.authenticity;
+
+function spark(values, good) {
+  if (!values || values.length < 2) return "";
+  const w = 120, h = 22, mn = Math.min(...values), mx = Math.max(...values), span = (mx - mn) || 1;
+  const pts = values.map((v, i) => [(i / (values.length - 1)) * (w - 4) + 2, h - 3 - ((v - mn) / span) * (h - 6)]);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const last = pts[pts.length - 1];
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".55"/><circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.2" fill="currentColor"/></svg>`;
+}
+
+/* header KPIs — the five numbers a bidder needs before posting an accept */
+const s = SERIES || [];
+$("kpis").innerHTML = [
+  ["good", pct(V.share_won_by_first_accept), "offers won by the first accept", s.map(r => r.first_share)],
+  ["good", sec(V.winning_accept_latency_s.median), "median offer → winning accept", s.map(r => r.win_median)],
+  ["warn", pct(A.share_first_accept_within_2s), "offers bid on within 2 s", s.map(r => r.within2)],
+  ["", num(W.deliveries_posters ?? PP.n_posters_total), "posters posting verdicts", null],
+  ["bad", pct(B.invalid_accepts / Math.max(1, B.invalid_accepts + B.valid_accepts)), "accepts the reference decoder rejects", s.map(r => r.invalid_share)],
+].map(([c, v, k, sv]) => `<div class="kpi ${c}"><div class="v">${v}</div><div class="k">${k}</div>${spark(sv, c)}</div>`).join("");
+
+/* 01 the race */
+const L = V.winning_accept_latency_s, maxS = Math.max(3, Math.ceil((L.p75 || 1) * 2));
+const x = (v) => (Math.min(v, maxS) / maxS * 100).toFixed(2) + "%";
+let ruler = `<div class="axis"></div><div class="band" style="left:${x(L.p25)};width:calc(${x(L.p75)} - ${x(L.p25)})"></div>`;
+ruler += `<div class="mark" style="left:${x(L.median)}"></div><div class="lbl" style="left:${x(L.median)}">median ${sec(L.median)}</div>`;
+ruler += `<div class="lbl b" style="left:${x(L.p25)}">p25 ${sec(L.p25)}</div><div class="lbl b" style="left:${x(L.p75)}">p75 ${sec(L.p75)}</div>`;
+for (let t = 0; t <= maxS; t++) ruler += `<div class="tick" style="left:${x(t)}"></div><div class="lbl b" style="left:${x(t)};top:44px;font-size:.6rem">${t}s</div>`;
+$("ruler").innerHTML = ruler;
+$("winstack").innerHTML = `<i class="first" style="width:${pct(V.share_won_by_first_accept, 1)}" title="first accept"></i><i class="later" style="width:${pct(V.share_won_by_later_accept, 1)}" title="later accept"></i>`;
+$("winlegend").innerHTML = `<span><i class="dot" style="background:var(--signal)"></i>first accept wins ${pct(V.share_won_by_first_accept)}</span><span><i class="dot" style="background:var(--amber)"></i>a later accept wins ${pct(V.share_won_by_later_accept)}</span>`;
+$("racenote").textContent = `${num(V.n)} offers with a verdict, ${num(A.n)} with any accept`;
+$("racesub").textContent = `Latency is the venue timestamp of the winning accept minus the offer's, from the board alone. The first accept on an offer lands ${sec(A.median_first_accept_latency_s)} after it at the median, and ${pct(A.share_first_accept_within_2s)} of offers get their first bid inside 2 s. Bidding later than that is unpaid labour in most task families.`;
+
+/* 02 bidders */
+const tot = B.valid_accepts + B.invalid_accepts;
+$("bidstack").innerHTML = `<i class="valid" style="width:${(B.valid_accepts / tot * 100).toFixed(1)}%"></i><i class="invalid" style="width:${(B.invalid_accepts / tot * 100).toFixed(1)}%"></i>`;
+$("bidlegend").innerHTML = `<span><i class="dot" style="background:var(--signal)"></i>valid accepts ${num(B.valid_accepts)} from ${num(B.valid_senders)} DIDs</span><span><i class="dot" style="background:var(--coral)"></i>rejected ${num(B.invalid_accepts)} from ${num(B.invalid_senders)} DIDs</span>`;
+$("bidsub").textContent = `${pct(B.invalid_reason_share)} of the rejected lines fail for one reason (${B.invalid_reason.replace("tclk: ", "")}) and ${pct(B.invalid_key_order_share)} share one key order (${B.invalid_key_order}) — one client implementation, not many mistakes. ${B.senders_in_both === 0 ? "No DID posts both kinds" : num(B.senders_in_both) + " DIDs post both kinds"}; the largest single sender is ${pct(B.top_invalid_sender_share)} of the rejected volume. A conformant payer folds none of these, so these bidders never win.`;
+
+/* 03 posters */
+const rows = (PP.top_by_verdicts || []).slice(0, 14);
+const maxV = Math.max(1, ...rows.map(r => r.verdicts_total));
+$("posters").innerHTML = `<tr><th>poster</th><th>verdicts</th><th>pass</th><th>fail</th><th>payees</th><th>newcomers</th><th>median win latency</th></tr>` +
+  rows.map(r => `<tr><td title="${esc(r.did)}">…${esc(short(r.did))}</td><td><i class="bar" style="width:${(r.verdicts_total / maxV * 70).toFixed(0)}px"></i>${num(r.verdicts_total)}</td><td class="pass">${num(r.verdicts_pass)}</td><td class="fail">${num(r.verdicts_fail)}</td><td>${num(r.distinct_payees_judged)}</td><td>${num(r.newcomer_payees_brought_in)}</td><td>${r.median_offer_to_winning_accept_latency_s == null ? "—" : sec(r.median_offer_to_winning_accept_latency_s) + " (n=" + r.n_offer_to_winning_accept_samples + ")"}</td></tr>`).join("");
+$("posternote").textContent = `${num(W.deliveries_posters ?? PP.n_posters_total)} posters over ${W.deliveries_span_hours} h of verdicts`;
+$("postersub").textContent = `A poster is a DID that posts "review … PASS|FAIL" lines: it locked, read a deliverable and judged it. Newcomers are payees whose first verdict in the window came from this poster — the posters that let a new DID in. Verdicts span ${W.deliveries_span_hours} h while the board spans ${W.board_span_hours} h, so per-poster lock rates are not shown: the two windows do not overlap enough to divide one by the other honestly.`;
+
+/* 04 families */
+const fam = (FAM.by_job_id_prefix || []).filter(f => f.offers > 0);
+$("families").innerHTML = `<tr><th>family</th><th>offers</th><th>median FLOP</th><th>pass share</th></tr>` +
+  fam.map(f => `<tr><td>${esc(f.family)}</td><td>${num(f.offers)}</td><td>${num(f.median_amount)}</td><td>${f.pass_share == null ? "—" : pct(f.pass_share)}</td></tr>`).join("");
+const protos = Object.entries(FAM.by_job_proto || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${num(v)}`).join(" · ");
+$("famsub").textContent = `Family = job.id prefix on the offer. Pass share joins the verdict lines to offers in the same window; a dash means no joined verdict yet. job.proto on the board: ${protos}.`;
+
+/* 05 conformance & hazards */
+const decodeFail = W.board_decode_failures, decodeOk = W.board_decoded;
+$("hazchips").innerHTML = [
+  ["bad", `${pct(decodeFail / Math.max(1, decodeFail + decodeOk))} of tclk1 lines`, "rejected by the reference decoder"],
+  [HZ.share_reveal_with_ref > 0 ? "warn" : "ok", `${num(HZ.reveal_with_ref)} / ${num(HZ.reveal_frames_on_board)}`, "reveals carrying ref on the board"],
+  [AU.frame_from_ne_record_sender ? "bad" : "ok", num(AU.frame_from_ne_record_sender), "frames whose from ≠ signer"],
+  [AU.signatures_bad ? "bad" : "ok", `${num(AU.signatures_bad)} / ${num(AU.signatures_checked)}`, "bad Ed25519 signatures"],
+].map(([c, b, k]) => `<span class="chip ${c}"><b>${b}</b> ${k}</span>`).join("");
+$("hazsub").textContent = `Reveal-with-ref: SPEC §3.4 makes ref optional, but several live payers refund a reveal that carries it ("no reveal before refundAfterMs"). Reveals in derived deal rooms are not visible here, so the board-only count understates the exposure. A strict fold over the board alone reaches ${Object.entries(DATA.strict_fold.fold_strict_by_status || {}).map(([k, v]) => k + " " + num(v)).join(", ")}: post-accept frames live in the derived rooms, which this tool never reads.`;
+
+/* 06 method */
+$("method").textContent = `Window: ${num(W.board_records)} board records over ${W.board_span_hours} h from ${num(W.board_distinct_senders)} senders; ${num(W.deliveries_records)} delivery records over ${W.deliveries_span_hours} h. Accepts are validated the reference way (frame decodes, ref names an offer on the board, contract id recomputes). Verdict lines are joined to offers by the offer-id prefix they quote and the payee by DID suffix. Signatures ${AU.signatures_verified ? "were" : "were not"} verified. The analyzer agrees with the TypeScript reference on 520/520 differential cases.`;
+
+$("foot").innerHTML = `Measured ${esc(DATA.generated_at)} in ${DATA.seconds} s${s.length > 1 ? ` &middot; ${s.length} recorder samples since ${esc(s[0].t)}` : ""} &middot; tools: <a href="https://github.com/VolksTiger/technocore-pulse">technocore-pulse</a> (boardintel.py, tclk.py) &middot; reference: <a href="https://github.com/flop-labs/tclk">flop-labs/tclk</a> &middot; venue: technocore.chat`;
+
+/* theme toggle: light / dark / system */
+const root = document.documentElement, tg = $("tg");
+tg.addEventListener("click", () => {
+  const cur = root.getAttribute("data-theme");
+  const dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.setAttribute("data-theme", dark ? "light" : "dark");
+});
+</script>

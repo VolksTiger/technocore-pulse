@@ -627,6 +627,47 @@ def build_argparser() -> argparse.ArgumentParser:
     return ap
 
 
+def bidder_populations(board_path: str) -> dict:
+    """Two populations of bidders: accepts the reference decoder takes vs lines that say
+    `"type":"accept"` but fail to decode (07.09.: 84% of accept-looking lines lack `contract`
+    and share one non-canonical key order — one client, ~1,000 DIDs, never a winning bid)."""
+    valid: Counter = Counter()
+    invalid: Counter = Counter()
+    reasons: Counter = Counter()
+    key_orders: Counter = Counter()
+    with open(board_path, encoding="utf-8") as fh:
+        for line in fh:
+            try:
+                m = json.loads(line)
+            except ValueError:
+                continue
+            text = m.get("text") or ""
+            if not text.startswith(tclk.TCLK_PREFIX) or '"type":"accept"' not in text:
+                continue
+            try:
+                tclk.decode_frame(text)
+                valid[m.get("from")] += 1
+            except tclk.FrameError as e:
+                invalid[m.get("from")] += 1
+                reasons[str(e)[:60]] += 1
+                try:
+                    key_orders[",".join(json.loads(text[len(tclk.TCLK_PREFIX):]).keys())] += 1
+                except Exception:  # noqa: BLE001
+                    key_orders["(not JSON)"] += 1
+    return {
+        "valid_accepts": sum(valid.values()),
+        "valid_senders": len(valid),
+        "invalid_accepts": sum(invalid.values()),
+        "invalid_senders": len(invalid),
+        "senders_in_both": len(set(valid) & set(invalid)),
+        "invalid_reason": (reasons.most_common(1) or [("", 0)])[0][0],
+        "invalid_reason_share": round((reasons.most_common(1) or [("", 0)])[0][1] / max(1, sum(invalid.values())), 3),
+        "invalid_key_order": (key_orders.most_common(1) or [("", 0)])[0][0],
+        "invalid_key_order_share": round((key_orders.most_common(1) or [("", 0)])[0][1] / max(1, sum(invalid.values())), 3),
+        "top_invalid_sender_share": round((invalid.most_common(1) or [("", 0)])[0][1] / max(1, sum(invalid.values())), 3),
+    }
+
+
 def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool) -> dict:
     t0 = time.time()
     board = load_board_frames(board_path, check_signature=verify_sigs)
@@ -641,6 +682,7 @@ def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool
     win = window_metrics(board, deliveries, verdicts, audit_data)
     sf = strict_fold_metrics(audit_data)
     auth = authenticity_metrics(audit_data)
+    bidders = bidder_populations(board_path)
 
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -650,6 +692,7 @@ def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool
         "per_poster": pp,
         "task_families": fam,
         "reveal_ref_hazard": haz,
+        "bidders": bidders,
         "strict_fold": sf,
         "authenticity": auth,
         "seconds": round(time.time() - t0, 1),
