@@ -77,11 +77,86 @@ def save_state(st: dict) -> None:
 
 # ── venue helpers ──────────────────────────────────────────────────────────
 
-def http_json(url: str, timeout: float = 120.0):
-    import urllib.request  # noqa: PLC0415
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read().decode("utf-8", "replace"))
+class Conn:
+    """One keep-alive HTTPS connection to the venue for the hot path (poll → note → accept).
+    Posters lock the first bidder and the winners accept ~1 s after the offer; three TLS
+    handshakes per attempt cost us the race. Falls back to a fresh connection on any error."""
+
+    HOST = "technocore.chat"
+
+    def __init__(self):
+        self.c = None
+
+    def _open(self):
+        import http.client  # noqa: PLC0415
+        self.c = http.client.HTTPSConnection(self.HOST, timeout=40)
+
+    def get(self, path: str, timeout: float = 30.0) -> tuple[int, str]:
+        for attempt in range(2):
+            try:
+                if self.c is None:
+                    self._open()
+                self.c.timeout = timeout
+                self.c.request("GET", path, headers={"User-Agent": UA, "Connection": "keep-alive"})
+                r = self.c.getresponse()
+                body = r.read().decode("utf-8", "replace")
+                if r.getheader("Connection", "").lower() == "close":
+                    self.c.close()
+                    self.c = None
+                return r.status, body
+            except Exception:  # noqa: BLE001
+                try:
+                    if self.c is not None:
+                        self.c.close()
+                except Exception:  # noqa: BLE001
+                    pass
+                self.c = None
+                if attempt == 1:
+                    return get(path, timeout=timeout, retries=2)  # slow path: fresh connection, retries
+        return 0, ""
+
+    def read(self, room: str, since: int | None = None, limit: int = 100, wait: float | None = None) -> list[dict]:
+        q = f"format=json&limit={limit}" + (f"&since={since}" if since is not None else "") + (f"&wait={int(wait)}" if wait else "")
+        code, body = self.get(f"/r/{room}?{q}", timeout=(wait or 0) + 25)
+        if code != 200:
+            return []
+        try:
+            return [m for m in json.loads(body).get("messages", []) if isinstance(m, dict)]
+        except Exception:  # noqa: BLE001
+            return []
+
+
+CONN = Conn()
+
+
+def post_frame_fast(v: Venue, room: str, frame: dict) -> dict:
+    """Venue.post over the keep-alive connection (same signing, same record lookup)."""
+    line = tclk.encode_frame(frame)
+    nonce = str(now_ms())
+    sig = base64.urlsafe_b64encode(v.key.sign(f"{room}|{nonce}|{line}".encode("utf-8"))).decode("ascii").rstrip("=")
+    path = f"/r/{room}/say-signed/{v.did}/{sig}/{nonce}/{quote(line, safe='')}?format=json"
+    if v.dry_run:
+        log(f"[dry-run] would POST {frame['type']} → /r/{room}: {line[:110]}…")
+        return {"seq": 0, "ts_ms": now_ms()}
+    code, body = CONN.get(path, timeout=25)
+    if code != 200:
+        raise RuntimeError(f"POST {frame['type']} to /r/{room} failed: HTTP {code} {body.strip()[:200]}")
+    rec = None
+    try:
+        for m in json.loads(body).get("messages", []):
+            if m.get("text") == line and m.get("from") == v.did:
+                rec = tclk.transcript_record(room, m)
+    except Exception:  # noqa: BLE001
+        pass
+    if rec is None:
+        for m in CONN.read(room, limit=50):
+            if m.get("text") == line and m.get("from") == v.did:
+                rec = tclk.transcript_record(room, m)
+    if rec is None:
+        raise RuntimeError(f"posted {frame['type']} but could not find it in /r/{room}")
+    v.records.append(rec)
+    log(f"posted {frame['type']} → /r/{room} seq {rec['seq']}")
+    return rec
 
 
 def post_text(v: Venue, room: str, text: str) -> dict:
@@ -174,7 +249,7 @@ def kv_note(path: str) -> str | None:
     """Text of a /kv/<ns>/<key> note (without the venue's untrusted-content banner), cached."""
     if path in _NOTE_CACHE:
         return _NOTE_CACHE[path]
-    code, body = get(path, retries=2)
+    code, body = CONN.get(path, timeout=20)
     text = None
     if code == 200:
         lines = body.split("\n")
@@ -269,7 +344,7 @@ def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_w
     core = {"from": v.did, "ref": offer["id"], "statement": statement, "nonce": secrets.token_hex(8)}
     accept = dict({"type": "accept"}, **core, contract=tclk.contract_id(offer, core))
     tclk.validate_frame(accept)
-    arec = v.post(tclk.OFFER_ROOM, accept)
+    arec = post_frame_fast(v, tclk.OFFER_ROOM, accept)
     if v.dry_run:
         return {"status": "dry-run", "offer_id": offer["id"], "answer": answer}
     state, ok, reason = tclk.apply_frame(state, accept, arec["ts_ms"])
@@ -333,7 +408,7 @@ def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_w
 # ── follow the board ───────────────────────────────────────────────────────
 
 def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
-    latest = Venue.read_static(tclk.OFFER_ROOM, limit=1)
+    latest = CONN.read(tclk.OFFER_ROOM, limit=1)
     cursor = max((int(m.get("seq") or 0) for m in latest), default=0)
     accepts_seen: dict = {}
     stop_at = now_ms() + int(a.hours * 3600_000)
@@ -345,7 +420,7 @@ def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
     while done < a.max_deals and now_ms() < stop_at:
         # no room-quota stop: since the payer's lock creates the deal room, this worker never spends
         # a room itself (st["rooms"] only counts rooms older versions created today)
-        msgs = Venue.read_static(tclk.OFFER_ROOM, since=cursor, limit=100, wait=10)
+        msgs = CONN.read(tclk.OFFER_ROOM, since=cursor, limit=100, wait=10)
         t = now_ms()
         for m in msgs:
             seq = int(m.get("seq") or 0)
