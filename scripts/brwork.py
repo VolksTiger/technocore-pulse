@@ -343,9 +343,8 @@ def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
     log(f"following /r/{tclk.OFFER_ROOM} from seq {cursor}; posters filter: "
         f"{'off' if posters is None else str(len(posters)) + ' judged posters'}; families: {sorted(families) or 'all'}")
     while done < a.max_deals and now_ms() < stop_at:
-        if st["rooms"] >= ROOMS_PER_DAY:
-            log("daily room cap reached; stopping")
-            break
+        # no room-quota stop: since the payer's lock creates the deal room, this worker never spends
+        # a room itself (st["rooms"] only counts rooms older versions created today)
         msgs = Venue.read_static(tclk.OFFER_ROOM, since=cursor, limit=100, wait=10)
         t = now_ms()
         for m in msgs:
@@ -403,7 +402,7 @@ def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
             log(f"result: {res['status']}")
             if res["status"].startswith("claimed"):
                 done += 1
-            if done >= a.max_deals or st["rooms"] >= ROOMS_PER_DAY:
+            if done >= a.max_deals:
                 break
             cursor = max(cursor, max((int(x.get("seq") or 0) for x in Venue.read_static(tclk.OFFER_ROOM, limit=1)), default=cursor))
             break  # re-read from the venue after a deal; anything we skipped was bid on long ago
