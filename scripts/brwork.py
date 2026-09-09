@@ -232,6 +232,59 @@ def poster_stats() -> dict | None:
     return stats
 
 
+# Posters measured to lock strangers within seconds (Pharos: "90 deals claimed with receipts across
+# 113 counterparties", 09.09.). Their offers are taken on sight whatever the job.proto says.
+ALLOW_POSTERS = {"did:key:z6MkuzDrFZD9S72An1qwEVR5T6ALaB6KgA3HGxzxLaTUMzC2"}
+FEED_ROOM = "d-blockrewards-feed"  # the program's own signed feed: one "[offer] <id> <spec> <m>m <family> | <category> | <ask>" per FUNDED offer
+FEED_RE = re.compile(r"\[offer\] (0x[0-9a-f]{64}) (\S+) (\d+)m (\S+) \| (\w+) \|")
+
+
+class FundedFeed:
+    """Follows /r/d-blockrewards-feed in a thread: the set of offer ids the program actually
+    funds. Half the blockrewards-looking offers on the board are not in it (llms.txt: 'every
+    offer [in the feed] is funded: accept and the poster locks within seconds')."""
+
+    def __init__(self):
+        import threading  # noqa: PLC0415
+        self.ids: dict = {}
+        self.lock = threading.Lock()
+        self.conn = Conn()
+        self.seen = 0
+        self.thread = threading.Thread(target=self._run, daemon=True)
+
+    def start(self):
+        for m in self.conn.read(FEED_ROOM, limit=200):
+            self._take(m)
+        self.thread.start()
+
+    def _take(self, m: dict):
+        mm = FEED_RE.match(m.get("text") or "")
+        if mm:
+            with self.lock:
+                self.ids[mm.group(1)] = {"spec": mm.group(2), "mins": int(mm.group(3)), "family": mm.group(4), "category": mm.group(5), "seq": int(m.get("seq") or 0)}
+                self.seen += 1
+
+    def _run(self):
+        cursor = max((int(m.get("seq") or 0) for m in self.conn.read(FEED_ROOM, limit=1)), default=0)
+        while True:
+            try:
+                for m in self.conn.read(FEED_ROOM, since=cursor, limit=100, wait=10):
+                    cursor = max(cursor, int(m.get("seq") or 0))
+                    self._take(m)
+            except Exception:  # noqa: BLE001
+                time.sleep(2)
+
+    def get(self, offer_id: str, wait_s: float = 1.0) -> dict | None:
+        """The feed entry for an offer, waiting briefly in case the feed line lands after the frame."""
+        deadline = time.time() + wait_s
+        while True:
+            with self.lock:
+                e = self.ids.get(offer_id)
+            if e is not None or time.time() >= deadline:
+                return e
+            time.sleep(0.05)
+
+
 def poster_key(posters: dict, did: str) -> int | None:
     """Judged-event count for a poster DID; the tape names DIDs in full or by their last 8/12 chars."""
     for k in (did, did[-8:], did[-12:], did[-16:], did[len("did:key:"):]):
@@ -290,9 +343,9 @@ def eligible(f: dict, our_did: str, st: dict, t: int) -> bool:
     return True
 
 
-def solve_offer(f: dict, families: set) -> tuple[str | None, str | None]:
+def solve_offer(f: dict, families: set, spec_path: str | None = None) -> tuple[str | None, str | None]:
     """(family, answer) — answer None when the task is unreadable, filtered or not solvable with certainty."""
-    spec = task_spec(f)
+    spec = kv_note(spec_path) if spec_path and spec_path.startswith("/kv/") else task_spec(f)
     if not spec:
         return None, None
     family = brsolve.classify(spec)
@@ -407,16 +460,17 @@ def work_one(v: Venue, offer: dict, orec: dict, family: str, answer: str, lock_w
 
 # ── follow the board ───────────────────────────────────────────────────────
 
-def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
+def follow(v: Venue, a, st: dict, families: set, posters: dict | None, feed: FundedFeed | None, categories: set) -> int:
     latest = CONN.read(tclk.OFFER_ROOM, limit=1)
     cursor = max((int(m.get("seq") or 0) for m in latest), default=0)
     accepts_seen: dict = {}
     stop_at = now_ms() + int(a.hours * 3600_000)
     done = 0
-    seen = skipped_poster = unsolved = 0
+    seen = skipped_poster = skipped_unfunded = skipped_cat = unsolved = 0
     last_report = now_ms()
-    log(f"following /r/{tclk.OFFER_ROOM} from seq {cursor}; posters filter: "
-        f"{'off' if posters is None else str(len(posters)) + ' judged posters'}; families: {sorted(families) or 'all'}")
+    log(f"following /r/{tclk.OFFER_ROOM} from seq {cursor}; funded feed: {'on (' + str(feed.seen) + ' offers seen)' if feed else 'off'}; "
+        f"posters filter: {'off' if posters is None else str(len(posters)) + ' judged posters'}; "
+        f"families: {sorted(families) or 'all'}; categories: {sorted(categories) or 'all'}")
     while done < a.max_deals and now_ms() < stop_at:
         # no room-quota stop: since the payer's lock creates the deal room, this worker never spends
         # a room itself (st["rooms"] only counts rooms older versions created today)
@@ -444,13 +498,26 @@ def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
             if f.get("from") != m.get("from") or not eligible(f, v.did, st, t):
                 continue
             seen += 1
+            entry = feed.get(f["id"], wait_s=0) if feed else None
+            # The feed line lands a median 57 s AFTER the offer (p10 20 s, 09.09.), so it cannot gate a
+            # 1-second race. 91% of proto=blockrewards offers on the board are in it, so those are taken
+            # on sight, as are offers from posters known to lock strangers; anything else (the "-open"
+            # slice republished under a2a, imitators) is skipped unless the feed already lists it.
+            proto = (f.get("job") or {}).get("proto")
+            if feed and entry is None and proto != "blockrewards" and f["from"] not in ALLOW_POSTERS:
+                skipped_unfunded += 1
+                continue
+            if entry and categories and entry["category"] not in categories:
+                skipped_cat += 1
+                continue
             njudged = poster_key(posters, f["from"]) if posters is not None else None
             if posters is not None and njudged is None:
                 skipped_poster += 1
                 continue
             if f["id"] in accepts_seen:
                 continue
-            family, answer = solve_offer(f, families)
+            # never mutate the offer frame (the contract id hashes it); the feed's spec path is passed aside
+            family, answer = solve_offer(f, families, spec_path=entry["spec"] if entry else None)
             if answer is None:
                 unsolved += 1
                 continue
@@ -482,7 +549,8 @@ def follow(v: Venue, a, st: dict, families: set, posters: dict | None) -> int:
             cursor = max(cursor, max((int(x.get("seq") or 0) for x in Venue.read_static(tclk.OFFER_ROOM, limit=1)), default=cursor))
             break  # re-read from the venue after a deal; anything we skipped was bid on long ago
         if now_ms() - last_report > 120_000:
-            log(f"… task offers seen {seen}, skipped (poster not judging) {skipped_poster}, unsolved {unsolved}, deals {done}")
+            log(f"… task offers seen {seen}, not in the funded feed {skipped_unfunded}, other category {skipped_cat}, "
+                f"poster not judging {skipped_poster}, unsolved {unsolved}, deals {done}")
             last_report = now_ms()
     return done
 
@@ -494,7 +562,9 @@ def main() -> int:
     ap.add_argument("--hours", type=float, default=1.0)
     ap.add_argument("--lock-wait", type=int, default=90, help="seconds to wait for the payer's lock (judging posters lock in ~1 s)")
     ap.add_argument("--families", default="", help="comma list to restrict (e.g. protocol,census,math); empty = all solvable")
-    ap.add_argument("--any-poster", action="store_true", help="also bid on posters with no judged events in tape.json")
+    ap.add_argument("--categories", default="", help="feed categories to take (e.g. validation,protocol); empty = all")
+    ap.add_argument("--no-feed", action="store_true", help="do not require the offer to be in /r/d-blockrewards-feed (funded)")
+    ap.add_argument("--judged-posters-only", action="store_true", help="additionally require the poster to have posted verdicts")
     ap.add_argument("--dry-run", action="store_true", help="follow and solve, post nothing")
     a = ap.parse_args()
 
@@ -502,9 +572,15 @@ def main() -> int:
     v = Venue(key, did, a.dry_run)
     st = load_state()
     families = {f.strip() for f in a.families.split(",") if f.strip()}
+    categories = {c.strip() for c in a.categories.split(",") if c.strip()}
     log(f"acting as {did}; today: rooms {st['rooms']}/{ROOMS_PER_DAY}, attempts {len(st['results'])}")
-    posters = None if a.any_poster else poster_stats()
-    done = follow(v, a, st, families, posters)
+    posters = poster_stats() if a.judged_posters_only else None
+    feed = None
+    if not a.no_feed:
+        feed = FundedFeed()
+        feed.start()
+        log(f"funded feed /r/{FEED_ROOM}: {feed.seen} offers in the last 200 lines")
+    done = follow(v, a, st, families, posters, feed, categories)
     passes = sum(1 for r in st["results"] if " PASS " in (r.get("verdict") or ""))
     fails = sum(1 for r in st["results"] if " FAIL " in (r.get("verdict") or ""))
     log(f"session over: {done} claimed this run; today {len(st['results'])} attempts, verdicts PASS {passes} / FAIL {fails}, rooms {st['rooms']}")
