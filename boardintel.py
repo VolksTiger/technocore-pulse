@@ -668,6 +668,49 @@ def bidder_populations(board_path: str) -> dict:
     }
 
 
+PASSPORTS_URL = "https://flop-market.pages.dev/blockrewards/passports.json"
+
+
+def admission_metrics(verdicts: list, deliveries: list) -> dict:
+    """Who gets in: verdicts to payees whose first judged event (passports.json 'first') was on an
+    earlier day vs first-day newcomers vs DIDs absent from the passports, plus new passports per day.
+    09.09.: 99% to established DIDs; new passports/day fell from ~150 to single digits."""
+    try:
+        import urllib.request  # noqa: PLC0415
+        req = urllib.request.Request(PASSPORTS_URL, headers={"User-Agent": "technocore-pulse-boardintel/1.0"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            p = json.loads(r.read().decode("utf-8", "replace"))
+    except Exception as e:  # noqa: BLE001
+        return {"note": f"passports.json unavailable: {e}"}
+    rows = p.get("passports", []) if isinstance(p, dict) else []
+    first = {str(r.get("did", ""))[-8:]: str(r.get("first", ""))[:10] for r in rows if r.get("did")}
+    per_day: Counter = Counter(str(r.get("first", ""))[:10] for r in rows)
+    est = new = absent = 0
+    for v in verdicts:
+        day = datetime.fromtimestamp(v["ts_ms"] / 1000, tz=timezone.utc).strftime("%Y-%m-%d") if v.get("ts_ms") else ""
+        payee = v.get("payee_suffix") or ""
+        f = first.get(payee[-8:]) if payee else None
+        if f is None:
+            absent += 1
+        elif day and f < day:
+            est += 1
+        else:
+            new += 1
+    total = est + new + absent
+    days = sorted(per_day.items())[-8:]
+    return {
+        "passports_total": len(rows),
+        "passports_as_of": p.get("as_of") if isinstance(p, dict) else None,
+        "provisional": sum(1 for r in rows if r.get("provisional")),
+        "new_passports_per_day": days,
+        "verdicts_joined": total,
+        "verdicts_to_established": est,
+        "verdicts_to_first_day_newcomers": new,
+        "verdicts_to_absent": absent,
+        "share_established": round(est / total, 4) if total else None,
+    }
+
+
 def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool) -> dict:
     t0 = time.time()
     board = load_board_frames(board_path, check_signature=verify_sigs)
@@ -683,6 +726,7 @@ def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool
     sf = strict_fold_metrics(audit_data)
     auth = authenticity_metrics(audit_data)
     bidders = bidder_populations(board_path)
+    admission = admission_metrics(verdicts, deliveries)
 
     return {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -693,6 +737,7 @@ def analyze(board_path: str, deliveries_path: str, top_n: int, verify_sigs: bool
         "task_families": fam,
         "reveal_ref_hazard": haz,
         "bidders": bidders,
+        "admission": admission,
         "strict_fold": sf,
         "authenticity": auth,
         "seconds": round(time.time() - t0, 1),

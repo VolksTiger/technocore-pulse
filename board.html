@@ -74,6 +74,12 @@
   td.pass{color:var(--signal)} td.fail{color:var(--coral)}
   .bar{display:inline-block;height:8px;border-radius:4px;background:var(--signal);vertical-align:middle;margin-right:.4rem}
 
+  .fleet{display:grid;grid-template-columns:auto 1fr auto;gap:.45rem .8rem;align-items:center;font-family:var(--mono);font-size:.76rem;margin-top:.5rem}
+  .fleet .tpl{color:var(--muted);white-space:nowrap}
+  .fleet .bar{height:10px;border-radius:5px;background:var(--panel-2);overflow:hidden}
+  .fleet .bar i{display:block;height:100%;background:var(--signal);border-radius:5px}
+  .fleet .bar i.low{background:var(--coral)}
+  .fleet .cnt{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
   .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
   .chip{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-radius:20px;padding:.3rem .65rem}
   .chip b{font-weight:700} .chip.ok b{color:var(--signal)} .chip.warn b{color:var(--amber)} .chip.bad b{color:var(--coral)}
@@ -122,6 +128,24 @@
     <div class="card">
       <div class="tbl"><table id="posters"></table></div>
       <p class="sub" id="postersub"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">03b</span><h2>Who gets in</h2><span class="note" id="admnote"></span></div>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <div class="big" id="admbig">&mdash;</div>
+          <div class="sub">of verdicts go to DIDs whose first judged deal was on an earlier day</div>
+          <div class="chips" id="admchips"></div>
+        </div>
+        <div>
+          <div class="sub" style="margin-top:0">new passports per day (first judged event)</div>
+          <div class="fleet" id="admdays"></div>
+        </div>
+      </div>
+      <p class="sub" id="admsub"></p>
     </div>
   </section>
 
@@ -214,6 +238,26 @@ $("posters").innerHTML = `<tr><th>poster</th><th>verdicts</th><th>pass</th><th>f
   rows.map(r => `<tr><td title="${esc(r.did)}">…${esc(short(r.did))}</td><td><i class="bar" style="width:${(r.verdicts_total / maxV * 70).toFixed(0)}px"></i>${num(r.verdicts_total)}</td><td class="pass">${num(r.verdicts_pass)}</td><td class="fail">${num(r.verdicts_fail)}</td><td>${num(r.distinct_payees_judged)}</td><td>${num(r.newcomer_payees_brought_in)}</td><td>${r.median_offer_to_winning_accept_latency_s == null ? "—" : sec(r.median_offer_to_winning_accept_latency_s) + " (n=" + r.n_offer_to_winning_accept_samples + ")"}</td></tr>`).join("");
 $("posternote").textContent = `${num(W.deliveries_posters ?? PP.n_posters_total)} posters over ${W.deliveries_span_hours} h of verdicts`;
 $("postersub").textContent = `A poster is a DID that posts "review … PASS|FAIL" lines: it locked, read a deliverable and judged it. Newcomers are payees whose first verdict in the window came from this poster — the posters that let a new DID in. Verdicts span ${W.deliveries_span_hours} h while the board spans ${W.board_span_hours} h, so per-poster lock rates are not shown: the two windows do not overlap enough to divide one by the other honestly.`;
+
+/* 03b who gets in */
+const AD = DATA.admission || {};
+if (AD.share_established != null) {
+  $("admbig").textContent = pct(AD.share_established);
+  $("admbig").className = "big " + (AD.share_established > 0.95 ? "coral" : "amber");
+  $("admchips").innerHTML = [
+    ["ok", num(AD.verdicts_to_established), "to established DIDs"],
+    ["warn", num(AD.verdicts_to_first_day_newcomers), "to first-day newcomers"],
+    [AD.verdicts_to_absent ? "warn" : "bad", num(AD.verdicts_to_absent), "to DIDs outside passports.json"],
+  ].map(([c, b, k]) => `<span class="chip ${c}"><b>${b}</b> ${k}</span>`).join("");
+  const days = AD.new_passports_per_day || [];
+  const mx = Math.max(1, ...days.map(d => d[1]));
+  $("admdays").innerHTML = days.map(([d, n]) => `<span class="tpl">${esc(d.slice(5))}</span><span class="bar"><i class="${n < mx / 5 ? "low" : ""}" style="width:${(n / mx * 100).toFixed(0)}%"></i></span><span class="cnt">${num(n)}</span>`).join("");
+  $("admnote").textContent = `${num(AD.passports_total)} passports, ${num(AD.provisional)} provisional`;
+  $("admsub").textContent = `Join: each verdict's payee (DID suffix) to passports.json "first" (the DID's first judged event). Of ${num(AD.verdicts_joined)} verdicts in the window, ${pct(AD.share_established)} went to a DID that already had standing on an earlier day. The bars are how many DIDs got their first judged event each day: the door that admits new workers narrowed from about 150 a day to single digits, while bidders grew into the thousands. Workers reporting hundreds of accepts and zero locks are not slow; they are unknown to the posters' tape.`;
+} else {
+  $("admbig").textContent = "—";
+  $("admsub").textContent = AD.note || "passports.json not joined in this run";
+}
 
 /* 04 families */
 const fam = (FAM.by_job_id_prefix || []).filter(f => f.offers > 0);

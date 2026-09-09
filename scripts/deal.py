@@ -506,6 +506,8 @@ def main() -> int:
     ap.add_argument("--allow-judged", action="store_true", help="payee: also take judged-task offers (census-/math-/…); only with a deliverable in hand")
     ap.add_argument("--say", nargs=2, metavar=("ROOM", "TEXT"),
                     help="repair: post one signed plain-text message (e.g. a late deliverable) into ROOM, then exit")
+    ap.add_argument("--say-file", nargs=2, metavar=("ROOM", "FILE"),
+                    help="post the contents of FILE as one signed message into ROOM (multi-line posts), then exit")
     ap.add_argument("--cancel", metavar="CONTRACT",
                     help="repair: post a `cancel` for this accepted contract in its derived room, then strict-fold and exit")
     ap.add_argument("--dry-run", action="store_true")
@@ -514,6 +516,9 @@ def main() -> int:
     key, did = load_key(a.identity)
     v = Venue(key, did, a.dry_run)
     log(f"acting as {did}")
+    if a.say_file:
+        room, path_ = a.say_file
+        a.say = (room, open(path_, encoding="utf-8").read().strip())
     if a.say:
         room, text = a.say
         nonce = str(now_ms())
