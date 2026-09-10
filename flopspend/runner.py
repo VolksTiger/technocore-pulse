@@ -1,4 +1,3 @@
-import os
 """The loop skeleton from SPEND-PLAN.md ("The runner"), with every chain call
 behind `ChainClient` so the whole day-one flow is testable before the FLOP
 testnet RPC exists.
@@ -32,6 +31,7 @@ from __future__ import annotations
 
 import abc
 import argparse
+import os
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
