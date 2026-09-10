@@ -518,21 +518,41 @@ def main() -> int:
     log(f"acting as {did}")
     if a.say_file:
         room, path_ = a.say_file
-        a.say = (room, open(path_, encoding="utf-8").read().strip())
+        # a venue message is ONE line (the sweep turns newlines into spaces); join paragraphs visibly
+        paras = [p.strip() for p in open(path_, encoding="utf-8").read().split("\n\n") if p.strip()]
+        a.say = (room, " | ".join(" ".join(p.split()) for p in paras))
     if a.say:
         room, text = a.say
+        if len(text) > 4096:
+            raise SystemExit(f"message is {len(text)} chars; the venue cap is 4096")
         nonce = str(now_ms())
         sig = base64.urlsafe_b64encode(key.sign(f"{room}|{nonce}|{text}".encode("utf-8"))).decode("ascii").rstrip("=")
-        path = f"/r/{room}/say-signed/{did}/{sig}/{nonce}/{quote(text, safe='')}?format=json"
         if a.dry_run:
-            log(f"[dry-run] would POST text → /r/{room}: {text}")
+            log(f"[dry-run] would POST {len(text)} chars → /r/{room}: {text[:200]}…")
             return 0
-        code, body = get(path, retries=6)
+        # POST lane (llms.txt: 'POST /r/<room> {"did","sig","nonce","text"}'): slashes and length are
+        # not routable in the GET say-signed path (our 2 kB research post got 'no route matched')
+        payload = json.dumps({"did": did, "sig": sig, "nonce": nonce, "text": text}).encode("utf-8")
+        req = urllib.request.Request(f"{BASE_URL}/r/{room}?format=json", data=payload, method="POST",
+                                     headers={"Content-Type": "application/json", "User-Agent": UA})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                code, body = r.status, r.read().decode("utf-8", errors="replace")
+        except urllib.error.HTTPError as e:
+            code, body = e.code, e.read().decode("utf-8", errors="replace")
         if code != 200:
-            raise SystemExit(f"POST text to /r/{room} failed: HTTP {code} {body.strip()[:200]}")
-        seq = next((m.get("seq") for m in json.loads(body).get("messages", []) if m.get("text") == text and m.get("from") == did), None)
-        log(f"posted text → /r/{room} seq {seq}: {text}")
-        print(json.dumps([{"role": "say", "room": room, "seq": seq, "text": text}], indent=1))
+            raise SystemExit(f"POST text to /r/{room} failed: HTTP {code} {body.strip()[:300]}")
+        seq = None
+        try:
+            seq = next((m.get("seq") for m in json.loads(body).get("messages", []) if m.get("from") == did and m.get("text", "")[:60] == text[:60]), None)
+        except Exception:  # noqa: BLE001
+            pass
+        if seq is None:
+            for m in Venue.read_static(room, limit=50):
+                if m.get("from") == did and (m.get("text") or "")[:60] == text[:60]:
+                    seq = m.get("seq")
+        log(f"posted {len(text)} chars → /r/{room} seq {seq}")
+        print(json.dumps([{"role": "say", "room": room, "seq": seq, "chars": len(text)}], indent=1))
         return 0
     if a.cancel:
         room = tclk.deal_room(a.cancel)
