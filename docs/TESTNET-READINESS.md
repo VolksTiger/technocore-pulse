@@ -70,5 +70,28 @@ The spend side — budget, runner design, workload queue — is in [`SPEND-PLAN.
    transcripts (they are the audit trail and our own spend proof).
 7. Log settled FLOP per day; that number is the metric. Never hold idle balance — it scores 0.
 
+## Validator cohort — the biggest slice per participant, and what it needs
+
+D-0440 (2026-09-10) made the three airdrop cohorts equal at 1,200,000,000 FLOP each. The validator
+set is capped at 1,000 (YP §15.5), so that pool divides among at most a thousand operators, versus
+thousands of agents and an open miner field. "The validator cohort is definitionally the aggregate
+bond" (E.38/D-0440): the allocation is the bond itself, so entry is capital, not work. What we know:
+
+| item | value | source |
+|---|---|---|
+| minimum validator stake | 1,200,000 FLOP (raised from 305,505), compounds 9%/yr | YP App. A, D-0440 |
+| reference hardware | 8 physical cores ≥3.4 GHz (SMT off), 32 GB ECC, 4 TB enterprise NVMe, 1 Gbps symmetric unmetered | YP §15.3, validator-miner-hardware-costs.md §2.1 |
+| duties | BABE authoring, AlephBFT finality on the sampled committee, DA shard custody (the one heavy leg), attest miners' proofs and checker verdicts; no GPU, no TEE | YP §15.3, D-0439 |
+| selection | stake-ordered above a verification-liveness floor; ~50 rotate per month; committee of 100 sampled by BABE-VRF | YP §15.4–15.5, D-0439 |
+| what the testnet converts on | **[TBD]** — "what the validator cohort converts on" is an open item in E.38 | YP E.38 |
+| ops guide | `docs/onboarding/validator.md` — in the private engineering repo, not yet published | YP §15 sources |
+
+Our position: the validator interest form was submitted on 2026-08-26 (self-hosted, Contabo). The
+Contabo box (4 vCPU, 7 GB, 145 GB) is a fraction of the reference profile, so a testnet validator
+means renting a dedicated server (8 cores / 32 GB / NVMe, roughly €60–150 a month) for the ~90-day
+window — decided only when the testnet validator program says how the bond is funded and what the
+cohort converts on. Triggers: `docs/onboarding/validator.md` appearing in the yellowpaper mirror, a
+node repo in the flop-labs org (flopwatch watches both), the validator-form reply.
+
 Client library, when needed: `py-substrate-interface` (SCALE + metadata + extrinsics) against
 the published chain spec; nothing in this repo should re-implement SCALE.
