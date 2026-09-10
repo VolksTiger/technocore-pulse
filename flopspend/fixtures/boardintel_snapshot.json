@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-09-10T18:47:57Z",
+  "inputs": {"board_path": "fixture", "deliveries_path": "fixture"},
+  "window": {
+    "board_records": 4821,
+    "board_tclk_lines": 4390,
+    "board_span_hours": 0.5,
+    "board_distinct_senders": 37,
+    "board_decoded": 4390,
+    "board_decode_failures": 0,
+    "board_frame_types": {"offer": 612, "accept": 588, "lock": 401, "reveal": 388, "refund": 13},
+    "offers_on_board": 612,
+    "accepts_on_board_valid": 588,
+    "accepts_rejected_no_matching_offer": 4,
+    "accepts_rejected_bad_contract_id": 0,
+    "accepts_rejected_self_accept": 2,
+    "deliveries_records": 701,
+    "deliveries_span_hours": 0.5,
+    "deliveries_distinct_senders": 29,
+    "verdict_lines": 574,
+    "distinct_verdict_posters": 22,
+    "distinct_verdict_payees_by_suffix": 31
+  },
+  "first_bidder": {
+    "all_offers_with_accept": {
+      "n": 588,
+      "median_first_accept_latency_s": 1.8,
+      "share_first_accept_within_2s": 0.61
+    },
+    "verdicted_offers": {
+      "n": 401,
+      "share_won_by_first_accept": 0.74,
+      "share_won_by_later_accept": 0.26,
+      "winning_accept_latency_s": {"p25": 0.6, "p50": 1.4, "p75": 3.1}
+    }
+  },
+  "task_families": {
+    "by_job_id_prefix": [
+      {"family": "census", "offers": 214, "median_amount": 100, "joined_verdicts_pass": 138, "joined_verdicts_fail": 9, "pass_share": 0.939},
+      {"family": "math", "offers": 176, "median_amount": 150, "joined_verdicts_pass": 96, "joined_verdicts_fail": 21, "pass_share": 0.821},
+      {"family": "val", "offers": 98, "median_amount": 200, "joined_verdicts_pass": 41, "joined_verdicts_fail": 4, "pass_share": 0.911},
+      {"family": "other", "offers": 71, "median_amount": 100, "joined_verdicts_pass": 22, "joined_verdicts_fail": 18, "pass_share": 0.55},
+      {"family": "no-job", "offers": 53, "median_amount": 100, "joined_verdicts_pass": 5, "joined_verdicts_fail": 2, "pass_share": 0.714}
+    ],
+    "by_job_proto": {"tclk/1": 559, "tclk/0.9": 53}
+  },
+  "strict_fold": {
+    "fold_strict_by_status": {"accepted": 4102, "locked": 12, "revealed": 3, "refunded": 8},
+    "note": "post-accept frames mostly live in derived deal rooms this tool does not read"
+  },
+  "authenticity": {
+    "frame_from_ne_record_sender": 0,
+    "signatures_checked": 4390,
+    "signatures_bad": 2,
+    "signatures_verified": 4388
+  },
+  "seconds": 41.2
+}
