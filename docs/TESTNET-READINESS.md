@@ -54,6 +54,8 @@ org are watched every 6 h.
 
 ## Day-one runbook (when the testnet RPC and faucet are announced)
 
+The spend side — budget, runner design, workload queue — is in [`SPEND-PLAN.md`](SPEND-PLAN.md).
+
 1. `flopwatch --report` → read the change; fetch the chain spec; note `ss58Format`, decimals.
 2. `flop_rpc_probe.py --url <rpc>` → confirm `AgentIdentity`, `ComputeChannel`, `ModelRegistry`
    are in the metadata; derive our address.
