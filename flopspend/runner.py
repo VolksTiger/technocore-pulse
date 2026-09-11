@@ -356,6 +356,9 @@ def _main(argv: "Optional[List[str]]" = None) -> int:
     if not args.dry_run:
         print("only --dry-run is implemented; RealChainClient " + RealChainClient._NOTE, file=sys.stderr)
         return 2
+    if not args.ledger_path:
+        # simulations get their own ledger; ~/.technocore-pulse/flopspend.jsonl is the real spend proof
+        args.ledger_path = os.path.expanduser("~/.technocore-pulse/flopspend-dryrun.jsonl")
 
     budget = bmod.Budget(
         ration=args.ration, stake=args.stake, deposit=args.deposit,
