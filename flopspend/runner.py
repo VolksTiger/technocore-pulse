@@ -317,6 +317,7 @@ def run_day(
                     "receipt_root": settlement.receipt_root.hex() if settlement.receipt_root else None,
                     "our_signature": settlement.our_signature.hex() if settlement.our_signature else None,
                     "opened_at": channel.opened_at, "settled_at": settlement.settled_at, "status": settlement.status,
+                    "client": type(client).__name__,  # DryRunClient rows are simulations, never spend proof
                 },
                 path=ledger_path,
             )
