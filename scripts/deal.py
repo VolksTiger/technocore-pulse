@@ -200,13 +200,16 @@ def valid_accepts_for(offer: dict, board: list[dict]) -> list[tuple[dict, dict]]
 
 # ── payer ───────────────────────────────────────────────────────────────────
 
-def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto: str) -> dict:
+def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto: str,
+              job_id: str | None = None, job_context: str | None = None, accept_from: set | None = None) -> dict:
     t = now_ms()
     expires = t + accept_wait_min * 60_000
     claim_by = expires + 10 * 60_000
     refund_after = claim_by + 5 * 60_000
     # measured 06.09.2026: acceptors take offers that carry a `job`; job-less offers sit unanswered
-    job = {"proto": job_proto, "id": "technocore-pulse-" + secrets.token_hex(4)}
+    job = {"proto": job_proto, "id": job_id or ("technocore-pulse-" + secrets.token_hex(4))}
+    if job_context:
+        job["context"] = job_context  # the ask itself, so a worker that "takes work it can verify" can read it on the board
     fields = {"type": "offer", "from": v.did, "role": "payer", "amount": amount, "asset": asset, "lock": "hash",
               "rails": ["paper"], "claimByMs": claim_by, "refundAfterMs": refund_after, "expiresMs": expires,
               "job": job, "nonce": secrets.token_hex(8)}
@@ -221,6 +224,11 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
     def is_accept(r, f):
         nonlocal state
         if f["type"] != "accept" or f["ref"] != offer["id"] or f["from"] == v.did:
+            return False
+        if accept_from and not any(f["from"] == a or f["from"].endswith(a) for a in accept_from):
+            # each accept derives its own contract id, so locking a later accept from a chosen
+            # counterparty folds cleanly on its own chain; the earlier accepts simply stay unfunded
+            log(f"ignoring accept from {f['from'][:24]}… (not in --accept-from)")
             return False
         new, ok, reason = tclk.apply_frame(state, f, r["ts_ms"])
         if not ok:
@@ -495,6 +503,9 @@ def main() -> int:
     ap.add_argument("--identity", default=os.path.expanduser("~/dev/technocore-did/identity.pem"))
     ap.add_argument("--amount", default="200")
     ap.add_argument("--job-proto", default="a2a", help="job.proto on our offer (acceptors ignore job-less offers)")
+    ap.add_argument("--job-id", default=None, help="payer: job.id on our offer (default technocore-pulse-<hex>)")
+    ap.add_argument("--job-context", default=None, help="payer: job.context — the ask, inline (or a /kv path)")
+    ap.add_argument("--accept-from", default="", help="payer: only lock accepts from these DIDs (comma list, full or suffix)")
     ap.add_argument("--min-age", type=int, default=20, help="payee: only offers older than this many seconds (the 2 s bots skipped them)")
     ap.add_argument("--prefer", default="a2a,flop-harness,blockrewards",
                     help="payee: job.proto preference order (measured 06.09: a2a payers lock 9/25, flop-harness 6/25, blockrewards 3/25)")
@@ -565,7 +576,8 @@ def main() -> int:
     roles = ["payer", "payee"] if a.role == "both" else [a.role]
     for role in roles:
         try:
-            res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto) if role == "payer" \
+            res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto, a.job_id, a.job_context,
+                            {x.strip() for x in a.accept_from.split(",") if x.strip()}) if role == "payer" \
                 else run_payee(v, a.lock_wait, a.min_age, [p for p in a.prefer.split(",") if p], {p for p in a.exclude.split(",") if p}, a.attempts, a.allow_judged)
         except Exception as e:  # noqa: BLE001
             res = {"role": role, "status": f"error: {e}"}
