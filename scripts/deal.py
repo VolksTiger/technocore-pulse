@@ -158,6 +158,20 @@ class Venue:
         return None, None
 
 
+PASSPORTS: set | None = None  # DIDs with a blockrewards passport (proven workers), when --accept-passport is on
+
+
+def load_passports() -> set:
+    try:
+        req = urllib.request.Request("https://flop-market.pages.dev/blockrewards/passports.json", headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            d = json.loads(r.read().decode("utf-8", "replace"))
+        return {p["did"] for p in d.get("passports", []) if p.get("did")}
+    except Exception as e:  # noqa: BLE001
+        log(f"passports.json unavailable ({e}); --accept-passport has no effect this run")
+        return set()
+
+
 def paper_ref() -> str:
     return "paper-" + secrets.token_hex(6)
 
@@ -229,6 +243,9 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
             # each accept derives its own contract id, so locking a later accept from a chosen
             # counterparty folds cleanly on its own chain; the earlier accepts simply stay unfunded
             log(f"ignoring accept from {f['from'][:24]}… (not in --accept-from)")
+            return False
+        if PASSPORTS is not None and f["from"] not in PASSPORTS:
+            log(f"ignoring accept from {f['from'][:24]}… (no blockrewards passport)")
             return False
         new, ok, reason = tclk.apply_frame(state, f, r["ts_ms"])
         if not ok:
@@ -490,6 +507,14 @@ def strict_fold(v: Venue, contract: str | None, offer_id: str | None) -> str:
         if (offer_id and (f'"id":"{offer_id}"' in line or f'"ref":"{offer_id}"' in line or f'"contract":"{offer_id}"' in line)) \
                 or (contract and f'"contract":"{contract}"' in line):
             chain.append(r)
+    if not any('"type":"offer"' in r["line"] for r in chain):
+        # the board's retained ring is ~30 min (13.09.); a deal longer than that has rolled off the
+        # export, so fold the records we posted and observed ourselves (same frames, same signatures)
+        seen = {(r["room"], r["seq"]) for r in chain}
+        chain += [r for r in v.records if (r["room"], r["seq"]) not in seen and (
+            (offer_id and (f'"id":"{offer_id}"' in r["line"] or f'"ref":"{offer_id}"' in r["line"] or f'"contract":"{offer_id}"' in r["line"]))
+            or (contract and f'"contract":"{contract}"' in r["line"]))]
+        log("  (board ring no longer holds this deal; folding our own transcript records)")
     chain = sorted(chain, key=lambda r: (0 if '"type":"offer"' in r["line"] else 1, r["ts_ms"], r["seq"]))
     state, steps = tclk.fold_transcript(chain, "strict", check_signature=True)
     for s in steps:
@@ -506,6 +531,8 @@ def main() -> int:
     ap.add_argument("--job-id", default=None, help="payer: job.id on our offer (default technocore-pulse-<hex>)")
     ap.add_argument("--job-context", default=None, help="payer: job.context — the ask, inline (or a /kv path)")
     ap.add_argument("--accept-from", default="", help="payer: only lock accepts from these DIDs (comma list, full or suffix)")
+    ap.add_argument("--accept-passport", action="store_true", help="payer: only lock accepts from DIDs with a blockrewards passport (proven workers)")
+    ap.add_argument("--repeat", type=int, default=1, help="run the role this many times in a row (one passphrase entry)")
     ap.add_argument("--min-age", type=int, default=20, help="payee: only offers older than this many seconds (the 2 s bots skipped them)")
     ap.add_argument("--prefer", default="a2a,flop-harness,blockrewards",
                     help="payee: job.proto preference order (measured 06.09: a2a payers lock 9/25, flop-harness 6/25, blockrewards 3/25)")
@@ -573,7 +600,11 @@ def main() -> int:
         print(json.dumps([{"role": "repair", "contract": a.cancel, "strict_fold_on_venue": status}], indent=1))
         return 0
     results = []
-    roles = ["payer", "payee"] if a.role == "both" else [a.role]
+    global PASSPORTS
+    if a.accept_passport:
+        PASSPORTS = load_passports()
+        log(f"passport filter on: {len(PASSPORTS)} DIDs")
+    roles = (["payer", "payee"] if a.role == "both" else [a.role]) * max(1, a.repeat)
     for role in roles:
         try:
             res = run_payer(v, a.amount, a.asset, a.accept_wait, a.job_proto, a.job_id, a.job_context,
