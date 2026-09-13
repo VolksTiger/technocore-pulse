@@ -257,6 +257,11 @@ def run_payer(v: Venue, amount: str, asset: str, accept_wait_min: int, job_proto
     log("waiting for a stranger to accept…")
     arec, accept = v.watch(tclk.OFFER_ROOM, rec["seq"], expires, is_accept)
     if accept is None:
+        if valid_accepts_for(offer, board_snapshot()):
+            # we chose not to fund a valid accept; that chain sits in `accepted` until the offer's own deadlines pass,
+            # and a board cancel would be rejected by any strict fold — so post nothing more
+            log("offer expired with valid accepts we did not fund; leaving it (no board cancel)")
+            return {"role": "payer", "status": "expired (accepts left unfunded)", "offer_id": offer["id"]}
         cancel = {"type": "cancel", "from": v.did, "contract": offer["id"], "reason": "expired unanswered"}
         # cancel in `proposed` names the offer id (no contract yet) — SPEC §3.5 / machine.ts
         v.post(tclk.OFFER_ROOM, cancel)
@@ -517,8 +522,13 @@ def strict_fold(v: Venue, contract: str | None, offer_id: str | None) -> str:
         log("  (board ring no longer holds this deal; folding our own transcript records)")
     chain = sorted(chain, key=lambda r: (0 if '"type":"offer"' in r["line"] else 1, r["ts_ms"], r["seq"]))
     state, steps = tclk.fold_transcript(chain, "strict", check_signature=True)
+    hidden = sum(1 for s in steps if not s["ok"] and "missing field on accept: contract" in str(s.get("reason")))
     for s in steps:
+        if not s["ok"] and "missing field on accept: contract" in str(s.get("reason")):
+            continue  # the broken-client accepts (84% of accept lines) — noise, counted below
         log(f"  fold {s.get('type', '?'):9} seq {s['seq']:<9} {s['room']:<28} {'ok' if s['ok'] else 'REJECT: ' + str(s.get('reason'))}")
+    if hidden:
+        log(f"  ({hidden} non-conformant accept lines skipped)")
     return state["status"] if state else "no offer found on the venue"
 
 
