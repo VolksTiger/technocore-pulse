@@ -14,13 +14,22 @@ into one of three buckets:
     as the vector says it must.
   * "fail"  -- a genuine mismatch. Zero of these is the pass bar.
   * "skip"  -- the vector exercises something outside what compute-channel.py
-    implements: a cryptographic signature (sr25519 -- see transcript.py's
-    docstring for why this module does not implement sr25519), a Retention/TEE
-    enum decoder that lives in a different, non-vendored appendix family, or a
-    chain-runtime check (duplicate-turn dedup, pinned-channel-policy cutoff)
-    that has no wire-encoding counterpart to run offline. Every skip carries a
-    reason; skips are never counted as failures, but they are never silently
-    dropped either.
+    implements, or (rarely) a cryptographic check that can't run in this
+    interpreter: a Retention/TEE enum decoder that lives in a different,
+    non-vendored appendix family, or a chain-runtime check (duplicate-turn
+    dedup, pinned-channel-policy cutoff) that has no wire-encoding counterpart
+    to run offline. Every skip carries a reason; skips are never counted as
+    failures, but they are never silently dropped either.
+
+The six sr25519-signature vectors (direct_rail_v1.validator_signature,
+compute_channel_v1.v3_leaf_signature.signature, compute_channel_v1.receipt.signature,
+negative_cases.invalid_receipt_signature, negative_cases.invalid_validator_signature,
+negative_cases.legacy_receipt_current_channel.signature) run as REAL checks --
+via `flopspend.crypto.Sr25519Verifier`, which wraps the vetted
+`py-sr25519-bindings` package (see crypto.py and transcript.py's docstring) --
+whenever those bindings are importable. Only when they are NOT installed do
+these six fall back to "skip", each carrying the install hint
+(`pip install py-sr25519-bindings`).
 
 Two families in the corpus (decode_policy_v1's SHA-256 hash and data_ref_v1's
 flat SCALE bytes) don't need the vendored module at all -- they're checked here
@@ -42,6 +51,7 @@ import sys
 from dataclasses import dataclass
 from typing import Any, Callable
 
+from flopspend import crypto
 from flopspend.vendor import compute_channel as cc
 
 VECTOR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vendor", "wire-format-v1.json")
@@ -188,7 +198,7 @@ def _check_decode_policy(data: dict, rec: _Recorder) -> None:
     rec.check("decode_policy_v1.hash", go)
 
 
-def _check_direct_rail(data: dict, rec: _Recorder) -> "bytes | None":
+def _check_direct_rail(data: dict, rec: _Recorder, verifier: "crypto.Sr25519Verifier | None") -> "bytes | None":
     dr = data["direct_rail_v1"]
     task_hash_holder: "list[bytes]" = []
 
@@ -236,11 +246,20 @@ def _check_direct_rail(data: dict, rec: _Recorder) -> "bytes | None":
         assert attestation_scale.hex() == dr["validator_attestation_scale_hex"], "attestation_scale mismatch"
 
     rec.check("direct_rail_v1.report_data_and_attestation_bytes", go_report_data)
-    rec.skip(
-        "direct_rail_v1.validator_signature",
-        "sr25519 ValidatorAttestation signature (Appendix F.2/G.2) not implemented -- "
-        "pluggable verifier only, see transcript.py",
-    )
+
+    if verifier is not None:
+        def go_validator_sig() -> None:
+            ok = verifier(
+                _h(dr["validator_id_hex"]), _h(dr["validator_attestation_signable_hex"]), _h(dr["validator_signature_hex"])
+            )
+            assert ok, "validator attestation signature did not verify"
+
+        rec.check("direct_rail_v1.validator_signature", go_validator_sig)
+    else:
+        rec.skip(
+            "direct_rail_v1.validator_signature",
+            "sr25519 ValidatorAttestation signature (Appendix F.2/G.2) not verifiable -- " + crypto.INSTALL_HINT,
+        )
     return task_hash
 
 
@@ -255,7 +274,7 @@ def _check_data_ref(data: dict, rec: _Recorder) -> None:
     rec.check("data_ref_v1.scale_bytes", go)
 
 
-def _check_compute_channel(data: dict, rec: _Recorder) -> dict:
+def _check_compute_channel(data: dict, rec: _Recorder, verifier: "crypto.Sr25519Verifier | None") -> dict:
     """Returns a dict of intermediate values reused by the negative-case checks."""
     ccv = data["compute_channel_v1"]
     ctx: dict = {}
@@ -331,11 +350,19 @@ def _check_compute_channel(data: dict, rec: _Recorder) -> dict:
         assert len(_h(vs["signature_hex"])) == 64, "signature must be 64 bytes"
 
     rec.check("compute_channel_v1.v3_leaf_signature.structure", go_v3_sig_structure)
-    rec.skip(
-        "compute_channel_v1.v3_leaf_signature.signature",
-        "sr25519 signature over the leaf hash (Session enclave key, Appendix F.3) not implemented -- "
-        "pluggable verifier only, see transcript.py",
-    )
+
+    if verifier is not None:
+        def go_v3_sig() -> None:
+            ok = verifier(_h(vs["public_key_hex"]), _h(vs["leaf_hash_hex"]), _h(vs["signature_hex"]))
+            assert ok, "v3 leaf signature did not verify"
+
+        rec.check("compute_channel_v1.v3_leaf_signature.signature", go_v3_sig)
+    else:
+        rec.skip(
+            "compute_channel_v1.v3_leaf_signature.signature",
+            "sr25519 signature over the leaf hash (Session enclave key, Appendix F.3) not verifiable -- "
+            + crypto.INSTALL_HINT,
+        )
 
     if "path" in ctx:
         def go_verified_turn() -> None:
@@ -379,16 +406,24 @@ def _check_compute_channel(data: dict, rec: _Recorder) -> dict:
         ctx["receipt_inputs"] = (r_channel_id, r_root, r_agg, r_payable)
 
     rec.check("compute_channel_v1.receipt.preimage_and_structure", go_receipt)
-    rec.skip(
-        "compute_channel_v1.receipt.signature",
-        "sr25519 agent-counter-signature over the receipt (R12.1b, Appendix F.3) not implemented -- "
-        "pluggable verifier only, see transcript.py",
-    )
+
+    if verifier is not None:
+        def go_receipt_sig() -> None:
+            ok = verifier(_h(r["public_key_hex"]), _h(r["preimage_hex"]), _h(r["signature_hex"]))
+            assert ok, "receipt signature did not verify"
+
+        rec.check("compute_channel_v1.receipt.signature", go_receipt_sig)
+    else:
+        rec.skip(
+            "compute_channel_v1.receipt.signature",
+            "sr25519 agent-counter-signature over the receipt (R12.1b, Appendix F.3) not verifiable -- "
+            + crypto.INSTALL_HINT,
+        )
 
     return ctx
 
 
-def _check_negative_cases(data: dict, ctx: dict, rec: _Recorder) -> None:
+def _check_negative_cases(data: dict, ctx: dict, rec: _Recorder, verifier: "crypto.Sr25519Verifier | None") -> None:
     for item in data["negative_cases"]:
         cid, raw, exp = item["id"], _h(item["bytes_hex"]), item["expected"]
         name = f"negative_cases.{cid}"
@@ -470,8 +505,30 @@ def _check_negative_cases(data: dict, ctx: dict, rec: _Recorder) -> None:
                 cc.encode_transcript_blob(ctx["channel_id"], [bad_record])
 
             rec.expect_raises(name, ValueError, go)
-        elif cid in ("invalid_receipt_signature", "invalid_validator_signature"):
-            rec.skip(name, "signature verification not implemented -- pluggable verifier only, see transcript.py")
+        elif cid == "invalid_receipt_signature":
+            if verifier is None:
+                rec.skip(name, "sr25519 signature verification not available -- " + crypto.INSTALL_HINT)
+                continue
+
+            r = data["compute_channel_v1"]["receipt"]
+
+            def go(raw: bytes = raw, r: dict = r) -> None:
+                ok = verifier(_h(r["public_key_hex"]), _h(r["preimage_hex"]), raw)
+                assert not ok, "corrupted receipt signature must not verify"
+
+            rec.check(name, go)
+        elif cid == "invalid_validator_signature":
+            if verifier is None:
+                rec.skip(name, "sr25519 signature verification not available -- " + crypto.INSTALL_HINT)
+                continue
+
+            dr = data["direct_rail_v1"]
+
+            def go(raw: bytes = raw, dr: dict = dr) -> None:
+                ok = verifier(_h(dr["validator_id_hex"]), _h(dr["validator_attestation_signable_hex"]), raw)
+                assert not ok, "corrupted validator signature must not verify"
+
+            rec.check(name, go)
         elif cid == "legacy_leaf_current_channel":
             rec.skip(name, "pinned-channel decode-policy cutoff is chain state, not a wire-encoding invariant reproducible offline")
         elif cid == "legacy_receipt_current_channel":
@@ -485,7 +542,27 @@ def _check_negative_cases(data: dict, ctx: dict, rec: _Recorder) -> None:
                 assert len(raw) == 160, "expected 96-byte legacy preimage + 64-byte signature"
 
             rec.check(name + ".preimage", go)
-            rec.skip(name + ".signature", "signature verification not implemented -- pluggable verifier only, see transcript.py")
+
+            if verifier is None:
+                rec.skip(name + ".signature", "sr25519 signature verification not available -- " + crypto.INSTALL_HINT)
+                continue
+
+            r = data["compute_channel_v1"]["receipt"]
+
+            def go_sig(raw: bytes = raw, r: dict = r) -> None:
+                legacy_msg, sig = raw[:96], raw[96:]
+                pubkey = _h(r["public_key_hex"])
+                canonical_preimage = _h(r["preimage_hex"])
+                assert verifier(pubkey, legacy_msg, sig), (
+                    "signature must verify over the legacy (domain-less) preimage -- proves this is a "
+                    "genuine legacy signature, not garbage"
+                )
+                assert not verifier(pubkey, canonical_preimage, sig), (
+                    "signature must NOT verify over the canonical v1 (domain-separated) preimage -- this "
+                    "is exactly why a current-channel verifier rejects it (BadReceiptSignature)"
+                )
+
+            rec.check(name + ".signature", go_sig)
         else:
             rec.skip(name, f"unrecognized negative-case id {cid!r}; add handling in wire.py")
 
@@ -496,13 +573,15 @@ def verify_vectors(path: "str | None" = None) -> VectorReport:
     with open(path or VECTOR_PATH, encoding="utf-8") as f:
         data = json.load(f)
 
+    verifier = crypto.Sr25519Verifier() if crypto.available() else None
+
     rec = _Recorder()
     _check_codec(data, rec)
     _check_decode_policy(data, rec)
-    _check_direct_rail(data, rec)
+    _check_direct_rail(data, rec, verifier)
     _check_data_ref(data, rec)
-    ctx = _check_compute_channel(data, rec)
-    _check_negative_cases(data, ctx, rec)
+    ctx = _check_compute_channel(data, rec, verifier)
+    _check_negative_cases(data, ctx, rec, verifier)
     return VectorReport(rec.results)
 
 

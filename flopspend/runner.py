@@ -8,21 +8,29 @@ testnet RPC exists.
                        public. See its docstring.
   DryRunClient     -- the only WORKING implementation. Simulates a
                        cooperative miner (and a rubber-stamp chain) entirely
-                       offline: it signs turns with `transcript.StubSigner`
-                       (not real cryptography, see transcript.py), estimates
-                       G_n with a synthetic proxy (NOT R4.2's flop_meter,
-                       which this repo doesn't have), and settles the FULL
-                       reserved escrow per R12.1a. Good enough to exercise
-                       every other module end-to-end; not a model of the
-                       real network.
+                       offline: it signs turns with a REAL sr25519 signer
+                       (`transcript.default_signer`, backed by
+                       `crypto.Sr25519Signer` -- a fixed test seed, not a
+                       real chain identity) when `py-sr25519-bindings` is
+                       installed, else falls back to `transcript.StubSigner`
+                       (no cryptography, see transcript.py). Estimates G_n
+                       with a synthetic proxy (NOT R4.2's flop_meter, which
+                       this repo doesn't have), and settles the FULL reserved
+                       escrow per R12.1a on a cooperative close. Good enough
+                       to exercise every other module end-to-end; not a model
+                       of the real network.
 
 `run_day()` compresses one simulated 24h day into a virtual clock (no real
 sleeping) so `--dry-run --days 1` finishes in seconds. What it actually
 exercises, faithfully: Budget/TokenBucket pacing (budget.py), the
 concurrency cap and circuit-breaker headroom (budget.py, §12.2/§6.2), the
-transcript accumulator and receipt counter-signing (transcript.py), and the
-append-only ledger (ledger.py). What it does NOT model: real network
-latency, a real miner's behavior, real G_n accounting, or real signatures.
+transcript accumulator, REAL sr25519 turn-signature verification and receipt
+counter-signing (transcript.py / crypto.py, when the bindings are installed
+-- see `default_verifier`/`default_signer`), and the append-only ledger
+(ledger.py). A turn whose signature fails real verification settles nothing
+-- the session is recorded with `status="turn_sig_invalid"` instead. What
+this still does NOT model: real network latency, a real miner's behavior, or
+real G_n accounting (R4.2's flop_meter).
 
 CLI:  python3 -m flopspend.runner --dry-run --days 1 --ration 1000
 """
@@ -38,6 +46,7 @@ from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 
 from flopspend import budget as bmod
+from flopspend import crypto as cryptomod
 from flopspend import ledger as lmod
 from flopspend import transcript as tmod
 from flopspend.queue import Job, WorkloadQueue
@@ -51,6 +60,13 @@ DRY_RUN_GENESIS = cc.blake2_256(b"flopspend-dry-run-genesis")
 DRY_RUN_AGENT = cc.blake2_256(b"flopspend-dry-run-agent")
 DRY_RUN_MINER = cc.blake2_256(b"flopspend-dry-run-miner")
 DRY_RUN_MODEL_HASH = cc.blake2_256(b"flopspend-dry-run-model")
+
+# Fixed sr25519 seed for the dry run's simulated session-enclave signer --
+# NOT a real chain identity, just deterministic so the same run reproduces
+# the same signatures. DRY_RUN_MINER (above) is a chain account id, not a
+# public key, and must never be passed to a signature verifier as one --
+# see DryRunClient.enclave_pubkey.
+DRY_RUN_ENCLAVE_SEED = cc.blake2_256(b"flopspend-dry-run-enclave-seed")
 
 # Synthetic G_n proxy for the dry run ONLY: real reference-work accounting is
 # R4.2's hp_poui::flop_meter, a deterministic formula over prompt/context
@@ -151,7 +167,14 @@ class DryRunClient(ChainClient):
 
     def __init__(self, genesis_hash: bytes = DRY_RUN_GENESIS) -> None:
         self.genesis_hash = genesis_hash
-        self.enclave_signer = tmod.StubSigner(public_key=DRY_RUN_MINER)
+        if cryptomod.available():
+            self.enclave_signer = cryptomod.Sr25519Signer(DRY_RUN_ENCLAVE_SEED)
+            self.enclave_pubkey = self.enclave_signer.public_key
+            self.verifier_name = "sr25519"
+        else:
+            self.enclave_signer = tmod.StubSigner(public_key=DRY_RUN_MINER)
+            self.enclave_pubkey = DRY_RUN_MINER
+            self.verifier_name = "stub"
         self._clock_ms = 0
 
     def open_channel(self, agent: bytes, miner: bytes, model_hash: bytes, escrow: float, nonce: int, now: datetime) -> OpenChannel:
@@ -222,6 +245,7 @@ class DaySummary:
     total_settled: float = 0.0
     total_gn: int = 0
     daily_target: float = 0.0
+    verifier: str = "stub"  # "sr25519" | "stub" -- which turn-signature verifier this day actually used
 
     @property
     def pct_of_target(self) -> float:
@@ -255,7 +279,15 @@ def run_day(
     """Simulate one 24h day over a virtual clock (`day_start` + tick_minutes
     steps -- no real sleeping), pacing spend through `budget`'s TokenBucket,
     respecting the §12.2 reservation cap and the §6.2 circuit breaker, and
-    appending every session to the ledger at `ledger_path`."""
+    appending every session to the ledger at `ledger_path`.
+
+    `agent_verifier` defaults to `transcript.default_verifier()` -- the real
+    `crypto.Sr25519Verifier` when `py-sr25519-bindings` is installed, else
+    `StubVerifier`. Each turn is verified against `enclave_pubkey` (the
+    client's actual signer public key, read off `client.enclave_pubkey` when
+    the client exposes one -- NOT `miner`, which is a chain account id, not
+    a public key). When real verification fails, the session is recorded
+    with `status="turn_sig_invalid"` and is never settled."""
     if max_escrow is None:
         max_escrow = min(bmod.AGENT_PER_TX_LIMIT, budget.daily_target)
     bucket = bmod.TokenBucket(daily_target=budget.daily_target, day_start=day_start)
@@ -263,7 +295,14 @@ def run_day(
     recent_txs: "List[tuple]" = []  # (block, flop) within the trailing circuit-breaker window
     escrowed_open = 0.0  # escrow currently reserved by sessions this tick treats as "in flight"
 
-    summary = DaySummary(day=day_start.strftime("%Y-%m-%d"), daily_target=budget.daily_target)
+    verifier = agent_verifier if agent_verifier is not None else tmod.default_verifier()
+    verifier_name = "sr25519" if isinstance(verifier, cryptomod.Sr25519Verifier) else "stub"
+    # The session-enclave signer's real public key, not the miner account id
+    # (`miner` is a chain identity for open_channel/settle_wait; it was never
+    # a valid sr25519 public key to verify turn signatures against).
+    enclave_pubkey = getattr(client, "enclave_pubkey", miner)
+
+    summary = DaySummary(day=day_start.strftime("%Y-%m-%d"), daily_target=budget.daily_target, verifier=verifier_name)
     nonce = nonce_start
     ticks = int(round(1440 / tick_minutes))
 
@@ -304,31 +343,46 @@ def run_day(
                 turn.version, turn.h_in, turn.h_out, turn.g_n, turn.enclave_sig,
                 miner_recv_ms=turn.miner_recv_ms, miner_done_ms=turn.miner_done_ms, latency_ms=turn.latency_ms,
             )
-            accumulator.verify_turn(0, miner, verifier=agent_verifier)  # recorded, see transcript.py on why this doesn't cryptographically verify
+            turn_verified = accumulator.verify_turn(0, enclave_pubkey, verifier=verifier)
 
-            aggregate_gn = accumulator.aggregate_gn()
-            receipt_sig = accumulator.counter_sign(aggregate_gn, payable=escrow, signer=agent_signer)
-            settlement = client.settle_wait(channel, accumulator.root(), aggregate_gn, receipt_sig, now)
+            if turn_verified:
+                aggregate_gn = accumulator.aggregate_gn()
+                receipt_sig = accumulator.counter_sign(aggregate_gn, payable=escrow, signer=agent_signer)
+                settlement = client.settle_wait(channel, accumulator.root(), aggregate_gn, receipt_sig, now)
+                status = settlement.status
+                settled, gn = settlement.settled, settlement.gn
+                receipt_root_hex = settlement.receipt_root.hex() if settlement.receipt_root else None
+                our_signature_hex = settlement.our_signature.hex() if settlement.our_signature else None
+                settled_at = settlement.settled_at
+            else:
+                # R12.1b: a turn whose enclave signature fails real
+                # verification is never settled -- a real chain would reject
+                # the settle call outright, so this simulator doesn't even
+                # attempt one.
+                status = "turn_sig_invalid"
+                settled, gn = None, None
+                receipt_root_hex, our_signature_hex, settled_at = None, None, None
 
             lmod.append_session(
                 {
                     "channel_id": channel.channel_id.hex(), "miner": miner.hex(), "model_hash": model_hash.hex(),
-                    "escrow": escrow, "settled": settlement.settled, "gn": settlement.gn,
-                    "receipt_root": settlement.receipt_root.hex() if settlement.receipt_root else None,
-                    "our_signature": settlement.our_signature.hex() if settlement.our_signature else None,
-                    "opened_at": channel.opened_at, "settled_at": settlement.settled_at, "status": settlement.status,
+                    "escrow": escrow, "settled": settled, "gn": gn,
+                    "receipt_root": receipt_root_hex,
+                    "our_signature": our_signature_hex,
+                    "opened_at": channel.opened_at, "settled_at": settled_at, "status": status,
                     "client": type(client).__name__,  # DryRunClient rows are simulations, never spend proof
+                    "verifier": verifier_name,
                 },
                 path=ledger_path,
             )
 
             recent_txs.append((now_block, escrow))
             escrowed_open = max(0.0, escrowed_open - escrow)  # settled synchronously within the same tick
-            if settlement.status == "settled":
+            if status == "settled":
                 summary.sessions_settled += 1
-                summary.total_settled += settlement.settled
-                summary.total_gn += settlement.gn
-                bucket.record_spend(settlement.settled, now)
+                summary.total_settled += settled
+                summary.total_gn += gn
+                bucket.record_spend(settled, now)
 
             allowance = bucket.allowance(now)
 
@@ -383,7 +437,7 @@ def _main(argv: "Optional[List[str]]" = None) -> int:
         print(
             f"{summary.day}: opened {summary.sessions_opened}, settled {summary.sessions_settled}, "
             f"{summary.total_settled:.4f}/{summary.daily_target:.4f} FLOP ({summary.pct_of_target:.1f}% of target), "
-            f"G_n={summary.total_gn}"
+            f"G_n={summary.total_gn}, verifier={summary.verifier}"
         )
     return 0
 

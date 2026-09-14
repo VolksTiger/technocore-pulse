@@ -17,25 +17,32 @@ What this module does, precisely (R12.1b, Appendix F.3):
      strictly increasing order starting at 0.
   3. Verify a miner-signed turn and counter-sign the agent's receipt over the
      cumulative root -- through a PLUGGABLE verifier/signer callback, never a
-     built-in cryptographic implementation.
+     built-in cryptographic implementation baked into this module.
 
-What this module deliberately does NOT do, and why:
+Where the cryptography actually comes from:
 
   R12.1b's turn signature and the F.3 "agent receipt v1" are BOTH sr25519
   (yellow paper §6.5, "Session enclave key (per-turn transcript leaf): sr25519";
-  Appendix F.3, "agent receipt v1: sr25519 over ..."). This module does not
-  implement sr25519 -- there is no pure-Python/stdlib sr25519 in this
-  environment, and rolling one for a testnet that will pay real tokens later
-  is exactly the kind of thing that should come from a vetted library
-  (py-substrate-interface / the published SDK), not be reinvented here.
-  `SignatureVerifier` and `Signer` are plain callables; `StubVerifier` and
-  `StubSigner` are the defaults, and they are explicit about doing NO
-  cryptography -- they only record what was asked of them and return a fixed
-  answer, so the surrounding plumbing (runner.py's DryRunClient, tests) can be
-  exercised end-to-end before a real verifier exists. The wire-format-v1.json
-  corpus's signature-bearing vectors (v3_leaf_signature, receipt.signature_hex,
-  the two invalid_*_signature negative cases) are correspondingly SKIPPED, not
-  faked, by wire.verify_vectors() -- see that module's docstring.
+  Appendix F.3, "agent receipt v1: sr25519 over ..."). This module still does
+  not implement sr25519 itself -- rolling one for a testnet that will pay
+  real tokens later is exactly the kind of thing that should come from a
+  vetted library, not be reinvented here. That vetted library is now wired
+  in: `flopspend/crypto.py` wraps the `py-sr25519-bindings` package
+  (`Sr25519Verifier`, `Sr25519Signer`), checked against the wire-format-v1.json
+  corpus's signature-bearing vectors in wire.py (v3_leaf_signature,
+  receipt.signature_hex, the two invalid_*_signature negative cases, and the
+  legacy-receipt-signature negative case -- see that module's docstring).
+
+  `SignatureVerifier` and `Signer` stay plain callables so a fake never has
+  to look different from the real thing; `StubVerifier` and `StubSigner`
+  remain importable and are explicit about doing NO cryptography -- they
+  only record what was asked of them and return a fixed answer, useful for
+  plumbing-only runs (an environment without the bindings, or a test that
+  wants to assert on call intent rather than cryptographic validity).
+  `default_verifier()` / `default_signer(seed)` below return the real
+  crypto.py implementations when `py-sr25519-bindings` is importable, and
+  fall back to the stubs otherwise -- that's what runner.py's DryRunClient
+  and run_day() use by default.
 """
 
 from __future__ import annotations
@@ -219,3 +226,27 @@ class TranscriptAccumulator:
         sr25519 signature, see the module docstring."""
         signer = signer or StubSigner()
         return signer(self.receipt_preimage(aggregate_gn, payable))
+
+
+def default_verifier() -> "SignatureVerifier":
+    """The real `crypto.Sr25519Verifier()` when `py-sr25519-bindings` is
+    importable, else `StubVerifier()` (no cryptography -- see the module
+    docstring). This is what runner.py uses by default; pass an explicit
+    `verifier` to `verify_turn`/`run_day` to override either way."""
+    from flopspend import crypto
+
+    if crypto.available():
+        return crypto.Sr25519Verifier()
+    return StubVerifier()
+
+
+def default_signer(seed: bytes) -> "Signer":
+    """The real `crypto.Sr25519Signer(seed)` when `py-sr25519-bindings` is
+    importable, else `StubSigner()` (deterministic placeholder, NOT a real
+    signature -- see the module docstring). `seed` is ignored when falling
+    back to StubSigner, since it has no keypair to derive."""
+    from flopspend import crypto
+
+    if crypto.available():
+        return crypto.Sr25519Signer(seed)
+    return StubSigner()
