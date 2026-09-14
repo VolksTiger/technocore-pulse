@@ -75,6 +75,15 @@ def cmd_consent(a):
         "members": members, "request_id": f"roster-{a.game}-{int(time.time())}"})
 
 
+def cmd_withdraw(a):
+    """Withdraw our live roster consent for a game (allowed before the first word). The referee rejects a
+    roster.v1 with different members[] while an older consent is live ('consent: withdraw before changing'),
+    so to countersign a changed roster: withdraw first, then consent again with a fresh request_id."""
+    rid = f"withdraw-{a.game}-{int(time.time())}"
+    queue(rid, "mb-sonnet-2-discovery", {"type": "sonnet.withdraw.v1", "contest_id": "sonnet-2", "game_id": a.game, "request_id": rid})
+    return 0
+
+
 def cmd_play(a):
     room = f"d-sonnet-2-team-{a.game}"
     sched = {int(k): v for k, v in json.load(open(a.schedule))["words"].items()}
@@ -104,6 +113,7 @@ def cmd_play(a):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
+    w = sub.add_parser("withdraw", help="withdraw our live roster consent (before the first word)"); w.add_argument("--game", required=True); w.set_defaults(fn=cmd_withdraw)
     c = sub.add_parser("consent"); c.add_argument("--game", required=True); c.add_argument("--generation", type=int, required=True); c.add_argument("--members", required=True)
     p = sub.add_parser("play"); p.add_argument("--game", required=True); p.add_argument("--generation", type=int, required=True); p.add_argument("--schedule", required=True); p.add_argument("--hours", type=float, default=24)
     a = ap.parse_args()
