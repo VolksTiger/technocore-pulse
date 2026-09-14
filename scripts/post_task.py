@@ -25,7 +25,10 @@ sys.path.insert(0, HERE)
 import tclk  # noqa: E402
 from deal import board_snapshot, get  # noqa: E402
 
-NS = "tclk-job-tp"
+NS = "tclk-job-tp"      # full spec notes
+MAT_NS = "tclk-mat-tp"  # material notes (the table), referenced from the inline context like the open slice does
+# Workers measured revealing to non-program posters (recorder snapshots, 13.09.: 17 locked deals sampled)
+DELIVERERS = "jy23zJM4,7DXzqcCf,h7W1obrj,jYKvxo3e"
 
 
 def build_task(rows: int = 12):
@@ -58,28 +61,41 @@ def build_task(rows: int = 12):
     offers = sum(1 for fr in table if fr[3] == sender and fr[2] == "offer")
     locks = sum(1 for fr in table if fr[3] == sender and fr[2] == "lock")
     material = "seq | time | type | from | ref " + " ".join(f"{s} | {t} | {ty} | {frm} | {ref}" for s, t, ty, frm, ref in table)
-    ask = (f"verification | From the note the table at the end of this note (an excerpt of the tclk board, one frame per line: "
-           f"seq | time | type | from | ref): how many rows are offer frames posted by {sender}, and how many are lock frames by the "
-           f"same sender? Give both counts as \"offers N, locks M\". | reward tier 2/5 | done looks like: one line: offers N, locks M. | "
-           f"deliver as one signed message in the deal room, then reveal. Paid in FLOP on the paper rail (testnet-era: no value moves). | "
-           f"CREDIT: posted by technocore-pulse (github.com/VolksTiger/technocore-pulse) as a funded, verifiable task. | MATERIAL: {material}")
-    return ask, f"offers {offers}, locks {locks}"
+    question = (f"how many rows are offer frames posted by {sender}, and how many are lock frames by the same sender? "
+                f"Give both counts as \"offers N, locks M\".")
+    return material, question, f"offers {offers}, locks {locks}"
+
+
+def kv_set(ns: str, key: str, value: str) -> None:
+    code, body = get(f"/kv/{ns}/{key}/set/{urllib.parse.quote(value, safe='')}", retries=3)
+    if code != 200:
+        raise SystemExit(f"kv set /kv/{ns}/{key} failed: HTTP {code} {body[:200]}")
+    code, body = get(f"/kv/{ns}/{key}", retries=2)
+    if code != 200 or value[:40] not in body:
+        raise SystemExit(f"kv readback /kv/{ns}/{key} failed")
 
 
 def main() -> int:
-    ask, answer = build_task()
-    key = "task-" + secrets.token_hex(4)
-    path = f"/kv/{NS}/{key}/set/{urllib.parse.quote(ask, safe='')}"
-    code, body = get(path, retries=3)
-    if code != 200:
-        raise SystemExit(f"kv set failed: HTTP {code} {body[:200]}")
-    code, body = get(f"/kv/{NS}/{key}", retries=2)
-    ok = code == 200 and "MATERIAL:" in body
-    print(f"note /kv/{NS}/{key} written ({len(ask)} chars), readback {'ok' if ok else 'FAILED'}")
+    material, question, answer = build_task()
+    hexid = secrets.token_hex(4)
+    mat_key = f"mtask-{hexid}"
+    job_key = f"task-{hexid}"
+    job_id = f"task-{hexid}-open"  # the shape workers reveal on: <family>-<hex>-open under proto a2a (13.09. sample)
+    kv_set(MAT_NS, mat_key, material)
+    # the inline context: family word first, the material note path, the ask, the pinned output format
+    context = (f"verification | From the note /kv/{MAT_NS}/{mat_key} (an excerpt of the tclk board, one frame per line: "
+               f"seq | time | type | from | ref): {question} | reward tier 2/5 | done looks like: one line: offers N, locks M. | "
+               f"deliver as one signed message in the deal room, then reveal. Paid in FLOP on the paper rail (testnet-era: no value moves). | "
+               f"full spec: /kv/{NS}/{job_key}")
+    full_spec = context + f" | MATERIAL: {material}"
+    kv_set(NS, job_key, full_spec)
+    print(f"material /kv/{MAT_NS}/{mat_key} ({len(material)} chars) and spec /kv/{NS}/{job_key} ({len(full_spec)} chars) written")
     print(f"expected answer (keep to yourself): {answer}")
-    print("\npost the offer with:")
-    print(f'  ~/dev/technocore-did/.venv/bin/python scripts/deal.py --role payer --amount 200 --accept-wait 3 --accept-passport '
-          f'--job-id {key} --job-proto a2a --job-context /kv/{NS}/{key}')
+    print(f"context length: {len(context)} chars (offer frame cap 4096)")
+    print("\npost the offer with (targets the workers measured to deliver to strangers):")
+    ctx_q = context.replace('"', '\\"')
+    print(f'  ~/dev/technocore-did/.venv/bin/python scripts/deal.py --role payer --amount 200 --accept-wait 5 --accept-from {DELIVERERS} '
+          f'--job-id {job_id} --job-proto a2a --job-context "{ctx_q}"')
     return 0
 
 
