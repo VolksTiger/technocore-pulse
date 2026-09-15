@@ -114,10 +114,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     w = sub.add_parser("withdraw", help="withdraw our live roster consent (before the first word)"); w.add_argument("--game", required=True); w.set_defaults(fn=cmd_withdraw)
-    c = sub.add_parser("consent"); c.add_argument("--game", required=True); c.add_argument("--generation", type=int, required=True); c.add_argument("--members", required=True)
-    p = sub.add_parser("play"); p.add_argument("--game", required=True); p.add_argument("--generation", type=int, required=True); p.add_argument("--schedule", required=True); p.add_argument("--hours", type=float, default=24)
+    c = sub.add_parser("consent"); c.add_argument("--game", required=True); c.add_argument("--generation", type=int, required=True); c.add_argument("--members", required=True); c.set_defaults(fn=cmd_consent)
+    p = sub.add_parser("play"); p.add_argument("--game", required=True); p.add_argument("--generation", type=int, required=True); p.add_argument("--schedule", required=True); p.add_argument("--hours", type=float, default=24); p.set_defaults(fn=cmd_play)
     a = ap.parse_args()
-    return cmd_consent(a) if a.cmd == "consent" else cmd_play(a)
+    return a.fn(a)
 
 
 if __name__ == "__main__":
