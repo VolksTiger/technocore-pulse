@@ -139,7 +139,23 @@ def main():
 
     deadline = time.time() + a.hours * 3600
     while time.time() < deadline:
-        for m in read(DISCOVERY, since=state["cursor"]):
+        batch = read(DISCOVERY, since=state["cursor"])
+        # The room API returns the LAST 200 messages above `since`. If a 503 burst let more than 200 pile up, the
+        # oldest ones are silently gone from the tail -- fetch the export (thousands deep) for that window instead.
+        if len(batch) >= 200 and batch and int(batch[0].get("seq") or 0) > state["cursor"] + 1:
+            log(f"gap: tail starts at {batch[0].get('seq')} but cursor is {state['cursor']}; catching up from the export")
+            try:
+                req = urllib.request.Request(f"https://technocore.chat/r/{DISCOVERY}/export", headers={"User-Agent": "technocore-pulse autoconsent"})
+                rows = []
+                for line in urllib.request.urlopen(req, timeout=180).read().decode("utf-8", "replace").splitlines():
+                    try:
+                        rows.append(json.loads(line))
+                    except ValueError:
+                        pass
+                batch = sorted((r for r in rows if int(r.get("seq") or 0) > state["cursor"]), key=lambda r: int(r.get("seq") or 0))
+            except Exception as exc:  # noqa: BLE001
+                log(f"export catch-up failed ({exc}); continuing with the tail")
+        for m in batch:
             seq = int(m.get("seq") or 0)
             if seq <= state["cursor"]:
                 continue
