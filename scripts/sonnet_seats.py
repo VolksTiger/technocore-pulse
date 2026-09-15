@@ -71,6 +71,8 @@ def main():
                 if kind == "roster" and j.get("sender_did") in st["signed"]:
                     st["accepted"].add(j["sender_did"])
                     st["ready"] = st["ready"] or bool(j.get("roster_ready"))
+                elif kind == "team-request" and j.get("poem_room"):
+                    st["organizer"] = j["sender_did"]  # accepted room request: this DID organizes the game
                 elif kind == "withdraw":
                     st["withdrawn"].add(j["sender_did"])
                     st["accepted"].discard(j["sender_did"])
@@ -82,7 +84,7 @@ def main():
                                      "accepted": set(), "withdrawn": set(), "ready": False, "seat_note": None, "last_ts": 0.0})
         st["last_ts"] = max(st["last_ts"], ts_of(m))
         if typ == "sonnet.team-request.v1":
-            st["organizer"] = frm  # the room requester is the organizer, whoever signs a roster first
+            by_request[(frm, j.get("request_id"))] = (game, "team-request")  # organizer only once the referee accepts it
         if typ == "sonnet.roster.v1" and 4 <= len(j.get("members") or []) <= 8:
             members = j["members"]
             if members != st["members"]:
