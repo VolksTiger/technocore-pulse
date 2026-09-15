@@ -84,18 +84,46 @@ def cmd_withdraw(a):
     return 0
 
 
+def our_rejections(room, posted):
+    """request_id -> reason for every rejected referee receipt that answers one of our posted words."""
+    ours = set(posted.values())
+    out = {}
+    for m in read(room, limit=200):
+        if m.get("from") != REFEREE:
+            continue
+        try:
+            j = json.loads(m.get("text") or "")
+        except ValueError:
+            continue
+        if j.get("type") == "sonnet.receipt.v1" and j.get("status") == "rejected" and j.get("request_id") in ours:
+            out[j["request_id"]] = j.get("reason") or ""
+    return out
+
+
 def cmd_play(a):
     room = f"d-sonnet-2-team-{a.game}"
     sched = {int(k): v for k, v in json.load(open(a.schedule))["words"].items()}
     log(f"playing {a.game}: our words at indices {sorted(sched)}")
     deadline = time.time() + a.hours * 3600
     posted = {}  # version -> request_id
+    attempts = {}  # version -> how many times we posted at this version
+    given_up = set()
     while time.time() < deadline:
         version, h, last_sender, top = latest_state(room)
         if version is None:
             log("no accepted state yet (roster not ready?)"); time.sleep(20); continue
+        # A rejected receipt for our word (stale previous_state_hash, race, typo) must not stall the seat:
+        # forget that attempt so the next pass re-posts with a fresh request_id; give up after 3 tries.
+        for v, rid in list(posted.items()):
+            reason = our_rejections(room, posted).get(rid) if posted else None
+            if reason is not None:
+                log(f"referee rejected {rid} at version {v}: {reason!r}")
+                del posted[v]
+                if attempts.get(v, 0) >= 3 or reason.startswith("word"):
+                    given_up.add(v); log(f"giving up on version {v} (organizer must reassign the word)")
         nxt = version + 1  # 1-based index of the next word
-        if nxt in sched and last_sender != OUR and version not in posted:
+        if nxt in sched and last_sender != OUR and version not in posted and version not in given_up:
+            attempts[version] = attempts.get(version, 0) + 1
             rid = f"s2-{a.game}-v{version}-{int(time.time()*1000)}"
             queue(rid, room, {"type": "sonnet.word.v1", "contest_id": "sonnet-2", "game_id": a.game,
                               "room_generation": a.generation, "version": version, "previous_state_hash": h,

@@ -13,13 +13,15 @@ Everything is queued to ~/.technocore-pulse/outbox.jsonl (signer.py signs and po
 ~/.technocore-pulse/autoconsent.json. Logs roster_ready receipts loudly so the play step can start.
 
   python3 scripts/sonnet_autoconsent.py --games prophet:qf9vthSUn,brucelead:LpfVgqSM --hours 48
-Run detached on the Mac (the signer key lives there):
-  nohup setsid python3 scripts/sonnet_autoconsent.py --games ... --hours 48 > ~/.technocore-pulse/autoconsent.log 2>&1 &
+Run detached on the Mac (the signer key lives there; macOS has no setsid):
+  (nohup python3 scripts/sonnet_autoconsent.py --games ... --hours 48 > ~/.technocore-pulse/autoconsent.log 2>&1 &)
+On roster_ready it spawns scripts/sonnet_kickoff.sh, which waits for the organizer's word table and starts the play loop.
 """
 
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 import urllib.request
@@ -73,6 +75,22 @@ def consent(game, room, generation, members):
     rid = f"roster-{game}-{int(time.time() * 1000)}"
     queue(rid, {"type": "sonnet.roster.v1", "contest_id": "sonnet-2", "game_id": game, "poem_room": room,
                 "room_generation": generation, "members": members, "request_id": rid})
+
+
+def kickoff(state, game, organizer_suffix):
+    """Spawn sonnet_kickoff.sh detached: it waits for the organizer's word table, builds our schedule and starts play."""
+    info = state["consented"].get(game)
+    if not info:
+        log(f"roster_ready for {game} but we hold no consent there; ignoring")
+        return
+    if state.get("kicked", {}).get(game):
+        return
+    here = os.path.dirname(os.path.abspath(__file__))
+    subprocess.Popen(["sh", os.path.join(here, "sonnet_kickoff.sh"), game, organizer_suffix, str(info["generation"])],
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    state.setdefault("kicked", {})[game] = time.time()
+    save_state(state)
+    log(f"kickoff spawned for {game} (generation {info['generation']})")
 
 
 def handle_roster(state, game, j):
@@ -134,8 +152,13 @@ def main():
                 continue
             game = j.get("game_id")
             if frm == REF:
-                if j.get("roster_ready") is True and game in organizers:
-                    log(f"*** ROSTER READY for {game}: {t[:300]}")
+                if j.get("roster_ready") is True:
+                    # roster receipts carry no game_id: the game is ours if the signer is one of our consented members
+                    g = game if game in organizers else next(
+                        (gm for gm, info in state["consented"].items() if j.get("sender_did") in info["members"]), None)
+                    if g in organizers:
+                        log(f"*** ROSTER READY for {g}: {t[:300]}")
+                        kickoff(state, g, organizers[g])
                 elif OUR in t and j.get("status") == "rejected":
                     log(f"referee rejected our {j.get('request_id')}: {j.get('reason')}")
                 continue
