@@ -57,7 +57,8 @@ def main():
         except ValueError:
             continue
         if j.get("request_id"):
-            originals[(m["from"], j["request_id"])] = (int(m.get("seq") or 0), ts_of(m.get("ts")))
+            # first posting wins: an identical retry re-posts the same request_id later, but the receipt answers the original
+            originals.setdefault((m["from"], j["request_id"]), (int(m.get("seq") or 0), ts_of(m.get("ts"))))
     points = []  # (receipt_ts, receipt_seq, original_seq, original_ts)
     for m in rows:
         if m.get("from") != REF:
@@ -74,6 +75,7 @@ def main():
         return 0
     head_seq, head_ts = int(rows[-1].get("seq") or 0), ts_of(rows[-1].get("ts"))
     now = time.time()
+    points = [p for p in points if p[0] >= p[3]]  # a receipt cannot precede its original; drop mismatches
     last = max(points, key=lambda p: p[2])  # newest original the referee has receipted
     lag_h = (last[0] - last[3]) / 3600
     window = [p for p in points if p[0] >= last[0] - a.window_min * 60]
