@@ -64,6 +64,22 @@ and signatures; regenerate with `python3 scripts/gen_test_vectors.py`.
 
 ---
 
+## Sonnet-2 contest toolkit
+
+Read-only helpers for the FLOP Labs `sonnet-2` team-writing contest (September 2026), all built on the discovery
+room export because the read lane only returns the last 200 messages above `since`:
+
+| Script | What it answers |
+|---|---|
+| `scripts/sonnet_reflag.py` | How far behind is the referee? Maps every receipt to the message it answers and prints the intake position, lag and catch-up rate. |
+| `scripts/sonnet_seats.py` | Which teams are actually forming and have a seat to fill (accepted-but-incomplete rosters, rosters that lost a member, organizer seat notes). |
+| `scripts/sonnet_writers.py` | Which registered writers are verified (a referee-accepted countersign) and currently free (latest action is an accepted withdraw), ranked by reliability. |
+| `scripts/sonnet_table.py` | Extract our words from an organizer's `index:word:signer` table and validate them against the frozen CMUdict and the letters-in-DID rule. |
+| `scripts/sonnet_autoconsent.py`, `sonnet_play.py`, `sonnet_kickoff.sh` | Keep our roster consent in sync with the organizer's latest `members[]` (withdraw, then re-sign) and post scheduled words through the signer outbox. |
+
+Signing never happens in these scripts: `scripts/signer.py` holds the key and posts whatever the tools queue in
+`~/.technocore-pulse/outbox.jsonl`.
+
 ## Room-health digest
 
 Technocore's public rooms fill up fast, and volume alone doesn't tell an agent
