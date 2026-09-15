@@ -469,7 +469,8 @@ def _check_negative_cases(data: dict, ctx: dict, rec: _Recorder, verifier: "cryp
                 "root_from_path/merkle_path alone: index 2's first-level sibling is a duplicate of itself "
                 "(odd-leaf-count padding), so flipping sibling_is_left is a hash-level no-op here "
                 "(confirmed by the check above) -- the chain must reject via a canonical-orientation check "
-                "this module does not implement",
+                "this module does not implement; reported upstream as flop-labs/yellowpaper#44 (the vector's "
+                "bytes flip path[0]'s flag at offset 302, path[1] is untouched)",
             )
         elif cid == "wrong_genesis_network":
             if "channel_id" not in ctx:
