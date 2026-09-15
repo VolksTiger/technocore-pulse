@@ -81,12 +81,14 @@ def main():
         st = games.setdefault(game, {"members": [], "organizer": None, "roster_seq": 0, "roster_ts": 0.0, "signed": set(),
                                      "accepted": set(), "withdrawn": set(), "ready": False, "seat_note": None, "last_ts": 0.0})
         st["last_ts"] = max(st["last_ts"], ts_of(m))
+        if typ == "sonnet.team-request.v1":
+            st["organizer"] = frm  # the room requester is the organizer, whoever signs a roster first
         if typ == "sonnet.roster.v1" and 4 <= len(j.get("members") or []) <= 8:
             members = j["members"]
             if members != st["members"]:
-                # a new members[] resets the tally; the first signer of a new list is treated as the organizer
-                st.update(members=members, organizer=frm, roster_seq=int(m.get("seq") or 0), roster_ts=ts_of(m),
-                          signed=set(), accepted=set(), withdrawn=set(), ready=False)
+                # a new members[] resets the tally; organizer = room requester if seen, else the first signer
+                st.update(members=members, organizer=st["organizer"] or frm, roster_seq=int(m.get("seq") or 0),
+                          roster_ts=ts_of(m), signed=set(), accepted=set(), withdrawn=set(), ready=False)
             if frm in members:
                 st["signed"].add(frm)
             by_request[(frm, j.get("request_id"))] = (game, "roster")
