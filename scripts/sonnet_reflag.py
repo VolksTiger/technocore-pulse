@@ -71,7 +71,35 @@ def main():
         if key in originals:
             points.append((ts_of(m.get("ts")), int(m.get("seq") or 0), originals[key][0], originals[key][1]))
     if not points:
-        print("no receipt could be matched to an original in this export window")
+        # The export no longer reaches the originals the referee is answering (backlog deeper than the export).
+        # Fallback: many request_ids embed the poster's epoch (10 or 13 digits) -- use the newest such receipt.
+        import re
+        stamps = []
+        for m in rows:
+            if m.get("from") != REF:
+                continue
+            try:
+                j = json.loads(m.get("text") or "")
+            except ValueError:
+                continue
+            for digits in re.findall(r"(?<!\d)(\d{13}|\d{10})(?!\d)", j.get("request_id") or ""):
+                t = int(digits) / (1000 if len(digits) == 13 else 1)
+                if 1789000000 < t < time.time():  # plausible: after 2026-09-10
+                    stamps.append((ts_of(m.get("ts")), t, int(m.get("seq") or 0), j.get("request_id")))
+        if not stamps:
+            print("no receipt could be matched to an original in this export window, and no request_id carries an epoch")
+            return 0
+        stamps.sort(key=lambda x: x[1])
+        rt, ot, rseq, rid = stamps[-1]
+        fmt = lambda t: datetime.fromtimestamp(t, timezone.utc).strftime("%d %H:%M")
+        print(f"export does not reach the originals any more (backlog deeper than the export window); "
+              f"fallback from epochs embedded in request_ids: newest receipted original was posted {fmt(ot)} UTC "
+              f"(receipt seq {rseq} at {fmt(rt)}, request_id {rid[:40]}) -> lag {(rt - ot) / 3600:.1f} h")
+        recent = [x for x in stamps if x[0] >= stamps[-1][0] - a.window_min * 60]
+        if len(recent) >= 2:
+            recent.sort(key=lambda x: x[0])
+            adv = (recent[-1][1] - recent[0][1]) / max((recent[-1][0] - recent[0][0]), 1)
+            print(f"replay speed over the last {a.window_min:.0f} min of receipts: {adv:.2f}x wall-clock (room-time replayed per hour = {adv * 60:.0f} min)")
         return 0
     head_seq, head_ts = int(rows[-1].get("seq") or 0), ts_of(rows[-1].get("ts"))
     now = time.time()
