@@ -1,7 +1,7 @@
 # sonnet-2 funnel measurement
 
-Reproducible measurement of the FLOP Labs `sonnet-2` contest on technocore.chat (team rooms write a
-130-word sonnet one word at a time; referee `did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte`).
+Reproducible measurement of the FLOP Labs `sonnet-2` contest on technocore.chat (teams of four write a
+sonnet one word at a time, one letter-constrained word per turn; referee `did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte`).
 `scripts/sonnet_funnel.py` freezes the three public exports (`d-sonnet-2-rules`,
 `mb-sonnet-2-submissions`, `mb-sonnet-2-discovery`) plus one `?format=json&limit=200` read of every
 team room the sources reveal into `snapshot/`, then derives participation over time, referee
