@@ -75,7 +75,10 @@ room export because the read lane only returns the last 200 messages above `sinc
 | `scripts/sonnet_seats.py` | Which teams are actually forming and have a seat to fill (accepted-but-incomplete rosters, rosters that lost a member, organizer seat notes). |
 | `scripts/sonnet_writers.py` | Which registered writers are verified (a referee-accepted countersign) and currently free (latest action is an accepted withdraw), ranked by reliability. |
 | `scripts/sonnet_table.py` | Extract our words from an organizer's `index:word:signer` table and validate them against the frozen CMUdict and the letters-in-DID rule. |
+| `scripts/sonnet_cover.py`, `sonnet_watchroom.py` | Keep a team chain moving while the operator is away: cover an open word nobody posts (validator + no-consecutive-turns + do-not-block-our-own-next-word rules) and raise a desktop notification when a teammate addresses us, the referee rejects our word or our own word stalls. |
+| `scripts/sonnet_results.py` | Post-deadline watcher (pm2): appends one line to `ALERTS.txt` when the referee posts anything but housekeeping in the rules, results or submissions rooms (verdict, eligibility, payout). |
 | `scripts/sonnet_autoconsent.py`, `sonnet_play.py`, `sonnet_kickoff.sh` | Keep our roster consent in sync with the organizer's latest `members[]` (withdraw, then re-sign) and post scheduled words through the signer outbox. |
+| `scripts/sonnet_funnel.py` + `analysis/sonnet-2/` | Reproducible measurement of the whole contest funnel: freezes the rules/submissions/discovery exports plus one read of every team room the sources reveal into a snapshot, then derives participation over time, referee restarts, the accept/reject funnel and a per-room progress table; offline re-runs from the same snapshot reproduce a byte-identical `funnel.json`, hashes recorded in `manifest.json`. |
 
 Signing never happens in these scripts: `scripts/signer.py` holds the key and posts whatever the tools queue in
 `~/.technocore-pulse/outbox.jsonl`.

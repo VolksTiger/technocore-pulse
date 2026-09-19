@@ -1,0 +1,1609 @@
+{
+ "room": "d-sonnet-2-team-caesura",
+ "count": 200,
+ "first_seq": 55,
+ "last_seq": 254,
+ "generation": 1,
+ "messages": [
+  {
+   "seq": 55,
+   "ts": "2026-09-14T10:31:40.158117Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224827,\"reason\":\"\",\"received_at\":1789381899.2905812,\"request_id\":\"w-3ciimnvgo\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"8aef8803dd3172bd7f54e6b73cc6ec999e5b54af06d20d77038f706046fae3d3\",\"status\":\"accepted\",\"syllables\":28,\"type\":\"sonnet.receipt.v1\",\"version\":25}",
+   "nonce": 1789381899757,
+   "sig": "FcAS3zkctfcrUOco0BeClQOYvvPYClZv-fY4EMYNSKscc1ukT-mX2z-QIwM9Cnf_JDjA5jgvvNv0bLtYLF1pDQ"
+  },
+  {
+   "seq": 56,
+   "ts": "2026-09-14T10:31:50.939537Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":25,\"previous_state_hash\":\"8aef8803dd3172bd7f54e6b73cc6ec999e5b54af06d20d77038f706046fae3d3\",\"word\":\"to\",\"request_id\":\"w-e5g2x1wwy\"}",
+   "nonce": 1789381905136,
+   "sig": "CD7hjrqwF69Br5XWL1kdcQPWyZmRcUJrsdcGkY8QBmaCbXMrN_WCNB4ZKwP6l3UY5nuloVVbrOELeYozYjAXCg"
+  },
+  {
+   "seq": 57,
+   "ts": "2026-09-14T10:32:09.638696Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224841,\"reason\":\"\",\"received_at\":1789381929.1730945,\"request_id\":\"w-e5g2x1wwy\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"25f9e7ba62bdd1ac65c06e7d83671f95bab6d2d729f259a134d6a2d6cc1b7dba\",\"status\":\"accepted\",\"syllables\":29,\"type\":\"sonnet.receipt.v1\",\"version\":26}",
+   "nonce": 1789381929577,
+   "sig": "VDkZS0oO_lqRYZpOBRd9b7B8dITAVX70ApEmLG6uQjxzjG1TSDzr17ecTSvdEVdJZMjl63_JtAA7gXEXGC-SBw"
+  },
+  {
+   "seq": 58,
+   "ts": "2026-09-14T10:32:18.584454Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":26,\"previous_state_hash\":\"25f9e7ba62bdd1ac65c06e7d83671f95bab6d2d729f259a134d6a2d6cc1b7dba\",\"word\":\"spend\",\"request_id\":\"w-pq2j1zyv1\"}",
+   "nonce": 1789381934631,
+   "sig": "TJyz37sfHE7zEBp1U2o81GsIEoxWQTSsTTsVf0pL_I5IKj_sVPSR8HHQbdPBGBN9fTmwP3x_A65U74wSNVW1DQ"
+  },
+  {
+   "seq": 59,
+   "ts": "2026-09-14T10:32:46.053650Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224862,\"reason\":\"\",\"received_at\":1789381965.630444,\"request_id\":\"w-pq2j1zyv1\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"2aa823266dd1e6a0ca39aec1110fb004f96faf0209f24a801e0b78414adad4fa\",\"status\":\"accepted\",\"syllables\":30,\"type\":\"sonnet.receipt.v1\",\"version\":27}",
+   "nonce": 1789381965993,
+   "sig": "r1q3vrrEF3VsX9nNUiN6mr5e2xUrrfV018DoUN7D45LgPUx8pm1HipJfx_1IoN8DLAUkHgeCYnR_zEcZMfWLCQ"
+  },
+  {
+   "seq": 60,
+   "ts": "2026-09-14T10:32:56.773820Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":27,\"previous_state_hash\":\"2aa823266dd1e6a0ca39aec1110fb004f96faf0209f24a801e0b78414adad4fa\",\"word\":\"to\",\"request_id\":\"w-aweff64mf\"}",
+   "nonce": 1789381972055,
+   "sig": "9dUhLR0ztuIbjntNj8d5Ptz8thPK_aMadaVwcLgWIheCOmzPEZbArNBGPEgykXGQw0gFM5xrFTUwt8dvF4OEBA"
+  },
+  {
+   "seq": 61,
+   "ts": "2026-09-14T10:33:06.890631Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224883,\"reason\":\"\",\"received_at\":1789381986.3483257,\"request_id\":\"w-aweff64mf\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"0effcf2ae9f4b11ca03d695912d0f07cd4dbbc9167a8f85ff44a0d329156d00c\",\"status\":\"accepted\",\"syllables\":31,\"type\":\"sonnet.receipt.v1\",\"version\":28}",
+   "nonce": 1789381986805,
+   "sig": "29fZlrwhUmnC1qvJhRWPNsUY5Pd-NEuIfmi5_IfE2qW-YqdOIUKJ8Ygeq0-8SQ9P-kmj3Nt7EaTL9xKmq_coBg"
+  },
+  {
+   "seq": 62,
+   "ts": "2026-09-14T10:33:17.536802Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":28,\"previous_state_hash\":\"0effcf2ae9f4b11ca03d695912d0f07cd4dbbc9167a8f85ff44a0d329156d00c\",\"word\":\"buy\",\"request_id\":\"w-xiq0nhhgp\"}",
+   "nonce": 1789381991649,
+   "sig": "BFtciP6QU_IWOzC_SufmfJIeFouyMmhtO0TTCyhkM7K496AhN4FB-7sVYLyxce-IvKkMaCHq3zQpFlcIyyicCw"
+  },
+  {
+   "seq": 63,
+   "ts": "2026-09-14T10:33:21.844782Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224892,\"reason\":\"\",\"received_at\":1789382001.4453657,\"request_id\":\"w-xiq0nhhgp\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"df6568c8c833cac9005bf1664ef86f3e14e4d053324b3fbb17f958b862340a2b\",\"status\":\"accepted\",\"syllables\":32,\"type\":\"sonnet.receipt.v1\",\"version\":29}",
+   "nonce": 1789382001813,
+   "sig": "JBQcvq6QkuYFnxp6CjV6O1il7BPV37YSfcpWgpbKDzJSjbZLquhPaup4f1quTwo8IrZQTNFmv5z86gxwz2c5Bw"
+  },
+  {
+   "seq": 64,
+   "ts": "2026-09-14T10:33:33.329598Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":29,\"previous_state_hash\":\"df6568c8c833cac9005bf1664ef86f3e14e4d053324b3fbb17f958b862340a2b\",\"word\":\"a\",\"request_id\":\"w-6zjozefcy\"}",
+   "nonce": 1789382007994,
+   "sig": "iEeNUuTiPN7dtCyEprgu3ZZjG4-rev2ii1d5trLjz1MWER8Aq2BQmATBhlTFLtXdELeVFfJZuRjW_btK-AWwAQ"
+  },
+  {
+   "seq": 65,
+   "ts": "2026-09-14T10:33:35.729300Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224902,\"reason\":\"\",\"received_at\":1789382015.3067381,\"request_id\":\"w-6zjozefcy\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"a714f1a4d1dbef0aedc8bec7e2889b31b08b5bb38b9cd9039c9e14a1676fa557\",\"status\":\"accepted\",\"syllables\":33,\"type\":\"sonnet.receipt.v1\",\"version\":30}",
+   "nonce": 1789382015663,
+   "sig": "nFx1Fji-qgZx71J75OhqsbC7BiWmCspGykcrbueLgZXM6QxDqUhs57B39xWcn5Qfik81TasplgJiTiJriDHZDQ"
+  },
+  {
+   "seq": 66,
+   "ts": "2026-09-14T10:33:46.970223Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":30,\"previous_state_hash\":\"a714f1a4d1dbef0aedc8bec7e2889b31b08b5bb38b9cd9039c9e14a1676fa557\",\"word\":\"voice\",\"request_id\":\"w-12yh2n2u3\"}",
+   "nonce": 1789382021153,
+   "sig": "8usxa-NVPJP6eGjDJYl2dcFQIAaIKWRAIA_4-s3e5HBHM3ZIXzqexV2e6AX_SZXk9YwRh9GmSHgIx5I8qhVjDg"
+  },
+  {
+   "seq": 67,
+   "ts": "2026-09-14T10:33:50.034441Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224918,\"reason\":\"\",\"received_at\":1789382029.514272,\"request_id\":\"w-12yh2n2u3\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"58661c5880cabaf55407b8b183585da22325233cac6da8f8a32174214e4d419b\",\"status\":\"accepted\",\"syllables\":34,\"type\":\"sonnet.receipt.v1\",\"version\":31}",
+   "nonce": 1789382029990,
+   "sig": "b0yqHt7b_KqUHHyQui-ZCzkcaN2wni2Rl6ehWDdZsOjnCbFCjbUHACDWw5kYP3AW2y_6cHbiaHXzWtJvHuQwDA"
+  },
+  {
+   "seq": 68,
+   "ts": "2026-09-14T10:33:59.642437Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":31,\"previous_state_hash\":\"58661c5880cabaf55407b8b183585da22325233cac6da8f8a32174214e4d419b\",\"word\":\"more\",\"request_id\":\"w-yqbv7csbz\"}",
+   "nonce": 1789382034787,
+   "sig": "QhkQgC2Ddquiy0cSxjJSBcr_0-TfhU_z1tDFtzOl5TcF9UZqrRX3mxP2QI5ftmvkfiRxNXFl8N2CHAAersdqDQ"
+  },
+  {
+   "seq": 69,
+   "ts": "2026-09-14T10:34:05.460840Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224929,\"reason\":\"\",\"received_at\":1789382045.0665443,\"request_id\":\"w-yqbv7csbz\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"ef38eb6fa042b7a81d47ea60637a90d2a22b41c555d9106fb62d6d92fb8d46e5\",\"status\":\"accepted\",\"syllables\":35,\"type\":\"sonnet.receipt.v1\",\"version\":32}",
+   "nonce": 1789382045422,
+   "sig": "GxJkIcS6ZKjv2pf5Qysf0GhOQJXvB7gAVZhauqZNytoG3p3tTs6MTGLLy2LeCTGjlvO4JxncMnL1oNbhSL9tCQ"
+  },
+  {
+   "seq": 70,
+   "ts": "2026-09-14T10:34:15.638672Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":32,\"previous_state_hash\":\"ef38eb6fa042b7a81d47ea60637a90d2a22b41c555d9106fb62d6d92fb8d46e5\",\"word\":\"durable\",\"request_id\":\"w-jpjqpi0sv\"}",
+   "nonce": 1789382050319,
+   "sig": "VB14q5HzJOTr4BoLB02zCOjlVWIPumgDH41SXVALwcoFuO_AnQvbAiPqKSvYvMCc2ZZW5IBtA8-RFlmMB4qDCQ"
+  },
+  {
+   "seq": 71,
+   "ts": "2026-09-14T10:34:17.223036Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224936,\"reason\":\"\",\"received_at\":1789382056.7797635,\"request_id\":\"w-jpjqpi0sv\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"c40a12d48e642f579990c3a0b0da8a031413040c1008af24c1586c2b2d00465d\",\"status\":\"accepted\",\"syllables\":38,\"type\":\"sonnet.receipt.v1\",\"version\":33}",
+   "nonce": 1789382057179,
+   "sig": "hHi5OiKY1jEIay9gilh26cl3NtaviV9RVNZmxO2EtKvskXj_aqaCakXQhc_dwygVzhlPS2JLjD08qImFPY2PBA"
+  },
+  {
+   "seq": 72,
+   "ts": "2026-09-14T10:34:26.284108Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":33,\"previous_state_hash\":\"c40a12d48e642f579990c3a0b0da8a031413040c1008af24c1586c2b2d00465d\",\"word\":\"than\",\"request_id\":\"w-gza3wcbuw\"}",
+   "nonce": 1789382062923,
+   "sig": "W5dLsvKGq8PCPAbCQi6vtk8Krj-rRdardNKqLcRnu2kwjBSvw-xyYmbikWp5SEsDCXCvYowyfN3FMXmkt7uxDA"
+  },
+  {
+   "seq": 73,
+   "ts": "2026-09-14T10:34:47.229210Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224949,\"reason\":\"\",\"received_at\":1789382086.849987,\"request_id\":\"w-gza3wcbuw\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"d4f4edcf114487f45cbb73acf55e0231662ef6471d27c8523f0e19c47657e65e\",\"status\":\"accepted\",\"syllables\":39,\"type\":\"sonnet.receipt.v1\",\"version\":34}",
+   "nonce": 1789382087186,
+   "sig": "76mfRRbItfhABhnKiTUeRb1nbITVDLPs__uqg5y1EXZOs-dFo3drRDWjb2rfj3oxpiPv5JsEYxn2eQwvX7oAAw"
+  },
+  {
+   "seq": 74,
+   "ts": "2026-09-14T10:34:56.787272Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":34,\"previous_state_hash\":\"d4f4edcf114487f45cbb73acf55e0231662ef6471d27c8523f0e19c47657e65e\",\"word\":\"stone.\",\"request_id\":\"w-j4u627f60\"}",
+   "nonce": 1789382092055,
+   "sig": "Q-a2j5llldTDahyT-eZsOx5HI4T67rToFh6d4iSZWnfr4UoAHAWpu3CZ6WTi3JO441nQjsmH2a6u_W2SQRGVAg"
+  },
+  {
+   "seq": 75,
+   "ts": "2026-09-14T10:35:17.962677Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":224966,\"reason\":\"\",\"received_at\":1789382117.5553286,\"request_id\":\"w-j4u627f60\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"80b3e45e4fe28489becfd817a6c27a8fddcdf51af8cea47f8764cc8700c40f40\",\"status\":\"accepted\",\"syllables\":40,\"type\":\"sonnet.receipt.v1\",\"version\":35}",
+   "nonce": 1789382117923,
+   "sig": "nbJScLCnHVUAEv82D8m2Ij_yim1OX3dtoPP2A3eeaAv6S7_uGOhfSvooU2cHlujBmNYn8odLu3D4yktd1fIuDQ"
+  },
+  {
+   "seq": 76,
+   "ts": "2026-09-14T10:35:27.199539Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":35,\"previous_state_hash\":\"80b3e45e4fe28489becfd817a6c27a8fddcdf51af8cea47f8764cc8700c40f40\",\"word\":\"The\",\"request_id\":\"w-ryfeiziz1\"}",
+   "nonce": 1789382122888,
+   "sig": "D1uhJFGVIuBfKJWfiteG5bxBosHqGZzWT1feaHuVBEVUmNCCJSQ1SvhULimkTDapIx0VRRkLlek1c_t60MdkCw"
+  },
+  {
+   "seq": 77,
+   "ts": "2026-09-14T10:35:44.976421Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225000,\"reason\":\"\",\"received_at\":1789382143.8007271,\"request_id\":\"w-ryfeiziz1\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"d0e47ecb2494f2a42124ef0514230f9390fc455c2428952bc1d57505344d10a5\",\"status\":\"accepted\",\"syllables\":41,\"type\":\"sonnet.receipt.v1\",\"version\":36}",
+   "nonce": 1789382144195,
+   "sig": "QKw0ZOdZE09ZM9EtF4WM4Mbm_x_37dzmmUyc9decXMMp1f8qIE0LkfWBtMl5hauL2THUgi1ixj3nTQWMxVptDQ"
+  },
+  {
+   "seq": 78,
+   "ts": "2026-09-14T10:35:54.658674Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":36,\"previous_state_hash\":\"d0e47ecb2494f2a42124ef0514230f9390fc455c2428952bc1d57505344d10a5\",\"word\":\"deadline\",\"request_id\":\"w-zor34cwsu\"}",
+   "nonce": 1789382149922,
+   "sig": "pof3ZW461Ky3FoPd5hJOqbcfQdBBpTzP805RKrMpdDiRCba9QD_UjzYqWQGHJCB5NSqtEzI-wjhUPkZxhAOUCw"
+  },
+  {
+   "seq": 79,
+   "ts": "2026-09-14T10:36:11.412648Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225029,\"reason\":\"\",\"received_at\":1789382170.9546244,\"request_id\":\"w-zor34cwsu\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"e977edb93219ba9aa44c95758e68d275876923267c569cd2e5ada7ad0f5c5db8\",\"status\":\"accepted\",\"syllables\":43,\"type\":\"sonnet.receipt.v1\",\"version\":37}",
+   "nonce": 1789382171361,
+   "sig": "8LGBVD2_Sx8MiW5mFqjAwM9CDyOeL140dshzCp0BB_lHEeFoHMG67jjrkVA9N3IzxYwGyIqhLsCugPz-P5rmAg"
+  },
+  {
+   "seq": 80,
+   "ts": "2026-09-14T10:36:25.045214Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":37,\"previous_state_hash\":\"e977edb93219ba9aa44c95758e68d275876923267c569cd2e5ada7ad0f5c5db8\",\"word\":\"kept\",\"request_id\":\"w-8960aw64w\"}",
+   "nonce": 1789382178450,
+   "sig": "0S3-a2iNSc6U0-zINjCrahMkPOXWoQLQIdYG4Jsg0y_tLbGhatD8lW9Z7ARwnZ6wr9B_1PtuyYCLHReETdCADQ"
+  },
+  {
+   "seq": 81,
+   "ts": "2026-09-14T10:36:31.399527Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225049,\"reason\":\"\",\"received_at\":1789382190.9684687,\"request_id\":\"w-8960aw64w\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"eacab9ccb4ab11993ec8e4658d66761aba1be492b4129647ca20a870ed909d1e\",\"status\":\"accepted\",\"syllables\":44,\"type\":\"sonnet.receipt.v1\",\"version\":38}",
+   "nonce": 1789382191327,
+   "sig": "dnFfOWNLGiocyCiYplCtJI1pGgewJlIvSwpH_X0Jop2ORQgKnXnsjqQEpMNgTa1erdH__qguz3_k4QoqhkQ3Dg"
+  },
+  {
+   "seq": 82,
+   "ts": "2026-09-14T10:36:41.269206Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":38,\"previous_state_hash\":\"eacab9ccb4ab11993ec8e4658d66761aba1be492b4129647ca20a870ed909d1e\",\"word\":\"its\",\"request_id\":\"w-xtg5r7gkj\"}",
+   "nonce": 1789382196325,
+   "sig": "IkpV4VjIE9AdqyYDgja6yz7K-qnnqxd8bUsk-B2SIgomIBr6_SrTToFF3J198H_xePlvxXKoo8SVbBMpEVbwDg"
+  },
+  {
+   "seq": 83,
+   "ts": "2026-09-14T10:36:45.550430Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225063,\"reason\":\"\",\"received_at\":1789382205.1649966,\"request_id\":\"w-xtg5r7gkj\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"6414f0281d9ba50bebc9195fca458c84ac418e28cfa177861be769b45ee47f53\",\"status\":\"accepted\",\"syllables\":45,\"type\":\"sonnet.receipt.v1\",\"version\":39}",
+   "nonce": 1789382205513,
+   "sig": "_KFqG-kMRLsCkhkjMFVKBSWSmB3EVaAKhdSoAw5lQ564-2TKdYRve1b-U6bhRSOgBMLayi0TaTbHY9CwDIiZCg"
+  },
+  {
+   "seq": 84,
+   "ts": "2026-09-14T10:36:56.491332Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":39,\"previous_state_hash\":\"6414f0281d9ba50bebc9195fca458c84ac418e28cfa177861be769b45ee47f53\",\"word\":\"counsel\",\"request_id\":\"w-nv2yf3byc\"}",
+   "nonce": 1789382211797,
+   "sig": "wz7mwRQKXc9tz7KVt2EsPCL2yFXW5Fji7ccSaz1RCzFmwvBUV2SaRg9gCchSKwE2_5tm-aTaPOu8UF-0aDVhAQ"
+  },
+  {
+   "seq": 85,
+   "ts": "2026-09-14T10:37:03.415522Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225091,\"reason\":\"\",\"received_at\":1789382222.9229348,\"request_id\":\"w-nv2yf3byc\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"75c427c0b673f9d89404a8661e27448786dac388bf07db0149821e8e02459c7d\",\"status\":\"accepted\",\"syllables\":47,\"type\":\"sonnet.receipt.v1\",\"version\":40}",
+   "nonce": 1789382223372,
+   "sig": "TzWRMAU8wIXc4BScl1XZIb5B0Jx3HTO5olN3X_YS9Vqs0HGt53w7hK89bKQVLTsGuLNq3j0Dy_D_y8o-wdoiDA"
+  },
+  {
+   "seq": 86,
+   "ts": "2026-09-14T10:37:12.978226Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":40,\"previous_state_hash\":\"75c427c0b673f9d89404a8661e27448786dac388bf07db0149821e8e02459c7d\",\"word\":\"like\",\"request_id\":\"w-y70tr1agm\"}",
+   "nonce": 1789382228399,
+   "sig": "iOayzd-ZAz_t-Idk199f2wudj0eXr0WdDOnRkm4FbOSrIxupYMPbtX7KbBFhuqLk3QW_Q1-tlivqzlYFiVqmCg"
+  },
+  {
+   "seq": 87,
+   "ts": "2026-09-14T10:37:17.369355Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225098,\"reason\":\"\",\"received_at\":1789382236.9204595,\"request_id\":\"w-y70tr1agm\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"5d25a806a0a2142a31d456b232cf7c2e3f13a09fd6b8a4457f904b102e78f174\",\"status\":\"accepted\",\"syllables\":48,\"type\":\"sonnet.receipt.v1\",\"version\":41}",
+   "nonce": 1789382237318,
+   "sig": "5qVrZmqPYlB-ktfrjG4iBRAJMC7eO6CuIsI3_b7A8KfNbg9Na9geaBHUUyAtUx-q4Q4PMn0ynSKRyH2OrW6kAg"
+  },
+  {
+   "seq": 88,
+   "ts": "2026-09-14T10:37:28.678172Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":41,\"previous_state_hash\":\"5d25a806a0a2142a31d456b232cf7c2e3f13a09fd6b8a4457f904b102e78f174\",\"word\":\"a\",\"request_id\":\"w-ecu9evr6g\"}",
+   "nonce": 1789382244250,
+   "sig": "W_NgVi5BRhemD0qmscn7mSsWMdNF_QGkqiAsky8zFrDuBzZVM_aBX-kDFyAI2tj-cn8Nhjl6E3T8i5OPPxWaDg"
+  },
+  {
+   "seq": 89,
+   "ts": "2026-09-14T10:37:35.096008Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225112,\"reason\":\"\",\"received_at\":1789382254.6837368,\"request_id\":\"w-ecu9evr6g\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"77db10fb6184e2e172f2134dec973f685cbd693664c105407de5dfdbf5408c80\",\"status\":\"accepted\",\"syllables\":49,\"type\":\"sonnet.receipt.v1\",\"version\":42}",
+   "nonce": 1789382255036,
+   "sig": "_LyiXGT_ts-WPFwzW68JclRHiB41_5-LClxK24iDQ9t0j16ZosJgkfYuw0tX-mm1rbpOlryiJ4stpL9m80UgBA"
+  },
+  {
+   "seq": 90,
+   "ts": "2026-09-14T10:37:43.428885Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":42,\"previous_state_hash\":\"77db10fb6184e2e172f2134dec973f685cbd693664c105407de5dfdbf5408c80\",\"word\":\"spy,\",\"request_id\":\"w-nszn76o6r\"}",
+   "nonce": 1789382260218,
+   "sig": "WjESa2aiclQEnLTdQbzvdgvcnMLAUakE4-4R2NJGl268paEtaaYxBHofXVLMKDUKLyC-UBuV_9pAmG9gNEAMCg"
+  },
+  {
+   "seq": 91,
+   "ts": "2026-09-14T10:37:51.802906Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225129,\"reason\":\"\",\"received_at\":1789382271.2449942,\"request_id\":\"w-nszn76o6r\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"3301e18beccd4db7b32b9e8570eb9d2196d3914ee1f856f4987cc838d95297ae\",\"status\":\"accepted\",\"syllables\":50,\"type\":\"sonnet.receipt.v1\",\"version\":43}",
+   "nonce": 1789382271763,
+   "sig": "Qqb2UGjc9dY6dFJQZ2d7aLxqCyHZlAyTGEkmu-AkCCNB8_bNEm7F4Pvu0vxflD5vw3H6SfuWcVfq7ZO5PRD0Ag"
+  },
+  {
+   "seq": 92,
+   "ts": "2026-09-14T10:38:00.485122Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":43,\"previous_state_hash\":\"3301e18beccd4db7b32b9e8570eb9d2196d3914ee1f856f4987cc838d95297ae\",\"word\":\"we\",\"request_id\":\"w-4fji5ajkh\"}",
+   "nonce": 1789382276409,
+   "sig": "9WnhWR4xzP03UAojXxBlrgQh-LrB12VwFnS3mEeXlUogfVJ68EZuwVUZtmYkfmwgieECEsvHjMl0bQIuqguKCg"
+  },
+  {
+   "seq": 93,
+   "ts": "2026-09-14T10:38:07.477739Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225147,\"reason\":\"\",\"received_at\":1789382286.9451149,\"request_id\":\"w-4fji5ajkh\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"d396fcc6ebdc95e327986f3c7363ac44fa026248b3a777356e7ed64dcfc971bd\",\"status\":\"accepted\",\"syllables\":51,\"type\":\"sonnet.receipt.v1\",\"version\":44}",
+   "nonce": 1789382287435,
+   "sig": "ri7UMJN0o2Q4vVov8besnaeqJWq5jrgnvGQp437KNl2cvUh5tpl65VGRfHdHwjTuQVwNfFqJe4ic7yMMV6LTCg"
+  },
+  {
+   "seq": 94,
+   "ts": "2026-09-14T10:38:18.806996Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":44,\"previous_state_hash\":\"d396fcc6ebdc95e327986f3c7363ac44fa026248b3a777356e7ed64dcfc971bd\",\"word\":\"passed\",\"request_id\":\"w-8j6vlwyz8\"}",
+   "nonce": 1789382292599,
+   "sig": "TgItYfWh3cTJkyMqWr1RL9nEPwDtq0foO0OOFUI3eQYIKNxmTv-Ta48OF967aoNrIAPLsWAcNx1auo8vOhQlBw"
+  },
+  {
+   "seq": 95,
+   "ts": "2026-09-14T10:38:25.498085Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225180,\"reason\":\"\",\"received_at\":1789382305.0217073,\"request_id\":\"w-8j6vlwyz8\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"3180478e68c7d84026b61dd529102400cb7772be2065f843c5ca2bc002f015de\",\"status\":\"accepted\",\"syllables\":52,\"type\":\"sonnet.receipt.v1\",\"version\":45}",
+   "nonce": 1789382305446,
+   "sig": "OMEmEh5n7NNoGKLkUA0vtV3ws1CFTJKXR-iaGWsO6XHXfrt1p46NwLreUfheHjGcCSVMC1YrU9wb86Ji7qKiDg"
+  },
+  {
+   "seq": 96,
+   "ts": "2026-09-14T10:38:34.268150Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":45,\"previous_state_hash\":\"3180478e68c7d84026b61dd529102400cb7772be2065f843c5ca2bc002f015de\",\"word\":\"the\",\"request_id\":\"w-ginba3c4k\"}",
+   "nonce": 1789382310419,
+   "sig": "y2KyEOHmQZA0gJe5aVAWvyGiszJ1GMBcSL2xXHjcSWJI4wLnbSY3o5XtZsBjMYfItq8_DqRXewvbnEodamVVBA"
+  },
+  {
+   "seq": 97,
+   "ts": "2026-09-14T10:38:43.629568Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225210,\"reason\":\"\",\"received_at\":1789382323.1937618,\"request_id\":\"w-ginba3c4k\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"488c3233e74b7c4e95636fff0ba46972e313111e349aaa4ef39ca9adbf887593\",\"status\":\"accepted\",\"syllables\":53,\"type\":\"sonnet.receipt.v1\",\"version\":46}",
+   "nonce": 1789382323574,
+   "sig": "P0WHNlVbc-w1RpA42f8wrYMttiR208p-oWWTPhwD_qHjFg6rjNix48-pE5d9blhI2zHLePYUCgCNKOAoLvfnBQ"
+  },
+  {
+   "seq": 98,
+   "ts": "2026-09-14T10:38:53.148360Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":46,\"previous_state_hash\":\"488c3233e74b7c4e95636fff0ba46972e313111e349aaa4ef39ca9adbf887593\",\"word\":\"time\",\"request_id\":\"w-b4mq9e9nv\"}",
+   "nonce": 1789382328893,
+   "sig": "fay7Spt4DPXqCaedabHG1YplTOblHWwFTDx6pM7FG4w3UHVcJHSRVBxVvdYCla027xvvOEcAsZUNZiF_3TV4Ag"
+  },
+  {
+   "seq": 99,
+   "ts": "2026-09-14T10:39:03.765346Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225237,\"reason\":\"\",\"received_at\":1789382343.2584596,\"request_id\":\"w-b4mq9e9nv\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"b5e95ac20ad12dca61beb120193a3f38a31c6a88c2f5b3434ec90cd071a27d9d\",\"status\":\"accepted\",\"syllables\":54,\"type\":\"sonnet.receipt.v1\",\"version\":47}",
+   "nonce": 1789382343701,
+   "sig": "wvPNaC1YQz9LMmWkT8e5Mf-USzBvKH_hDCHKxqTsCM3A_SBwtGExmJPjfhn0HSgS_3Rry87Zryx1qmictm42Bw"
+  },
+  {
+   "seq": 100,
+   "ts": "2026-09-14T10:39:13.650992Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":47,\"previous_state_hash\":\"b5e95ac20ad12dca61beb120193a3f38a31c6a88c2f5b3434ec90cd071a27d9d\",\"word\":\"from\",\"request_id\":\"w-hbkknb1cd\"}",
+   "nonce": 1789382349131,
+   "sig": "6YG1zdcl9k9mFHGBPMfYe1GZ9DWerahHHreBSu9L86vlaMBCL8QcD3ZnL5fVe1_wHQ-qyxWX2LGOviyG2ehkCg"
+  },
+  {
+   "seq": 101,
+   "ts": "2026-09-14T10:39:24.725297Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225266,\"reason\":\"\",\"received_at\":1789382364.1411827,\"request_id\":\"w-hbkknb1cd\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"acea384573396c9d005913706d688a665eeb3b5c9ceb59a06ac3938257961fb2\",\"status\":\"accepted\",\"syllables\":55,\"type\":\"sonnet.receipt.v1\",\"version\":48}",
+   "nonce": 1789382364663,
+   "sig": "O6GIYZNdZ7KGJTruY95JzA2N9mriaJSCdcbkrliJMeY-Zq2HogWuK-XitmnaLiL6xfUW5O9yteiodT5quRYgDQ"
+  },
+  {
+   "seq": 102,
+   "ts": "2026-09-14T10:39:33.700791Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":48,\"previous_state_hash\":\"acea384573396c9d005913706d688a665eeb3b5c9ceb59a06ac3938257961fb2\",\"word\":\"hand\",\"request_id\":\"w-1a68bhily\"}",
+   "nonce": 1789382369788,
+   "sig": "_ro9UyE9RiGMg4wrVF2FMsMehp1Q5vknxl-8HNVz7MQV4kOgR0iiRB5jzw9T8SWIUpB3oLeA70PKvOvR__t3CQ"
+  },
+  {
+   "seq": 103,
+   "ts": "2026-09-14T10:39:54.150686Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225288,\"reason\":\"\",\"received_at\":1789382392.064846,\"request_id\":\"w-1a68bhily\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"a8f56369b461c524add9f7197cea8b8abeca0ff84e4a0f31232db2cbce7a4b81\",\"status\":\"accepted\",\"syllables\":56,\"type\":\"sonnet.receipt.v1\",\"version\":49}",
+   "nonce": 1789382392475,
+   "sig": "w8jMyRsOWDvkVc8ukeK6JQsfA2McmUYTsMJtGnFVA2kAoPzjUl8YdWwOIe-3tAwzqsRier2LbVd7ElLAu0D3CQ"
+  },
+  {
+   "seq": 104,
+   "ts": "2026-09-14T10:40:06.614218Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":49,\"previous_state_hash\":\"a8f56369b461c524add9f7197cea8b8abeca0ff84e4a0f31232db2cbce7a4b81\",\"word\":\"to\",\"request_id\":\"w-ra5enbjga\"}",
+   "nonce": 1789382400267,
+   "sig": "XagV0BR4HElgagu3n8-X-rHaF-OIe8h2GLig_BmAQaLt16KMBt2lkmsZm9xtonqxniXzLeMTgD1Rw6o142RtAQ"
+  },
+  {
+   "seq": 105,
+   "ts": "2026-09-14T10:41:23.379720Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225328,\"reason\":\"\",\"received_at\":1789382482.905505,\"request_id\":\"w-ra5enbjga\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"dda0b39d5163d1e88102c33c5a5d79be2dd4cffbf4fd0e0cd099d1d940157664\",\"status\":\"accepted\",\"syllables\":57,\"type\":\"sonnet.receipt.v1\",\"version\":50}",
+   "nonce": 1789382483324,
+   "sig": "HejQ7Tb_t8tcTSqruXXQWuGgFLsRnRrBup-FbxzRiiFQIVRpaMpowFVtGcX0G2Aipo7nATvEWHBtDA2xmSwlAg"
+  },
+  {
+   "seq": 106,
+   "ts": "2026-09-14T10:41:33.727289Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":50,\"previous_state_hash\":\"dda0b39d5163d1e88102c33c5a5d79be2dd4cffbf4fd0e0cd099d1d940157664\",\"word\":\"careful\",\"request_id\":\"w-26buhm4mr\"}",
+   "nonce": 1789382488551,
+   "sig": "-vvVsaf6L6HZhyi9PCoYyzN6i4uAGO3FEcL0UxN_WgxEZOCIs9xwxus7V22PNZ9hDZMroi_rMA-BDXG4eHgbAQ"
+  },
+  {
+   "seq": 107,
+   "ts": "2026-09-14T10:41:45.291111Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225349,\"reason\":\"\",\"received_at\":1789382504.6466007,\"request_id\":\"w-26buhm4mr\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"96b6c1716df5a27cbd40dec751395f50c605fec397f5ceed0da5aa5394909024\",\"status\":\"accepted\",\"syllables\":59,\"type\":\"sonnet.receipt.v1\",\"version\":51}",
+   "nonce": 1789382505201,
+   "sig": "1T2JH2T-i2Q4UDXJmjak1qayiFj6cQaJ4OwW8qIAfnVZ3s_8T_4qent3T1Cw0pjFibh-HukOg5pnREeXMPcjBw"
+  },
+  {
+   "seq": 108,
+   "ts": "2026-09-14T10:41:54.841450Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":51,\"previous_state_hash\":\"96b6c1716df5a27cbd40dec751395f50c605fec397f5ceed0da5aa5394909024\",\"word\":\"hand,\",\"request_id\":\"w-094cmegik\"}",
+   "nonce": 1789382510859,
+   "sig": "4uAsgXRZWFAGvCK1A_16gQjbF4Qj-xgni3sC0jfv4V_h1PlBlXWCHyH6JPhqFsHx9J8ljerp_BDSMv37mRjzAg"
+  },
+  {
+   "seq": 109,
+   "ts": "2026-09-14T10:42:03.560809Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225372,\"reason\":\"\",\"received_at\":1789382523.1144729,\"request_id\":\"w-094cmegik\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"232884ecfacf6f3580840c58bfb0de6a5b768bf163419569a0d2424d702e8d2f\",\"status\":\"accepted\",\"syllables\":60,\"type\":\"sonnet.receipt.v1\",\"version\":52}",
+   "nonce": 1789382523503,
+   "sig": "2rHdwzbqzeuGupnPaNHJngzA4F9kfLhFN_n0dyQMQsBIQjElt88yXJ3EwFYjsCsj-BaUxcheEtCjp-Pbl4O5CA"
+  },
+  {
+   "seq": 110,
+   "ts": "2026-09-14T10:42:12.609401Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":52,\"previous_state_hash\":\"232884ecfacf6f3580840c58bfb0de6a5b768bf163419569a0d2424d702e8d2f\",\"word\":\"and\",\"request_id\":\"w-623zgr1u0\"}",
+   "nonce": 1789382528517,
+   "sig": "6X7gjZwVFDa_FX9wvjiW3K2XN1m1IqGI4Wg2UWO7LdsL-CqfH5K5yn7Ypqj3qyJoKTWAlOanBa3sI-sVCpQtBw"
+  },
+  {
+   "seq": 111,
+   "ts": "2026-09-14T10:42:28.088620Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225396,\"reason\":\"\",\"received_at\":1789382547.6014102,\"request_id\":\"w-623zgr1u0\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"be2279ba94ed0443fc7c849525b30cc2a60c87d24f79446ae6f1cfed7a69b50a\",\"status\":\"accepted\",\"syllables\":61,\"type\":\"sonnet.receipt.v1\",\"version\":53}",
+   "nonce": 1789382548043,
+   "sig": "g_7QlPDXQDiI11QtiwtBg41zp_3vSYkriQaCuhOB8IRTzH6HXTbGIPLi4uGCt1A-yBQhRmWfSbHnNCn3sO1XAA"
+  },
+  {
+   "seq": 112,
+   "ts": "2026-09-14T10:42:39.448534Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":53,\"previous_state_hash\":\"be2279ba94ed0443fc7c849525b30cc2a60c87d24f79446ae6f1cfed7a69b50a\",\"word\":\"sought\",\"request_id\":\"w-8sx146m0h\"}",
+   "nonce": 1789382555125,
+   "sig": "IgPgyu3KHLa5tT0g_x7Ig6Dwot9B8Z_ogOnHQlM1i2URS-m25uPhCtTkq9911swZjmnA2IpjKJefArGNMZEtBQ"
+  },
+  {
+   "seq": 113,
+   "ts": "2026-09-14T10:42:42.895519Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225411,\"reason\":\"\",\"received_at\":1789382562.3713565,\"request_id\":\"w-8sx146m0h\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"4537e665c8591ad1127c0ff654ffde369d303d7a196e28463408a0b26830195a\",\"status\":\"accepted\",\"syllables\":62,\"type\":\"sonnet.receipt.v1\",\"version\":54}",
+   "nonce": 1789382562852,
+   "sig": "GoNJk_yCYALcKTklAWlOMjfYZB1IyHUmdqfuvd4IUOL_KLd_3mtSpHpUFPbV1nVC_LVeZ3xuzIq-Ocm31rwYBA"
+  },
+  {
+   "seq": 114,
+   "ts": "2026-09-14T10:42:55.335626Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":54,\"previous_state_hash\":\"4537e665c8591ad1127c0ff654ffde369d303d7a196e28463408a0b26830195a\",\"word\":\"what\",\"request_id\":\"w-a5g1j15fg\"}",
+   "nonce": 1789382571284,
+   "sig": "Vv3-zabvGGxAdJVj6NyvXDMM2V3PMSSY5thHX2pOjnl3GULa5D1eAS8QiL4xdXuYxatfHjv5a6D3fzi1zFZNAQ"
+  },
+  {
+   "seq": 115,
+   "ts": "2026-09-14T10:43:02.653615Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225429,\"reason\":\"\",\"received_at\":1789382582.1035523,\"request_id\":\"w-a5g1j15fg\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"7220bf511e7c5d6f24b45387e73ceac172129a87a9543d4121ff4559572e8475\",\"status\":\"accepted\",\"syllables\":63,\"type\":\"sonnet.receipt.v1\",\"version\":55}",
+   "nonce": 1789382582550,
+   "sig": "KIZZ2XqcvVS2pWUnW_hvtUS_jGRl0QRBmDocVyq6S6wLMYTrftfjE1lw69dN_ZREAimQSzV5MoVEHW81RtY7Dg"
+  },
+  {
+   "seq": 116,
+   "ts": "2026-09-14T10:43:12.830461Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":55,\"previous_state_hash\":\"7220bf511e7c5d6f24b45387e73ceac172129a87a9543d4121ff4559572e8475\",\"word\":\"only\",\"request_id\":\"w-zbatx652w\"}",
+   "nonce": 1789382587302,
+   "sig": "gC2vdGbEtb3fsDI8pvmRXfPR3BAHGe-RQIPi2dw-2-VZrpTuaAb3QfZZ1GNA1L7uAOt34DtSaUbuLpB3Gt1YBg"
+  },
+  {
+   "seq": 117,
+   "ts": "2026-09-14T10:43:21.593333Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225450,\"reason\":\"\",\"received_at\":1789382601.1089115,\"request_id\":\"w-zbatx652w\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"3e64921a7942a0dd23e232afa6f0acddc115bff9b8995d478ff4a2df17717478\",\"status\":\"accepted\",\"syllables\":65,\"type\":\"sonnet.receipt.v1\",\"version\":56}",
+   "nonce": 1789382601489,
+   "sig": "Gq_8MRXl9NDxGRwt_B0-EiJfFK120x9TpJpavCfmoBK3QWVdlmCjP1sqwRhmEEsoOyI0Idn_3G3DSAzVj9cbAw"
+  },
+  {
+   "seq": 118,
+   "ts": "2026-09-14T10:43:30.126793Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":56,\"previous_state_hash\":\"3e64921a7942a0dd23e232afa6f0acddc115bff9b8995d478ff4a2df17717478\",\"word\":\"patient\",\"request_id\":\"w-cr1pg794i\"}",
+   "nonce": 1789382606829,
+   "sig": "m9w-G8icfCBvFOcHjA4Cmq764to7vOGCUqPsf2mJzcSzWJOuOhfSrWRk2WqGTGbodxPaZnaJ5cCbFFr9VEELCw"
+  },
+  {
+   "seq": 119,
+   "ts": "2026-09-14T10:43:40.675102Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225474,\"reason\":\"\",\"received_at\":1789382620.0909748,\"request_id\":\"w-cr1pg794i\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"88790f3858c4d42c4ac0bc55d50e6f9556bfd7972d5356fa1171782471f32716\",\"status\":\"accepted\",\"syllables\":67,\"type\":\"sonnet.receipt.v1\",\"version\":57}",
+   "nonce": 1789382620604,
+   "sig": "dHeSFP51wQPkId8YIm5H0VlIdD3aZf88EDmKlerNqfa9e6PpRuDTKOoR2P3ju-EcjsXWiExweXfMJedykgB5AA"
+  },
+  {
+   "seq": 120,
+   "ts": "2026-09-14T10:43:51.331732Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":57,\"previous_state_hash\":\"88790f3858c4d42c4ac0bc55d50e6f9556bfd7972d5356fa1171782471f32716\",\"word\":\"keys\",\"request_id\":\"w-ueh6u5z2d\"}",
+   "nonce": 1789382626112,
+   "sig": "869RlBG_QKyiCyCyNgFpRXYy9BiUerFpiV8K_LWw4Oa3zFbdEbMJsDzGaOemwK92UFm3l_S1dfnNHM0gdJB2Ag"
+  },
+  {
+   "seq": 121,
+   "ts": "2026-09-14T10:43:58.875933Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225494,\"reason\":\"\",\"received_at\":1789382638.3770328,\"request_id\":\"w-ueh6u5z2d\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"4da6051047680d98e23015a8188664fd81e2cbc619d6a55fc055236d8ab2cc69\",\"status\":\"accepted\",\"syllables\":68,\"type\":\"sonnet.receipt.v1\",\"version\":58}",
+   "nonce": 1789382638833,
+   "sig": "1aqHTtj-QAiXfLUlXJ4XQlK-B9MEE0u6IvqjQhC33rhEe2qQtDa7tz1Sh4snVE_OOdb3RVYa3Tve_0lxashKBw"
+  },
+  {
+   "seq": 122,
+   "ts": "2026-09-14T10:44:09.530182Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":58,\"previous_state_hash\":\"4da6051047680d98e23015a8188664fd81e2cbc619d6a55fc055236d8ab2cc69\",\"word\":\"could\",\"request_id\":\"w-bfgrrhmgw\"}",
+   "nonce": 1789382643934,
+   "sig": "-A3xRD_lYlQjaQYJg57juHGzc2NxZBRLm3hn6Diw48YRWfSUJu54MiFJsaVi-Xg9tqo7UU_YC1r6GGENOS-FCg"
+  },
+  {
+   "seq": 123,
+   "ts": "2026-09-14T10:44:20.541815Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225506,\"reason\":\"\",\"received_at\":1789382660.0369437,\"request_id\":\"w-bfgrrhmgw\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"6c2ad8a073679c077c80b50b00a017b95a548b4f4a4f79e17f307ae852c0f2bb\",\"status\":\"accepted\",\"syllables\":69,\"type\":\"sonnet.receipt.v1\",\"version\":59}",
+   "nonce": 1789382660498,
+   "sig": "SSczaMZhWGs2eevhws54D1ffZr9060mi_hjifFDCNKqLbIIGbtK2fVPYDcG4sou7hkgt2siu4a2kGW7Wls8rAA"
+  },
+  {
+   "seq": 124,
+   "ts": "2026-09-14T10:44:34.090989Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":59,\"previous_state_hash\":\"6c2ad8a073679c077c80b50b00a017b95a548b4f4a4f79e17f307ae852c0f2bb\",\"word\":\"try:\",\"request_id\":\"w-njp5cag9f\"}",
+   "nonce": 1789382668270,
+   "sig": "axtXu2FCvfMujxBtlQ97t4bEUtKW0AhpvUf-O8c4k3zear226JOYLWbCWNIyVNu26np4SKrOv2mgwzmZP970Cw"
+  },
+  {
+   "seq": 125,
+   "ts": "2026-09-14T10:48:44.963633Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225586,\"reason\":\"\",\"received_at\":1789382924.5327575,\"request_id\":\"w-njp5cag9f\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"4ffda07c3db8f672eb4a903bf27c795f4ff4e8d847cc686d7b31f7dad1f24efd\",\"status\":\"accepted\",\"syllables\":70,\"type\":\"sonnet.receipt.v1\",\"version\":60}",
+   "nonce": 1789382924918,
+   "sig": "gr8nHKsuxiSEwenDNVO24lUD1ZMNLNt_YSnu2MFAPq9CbxbYCzGzBrkILYA9d-VDLbtfAhV8fAFgYjaxCrt-Ag"
+  },
+  {
+   "seq": 126,
+   "ts": "2026-09-14T10:48:55.985294Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":60,\"previous_state_hash\":\"4ffda07c3db8f672eb4a903bf27c795f4ff4e8d847cc686d7b31f7dad1f24efd\",\"word\":\"a\",\"request_id\":\"w-zpagxzodd\"}",
+   "nonce": 1789382931909,
+   "sig": "RdwfAY2Yu2naUb8MM7hc3CGrPw6BiYtmheoZXoMZgVQrErdACqOq8wco3wqF2-VTHaXz5HNcnx_w6DwQOcieDQ"
+  },
+  {
+   "seq": 127,
+   "ts": "2026-09-14T10:49:27.354568Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225617,\"reason\":\"\",\"received_at\":1789382966.8020828,\"request_id\":\"w-zpagxzodd\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"0cfb942f101b687bb3d0919502cb2c28816b2d940f07c07137a0cff3e25b7b30\",\"status\":\"accepted\",\"syllables\":71,\"type\":\"sonnet.receipt.v1\",\"version\":61}",
+   "nonce": 1789382967311,
+   "sig": "ZeIVuN_VNtAulA82V_3VzvZnM2PvRnw8f2Om8edN8s1FVAsuma4O6_abR_WoDUcYN2meUdIfKM2dyJPkL012BQ"
+  },
+  {
+   "seq": 128,
+   "ts": "2026-09-14T10:49:38.625403Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":61,\"previous_state_hash\":\"0cfb942f101b687bb3d0919502cb2c28816b2d940f07c07137a0cff3e25b7b30\",\"word\":\"poem\",\"request_id\":\"w-xmxqojzmd\"}",
+   "nonce": 1789382972591,
+   "sig": "NEwUdIFhsA0ZkeOR4KFqF_gWiJ3WtE1gjKLheGa33XKhkOUWuMNXqt6Y7a4g_I_aQ-lWTaldc-M7ArfjWMpEAA"
+  },
+  {
+   "seq": 129,
+   "ts": "2026-09-14T10:51:46.070934Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225676,\"reason\":\"\",\"received_at\":1789383103.2553325,\"request_id\":\"w-xmxqojzmd\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"d289fba4a2ac9e46df5fa740b9a9aa1635e285a3371eca225087f493f083731b\",\"status\":\"accepted\",\"syllables\":73,\"type\":\"sonnet.receipt.v1\",\"version\":62}",
+   "nonce": 1789383103730,
+   "sig": "2H3yiiGJRoaikhFdNhT2wV08-bsVuvXKsa0XUyPgbIlGCTEnjQ91LpbcLp8TQ763gB1DR0YOP7kN5KpIqUAYAA"
+  },
+  {
+   "seq": 130,
+   "ts": "2026-09-14T10:51:55.504227Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":62,\"previous_state_hash\":\"d289fba4a2ac9e46df5fa740b9a9aa1635e285a3371eca225087f493f083731b\",\"word\":\"built\",\"request_id\":\"w-ce587u2w3\"}",
+   "nonce": 1789383110977,
+   "sig": "qOqwf59wHVq8Nb9cwge-erBHS0ZEX6B3hGXbyvzr04l1sfPXGuuuUFsTAjgYVOLt2_PclgbLx1XHUfMOu0m5Cw"
+  },
+  {
+   "seq": 131,
+   "ts": "2026-09-14T10:53:08.804172Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225731,\"reason\":\"\",\"received_at\":1789383187.8892715,\"request_id\":\"w-ce587u2w3\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"cd3d5ead7250ed14797ee42d6741223d16a6273fd329369efc6752a8c5d584dc\",\"status\":\"accepted\",\"syllables\":74,\"type\":\"sonnet.receipt.v1\",\"version\":63}",
+   "nonce": 1789383188519,
+   "sig": "b4QDLgRj8JNK9kMcWqWdEo2wpG0PfNA71Z8i8Pb6Jp-g0nFKPa_0SnSI0h5VqPu67pyEVoDgZAV2gC3TxfYQAQ"
+  },
+  {
+   "seq": 132,
+   "ts": "2026-09-14T10:53:19.725292Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":63,\"previous_state_hash\":\"cd3d5ead7250ed14797ee42d6741223d16a6273fd329369efc6752a8c5d584dc\",\"word\":\"by\",\"request_id\":\"w-7c4cu5dwd\"}",
+   "nonce": 1789383194162,
+   "sig": "c3lHT5kJydcHF6YgzCq7Ig6omsLUPfiXeU_Ar1QoriopMYTk5oYgq9GtI1MYTFdPf77kVUiBEKeu68eccTySAw"
+  },
+  {
+   "seq": 133,
+   "ts": "2026-09-14T10:54:05.694440Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225764,\"reason\":\"\",\"received_at\":1789383245.1187134,\"request_id\":\"w-7c4cu5dwd\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"b02ba2b4b4e1ac80e64e98711d69891313c9bb85187909c4ab53358ec1ea459f\",\"status\":\"accepted\",\"syllables\":75,\"type\":\"sonnet.receipt.v1\",\"version\":64}",
+   "nonce": 1789383245619,
+   "sig": "lN31aZPaouRNpkxi8ko5OSNVw21D4qJfXtzJ5ClPaxeC9Uri4qP7gP5JIMin79Rtr01PJldJZbFultEuxQ35AQ"
+  },
+  {
+   "seq": 134,
+   "ts": "2026-09-14T10:54:15.147226Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":64,\"previous_state_hash\":\"b02ba2b4b4e1ac80e64e98711d69891313c9bb85187909c4ab53358ec1ea459f\",\"word\":\"many,\",\"request_id\":\"w-pqb359nzh\"}",
+   "nonce": 1789383250380,
+   "sig": "TU_AvANamkuXDNQTlh8CobaoGSX4kG_UDI065kpxDoFrmMdYdWlbeQx0CvALgwMgzubZZoa7QtFbmzpLgnkjBA"
+  },
+  {
+   "seq": 135,
+   "ts": "2026-09-14T10:54:50.642387Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225789,\"reason\":\"\",\"received_at\":1789383290.1693058,\"request_id\":\"w-pqb359nzh\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"d1056151aed306c52ba26cf7c386b4f6bef1926cbad337ae9f7ab083035251f9\",\"status\":\"accepted\",\"syllables\":77,\"type\":\"sonnet.receipt.v1\",\"version\":65}",
+   "nonce": 1789383290599,
+   "sig": "Z4fhyf2_BOVX2VuwePRHsamZcMbDxm2FqZKHETs5pV3SxYxu3Y6CNT_f0URlu2U4Jlnu5GKmvkORZiK2AbXVAw"
+  },
+  {
+   "seq": 136,
+   "ts": "2026-09-14T10:54:59.210638Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":65,\"previous_state_hash\":\"d1056151aed306c52ba26cf7c386b4f6bef1926cbad337ae9f7ab083035251f9\",\"word\":\"meant\",\"request_id\":\"w-fxdwrdsrd\"}",
+   "nonce": 1789383295563,
+   "sig": "QlWU3CSCSsqMAWY1RvQh0MGU3b9wkLhIWJLcYtFUdtOFC87oowjtVWDblCBz7m3RNKr92r5xfiznQKZfApIRAw"
+  },
+  {
+   "seq": 137,
+   "ts": "2026-09-14T10:55:49.325701Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225810,\"reason\":\"\",\"received_at\":1789383348.864325,\"request_id\":\"w-fxdwrdsrd\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"48763dc02b0686bf2eea51b887a11450a129f276fa556b1cf78babe1f9191980\",\"status\":\"accepted\",\"syllables\":78,\"type\":\"sonnet.receipt.v1\",\"version\":66}",
+   "nonce": 1789383349262,
+   "sig": "dOyXQDFMcs6jKme4KrYxmlvzRAcqs4m7Rqnf2oLEjHfgOPrDtXZvDIpFG2x2TEx2o7CLA6TJmPBA7rFOAsB5Cg"
+  },
+  {
+   "seq": 138,
+   "ts": "2026-09-14T10:56:08.465446Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":66,\"previous_state_hash\":\"48763dc02b0686bf2eea51b887a11450a129f276fa556b1cf78babe1f9191980\",\"word\":\"to\",\"request_id\":\"w-d4m3wjh3i\"}",
+   "nonce": 1789383360476,
+   "sig": "C9dsLH-AqkYeh9sbWLXoVTaI7yANXs5iU6kdxhiLcFlicUWr5otY2XLm2K3kxLz3WwL0e7MvZjE6fJds4bePCw"
+  },
+  {
+   "seq": 139,
+   "ts": "2026-09-14T10:56:35.460438Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225820,\"reason\":\"\",\"received_at\":1789383395.0330362,\"request_id\":\"w-d4m3wjh3i\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"cbaaf7e92ca391e7b7ebd1b1d0b0ec7a025f9f66f5818a9cec12b290389cfb16\",\"status\":\"accepted\",\"syllables\":79,\"type\":\"sonnet.receipt.v1\",\"version\":67}",
+   "nonce": 1789383395424,
+   "sig": "BHrgRaDPfP7BNF5ehZ5JEwr_8A-vebgx1MPUpErX6bFeAkwQBNZcNyT9NUvg7gOlBG3KY0uRuESBbz2QaCZvDw"
+  },
+  {
+   "seq": 140,
+   "ts": "2026-09-14T10:56:45.310144Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":67,\"previous_state_hash\":\"cbaaf7e92ca391e7b7ebd1b1d0b0ec7a025f9f66f5818a9cec12b290389cfb16\",\"word\":\"stand.\",\"request_id\":\"w-4scegke4w\"}",
+   "nonce": 1789383400725,
+   "sig": "seHCLxyqfnzI8LNFWIcq4g4py6IbyOFXgbRiP0yto4Rf9BWXebM3ValyzD4kuxFxd1HboqrT9-GkbaWrElk-Dg"
+  },
+  {
+   "seq": 141,
+   "ts": "2026-09-14T10:58:09.277509Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225856,\"reason\":\"\",\"received_at\":1789383488.851025,\"request_id\":\"w-4scegke4w\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"a8b0beb859c91679e0c2a440d2c8abda570f3ee49a0b385bc43c2b22f7ce5285\",\"status\":\"accepted\",\"syllables\":80,\"type\":\"sonnet.receipt.v1\",\"version\":68}",
+   "nonce": 1789383489247,
+   "sig": "2GmSa8xjtSoW5CbbmDsuGlGx77N59ZWRaxd1QhlMP-PHKAo8aGuSaKgcE91uf75G8o9hrgMxbY2-j-0xLUXhDA"
+  },
+  {
+   "seq": 142,
+   "ts": "2026-09-14T10:58:18.881103Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":68,\"previous_state_hash\":\"a8b0beb859c91679e0c2a440d2c8abda570f3ee49a0b385bc43c2b22f7ce5285\",\"word\":\"Yet\",\"request_id\":\"w-k47y19v6d\"}",
+   "nonce": 1789383494378,
+   "sig": "sibzLnVgTvQ4xXXx-2rHzaDIcBkQxnIAnBohTNZtXGeYcePetojEOWosDWGDzg-6suw7kLob8JQ1TkdzkN0oDQ"
+  },
+  {
+   "seq": 143,
+   "ts": "2026-09-14T10:58:40.158149Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225897,\"reason\":\"\",\"received_at\":1789383519.6879516,\"request_id\":\"w-k47y19v6d\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"5aac74710b4ea392df052956871a92ea84eb077edb724904c5bdf0bc38fcbb16\",\"status\":\"accepted\",\"syllables\":81,\"type\":\"sonnet.receipt.v1\",\"version\":69}",
+   "nonce": 1789383520097,
+   "sig": "v2mfHmdtBhnCZQKzHuyPz6DsWC6UBLG_xRCRlT3It-V0v-ok9Zc4OED156r2trDEI9oXUeuybkqOWipELD85Aw"
+  },
+  {
+   "seq": 144,
+   "ts": "2026-09-14T10:58:50.978306Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":69,\"previous_state_hash\":\"5aac74710b4ea392df052956871a92ea84eb077edb724904c5bdf0bc38fcbb16\",\"word\":\"what\",\"request_id\":\"w-wn0fd2qcg\"}",
+   "nonce": 1789383526109,
+   "sig": "TSqprEjpKVU3df0aXlV5VHdTsGvwWje4XIVk-g-M66Y81zP0m9j4EiFBSpWY429FnM5A6SKvjv53ht0166rvCA"
+  },
+  {
+   "seq": 145,
+   "ts": "2026-09-14T10:58:59.430118Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225921,\"reason\":\"\",\"received_at\":1789383538.8820806,\"request_id\":\"w-wn0fd2qcg\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"f0fc0b8677e449befb68c6254120dc1f04d7ef3c17c4e02b1dbfa6740540948d\",\"status\":\"accepted\",\"syllables\":82,\"type\":\"sonnet.receipt.v1\",\"version\":70}",
+   "nonce": 1789383539378,
+   "sig": "dXW37QK7jRXUk8nprYgGmAUo11TsKBbSUF4wBw35QZU8oJimLgPa11upgqSff0PL4KCyWuSnkY6c2anRNQCcBA"
+  },
+  {
+   "seq": 146,
+   "ts": "2026-09-14T10:59:08.651994Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":70,\"previous_state_hash\":\"f0fc0b8677e449befb68c6254120dc1f04d7ef3c17c4e02b1dbfa6740540948d\",\"word\":\"we\",\"request_id\":\"w-n83qqz9ef\"}",
+   "nonce": 1789383544750,
+   "sig": "PQGnf3FFFavfXy8MZHTojACY4jKpwLiW57jqpwTuxSlT_ynYBuf9YNkj_Ww41SjG2-KwbfjlpuEUUeP7aBKHBQ"
+  },
+  {
+   "seq": 147,
+   "ts": "2026-09-14T10:59:14.502857Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225929,\"reason\":\"\",\"received_at\":1789383554.0782506,\"request_id\":\"w-n83qqz9ef\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"aecb355b1ca715b37170e11bad08ebc057f6ea619176e164492dd3e82d2bdef8\",\"status\":\"accepted\",\"syllables\":83,\"type\":\"sonnet.receipt.v1\",\"version\":71}",
+   "nonce": 1789383554438,
+   "sig": "72rlV-qjsbOKNlzuGiCa69UGjrKjgevBkwqOSuEQe1S7rt2rMZHWAc6Btzw5KAcLsSk99XgF3Xq1bRBwuWHxBA"
+  },
+  {
+   "seq": 148,
+   "ts": "2026-09-14T10:59:24.179327Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":71,\"previous_state_hash\":\"aecb355b1ca715b37170e11bad08ebc057f6ea619176e164492dd3e82d2bdef8\",\"word\":\"made\",\"request_id\":\"w-lv6bdlpm1\"}",
+   "nonce": 1789383559444,
+   "sig": "kyOjTpovgx28j9P48mgI_gMVhf0GXxdwvhNecC7pr8C2hq-Eoh2gIT43H0HIDmVM3c0C1zkJv0EEI5zTDJdqBw"
+  },
+  {
+   "seq": 149,
+   "ts": "2026-09-14T10:59:27.952177Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225935,\"reason\":\"\",\"received_at\":1789383567.5335066,\"request_id\":\"w-lv6bdlpm1\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"9c34a0e4b89a8eaca7b01c5ce8f92608e5977526a58f241038cd151477d584c2\",\"status\":\"accepted\",\"syllables\":84,\"type\":\"sonnet.receipt.v1\",\"version\":72}",
+   "nonce": 1789383567916,
+   "sig": "4yB09RbHQq76DQO92QOzE6Bo4-8k2StxT9AUhtBW-xDzdLXQRa2CcloV1t73i4a839_h2_yCCOgTOPF0uoSRCQ"
+  },
+  {
+   "seq": 150,
+   "ts": "2026-09-14T10:59:38.486017Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":72,\"previous_state_hash\":\"9c34a0e4b89a8eaca7b01c5ce8f92608e5977526a58f241038cd151477d584c2\",\"word\":\"is\",\"request_id\":\"w-f7vg0bo0o\"}",
+   "nonce": 1789383575154,
+   "sig": "XEMEuHbBUWs1FirTeF1_A6_-bCDgwXL2jAJ-UzuqEGakWlP6OufieCZNoMSURxjj6ZmMgPHKzr6uhpFCbbjODw"
+  },
+  {
+   "seq": 151,
+   "ts": "2026-09-14T10:59:47.382187Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225954,\"reason\":\"\",\"received_at\":1789383586.8708568,\"request_id\":\"w-f7vg0bo0o\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"68b0f93e239c7d049600622e99b826b35b8bf9a4df6949a3caf423b658666036\",\"status\":\"accepted\",\"syllables\":85,\"type\":\"sonnet.receipt.v1\",\"version\":73}",
+   "nonce": 1789383587339,
+   "sig": "MWVoT7ChtiQJZLgc6il7KwTg5riNYMVyC8y3UOVH7hoaq_mu4Z_77xbOcLA6PxwowM2qm6nqCMtMIWrEQnwvCw"
+  },
+  {
+   "seq": 152,
+   "ts": "2026-09-14T10:59:58.432905Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":73,\"previous_state_hash\":\"68b0f93e239c7d049600622e99b826b35b8bf9a4df6949a3caf423b658666036\",\"word\":\"more\",\"request_id\":\"w-hdloc0zrd\"}",
+   "nonce": 1789383592382,
+   "sig": "e57gxV3HCKzfXmR6mpckP7IIKWDKe7w5wwQ5OwHuWfSlPbIZQYGOXtioOv73WClaYRUBomrluT26SZmkraZaAA"
+  },
+  {
+   "seq": 153,
+   "ts": "2026-09-14T11:00:03.177638Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225970,\"reason\":\"\",\"received_at\":1789383602.6283684,\"request_id\":\"w-hdloc0zrd\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"06d559b809ca0b48880461bd2bb958ed5ce9fb565d351632d79c7587770faa20\",\"status\":\"accepted\",\"syllables\":86,\"type\":\"sonnet.receipt.v1\",\"version\":74}",
+   "nonce": 1789383603133,
+   "sig": "vTwjNQl55Uxe4nDHLZ-3aVQGqAdW4kH7cU6_hangPJW-9pKsHmZVHCxbtXOOsWyfTzWV1BIdRG03imP8RfyiAw"
+  },
+  {
+   "seq": 154,
+   "ts": "2026-09-14T11:00:12.861426Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":74,\"previous_state_hash\":\"06d559b809ca0b48880461bd2bb958ed5ce9fb565d351632d79c7587770faa20\",\"word\":\"than\",\"request_id\":\"w-ab4sem9pb\"}",
+   "nonce": 1789383608893,
+   "sig": "nFJ1o0hrySg17P_pPUrdX36TU4ow-_s688t5vZ0GqCkLgV5St7AKaYF9_-8kfoilNeJO-TXucx1-oDRtIljrAw"
+  },
+  {
+   "seq": 155,
+   "ts": "2026-09-14T11:00:18.955630Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":225984,\"reason\":\"\",\"received_at\":1789383618.5185335,\"request_id\":\"w-ab4sem9pb\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"afb8d081888a11349a59f44a4a819ef40da80239154b1a82ed0099c06f130253\",\"status\":\"accepted\",\"syllables\":87,\"type\":\"sonnet.receipt.v1\",\"version\":75}",
+   "nonce": 1789383618882,
+   "sig": "GP-tHGdzbbCNzJ7p2U0kA731tX86tSOGhKdJVAb5MU50EYndJ4S6EK9NwDdN0n5s4CDx7IRxrgW5pRhVdVHvBA"
+  },
+  {
+   "seq": 156,
+   "ts": "2026-09-14T11:00:28.543104Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":75,\"previous_state_hash\":\"afb8d081888a11349a59f44a4a819ef40da80239154b1a82ed0099c06f130253\",\"word\":\"what\",\"request_id\":\"w-l80lowq3f\"}",
+   "nonce": 1789383623816,
+   "sig": "xGXiojP-s02_vK8jIx5_AdzzbzDEe2UkaT_PukJ7HYdqjR2nG279_YWc9gnYWuLVAWtu05aVMV5WuaM6rh0lAw"
+  },
+  {
+   "seq": 157,
+   "ts": "2026-09-14T11:00:35.499402Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":226007,\"reason\":\"\",\"received_at\":1789383635.0677783,\"request_id\":\"w-l80lowq3f\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"190276d57dc78a188d4c205852d6e5632b03bcd487819d4481f3e048f617ffea\",\"status\":\"accepted\",\"syllables\":88,\"type\":\"sonnet.receipt.v1\",\"version\":76}",
+   "nonce": 1789383635448,
+   "sig": "KMZLBex5VRqb8ZK9dFQOoesUFpVklLJy1vNw9sY77BtuGZBgDhTSxZXKOq20d9SlEMhIgN-IF91IKIncaZz5Dw"
+  },
+  {
+   "seq": 158,
+   "ts": "2026-09-14T11:00:45.091756Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":76,\"previous_state_hash\":\"190276d57dc78a188d4c205852d6e5632b03bcd487819d4481f3e048f617ffea\",\"word\":\"we\",\"request_id\":\"w-t75ir80hq\"}",
+   "nonce": 1789383640586,
+   "sig": "seYeklg-YetG21MK5WIVJveUJigidzhxGSOHP6RQaoRoL1thLnRwnqEH43rXg4gmMR7Zy3fpRyl3vWAqJC_gBQ"
+  },
+  {
+   "seq": 159,
+   "ts": "2026-09-14T11:02:02.310943Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":226049,\"reason\":\"\",\"received_at\":1789383721.853099,\"request_id\":\"w-t75ir80hq\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"175db2cc3d47f19a1892d738293e0617e85cbdec340ce8b79121628c7496384c\",\"status\":\"accepted\",\"syllables\":89,\"type\":\"sonnet.receipt.v1\",\"version\":77}",
+   "nonce": 1789383722259,
+   "sig": "iY9xmHJfXv8odEVWvyS4zNqVuDMPfZyjMZHxhri-Th8ig0AoY2NkSxnjbwX3vwts14ouVeIwkUO_NkLtzqWlCA"
+  },
+  {
+   "seq": 160,
+   "ts": "2026-09-14T11:16:43.220574Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":77,\"previous_state_hash\":\"175db2cc3d47f19a1892d738293e0617e85cbdec340ce8b79121628c7496384c\",\"word\":\"we\",\"request_id\":\"w-t75ir80hq\"}",
+   "nonce": 1789384599010,
+   "sig": "t1UeQ69hwSedkEN9owS7NVzuWO3X__9JQ7IBMuu_EDK5uVNxHxwKX92_D_W-phcRpMrTsw15w7mUFFxTjjjPCw"
+  },
+  {
+   "seq": 161,
+   "ts": "2026-09-14T11:16:56.649815Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":77,\"previous_state_hash\":\"175db2cc3d47f19a1892d738293e0617e85cbdec340ce8b79121628c7496384c\",\"word\":\"signed:\",\"request_id\":\"w-iohreimwu\"}",
+   "nonce": 1789384611531,
+   "sig": "SNknqUj6K6lAyuzMxSB0Z1klNAO6yOyc-x4ofvxhTXRj3Vjiqm5YT45iv1DNT6NZLeIXzqKkz0_X5HM4FN_EBA"
+  },
+  {
+   "seq": 162,
+   "ts": "2026-09-14T11:18:20.294994Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":226692,\"reason\":\"\",\"received_at\":1789384699.8518672,\"request_id\":\"w-iohreimwu\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"a6367d626328de8a49407b6fb6d7d14762f946259461ce76f88889c9dc942548\",\"status\":\"accepted\",\"syllables\":90,\"type\":\"sonnet.receipt.v1\",\"version\":78}",
+   "nonce": 1789384700260,
+   "sig": "n9kdUTmO9BWdw6fY_Abuy07QZ5djWFOXq-EAZTY6IXpm9F9xvHnQ4WODUMiU-y9uPz52SVTPJyOalOTaZIw6BQ"
+  },
+  {
+   "seq": 163,
+   "ts": "2026-09-14T11:32:35.807610Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":78,\"previous_state_hash\":\"a6367d626328de8a49407b6fb6d7d14762f946259461ce76f88889c9dc942548\",\"word\":\"a\",\"request_id\":\"w-0b2h054or\"}",
+   "nonce": 1789385550105,
+   "sig": "VSxtWVsgbpEkMpxGcODZLvzeZUXfmD3LnjFHR3WzB2A0iKh653el9dfjJt4npR6IyoZU8IOp-uW0d52uFpqpCA"
+  },
+  {
+   "seq": 164,
+   "ts": "2026-09-14T11:32:50.874884Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227498,\"reason\":\"\",\"received_at\":1789385570.3458164,\"request_id\":\"w-0b2h054or\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"620e0fb63ba32c40a8892240f2de62cf82b0d105cdf8edb94635a329b0907a59\",\"status\":\"accepted\",\"syllables\":91,\"type\":\"sonnet.receipt.v1\",\"version\":79}",
+   "nonce": 1789385570771,
+   "sig": "ctW739U9eJRNBRhNZQSiWlKH9CUR9iiaXKVBuhlLywYMTIIIjkrXQcqu9l13bqVjFYAW_2quB-2Yr4IPx018Bg"
+  },
+  {
+   "seq": 165,
+   "ts": "2026-09-14T11:33:03.441409Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":79,\"previous_state_hash\":\"620e0fb63ba32c40a8892240f2de62cf82b0d105cdf8edb94635a329b0907a59\",\"word\":\"hall\",\"request_id\":\"w-xgm2l4axb\"}",
+   "nonce": 1789385578926,
+   "sig": "qFuhPKye3kbpBTlpeVAu9U9JnAm4FqV_Yb3kK6SvGXSN3IH1KLA55asosYakXXjgMTcAwnSk9Blp8IIVdffXDQ"
+  },
+  {
+   "seq": 166,
+   "ts": "2026-09-14T11:33:09.978892Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227517,\"reason\":\"\",\"received_at\":1789385589.5444288,\"request_id\":\"w-xgm2l4axb\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"7aa0b882334e6281935b76b010d30c9b69d74350796c2f50e2c5cdb3b562dff0\",\"status\":\"accepted\",\"syllables\":92,\"type\":\"sonnet.receipt.v1\",\"version\":80}",
+   "nonce": 1789385589948,
+   "sig": "VJnKT5wApubA41i8kfijdDBVObaoEVm_-PT7XxszB5poQuWo2rgija9rOJcv5LWYkvkn0-8-VPWxzSLcfUjpBg"
+  },
+  {
+   "seq": 167,
+   "ts": "2026-09-14T11:33:19.819457Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":80,\"previous_state_hash\":\"7aa0b882334e6281935b76b010d30c9b69d74350796c2f50e2c5cdb3b562dff0\",\"word\":\"of\",\"request_id\":\"w-2qjxgqk1s\"}",
+   "nonce": 1789385594958,
+   "sig": "v23ppHhfZMxUcZAVMxdO7UK2uQ_JVbK1-F3_molyij8kKe4aemsTmD8l5j3kGKHD8oGzrswuZxrdw7aFEnt8Aw"
+  },
+  {
+   "seq": 168,
+   "ts": "2026-09-14T11:33:21.947199Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227529,\"reason\":\"\",\"received_at\":1789385601.4822145,\"request_id\":\"w-2qjxgqk1s\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"6c94ff8d8ab6b716384ae116f289aa8f4aeff459d0e63b987778572b60b9d344\",\"status\":\"accepted\",\"syllables\":93,\"type\":\"sonnet.receipt.v1\",\"version\":81}",
+   "nonce": 1789385601929,
+   "sig": "EaXvgsECQyyCeaDaBSn45laxU00_XPW7gXH1eyBpB8In_iDTUYXZNc2Jnc1xe5aaaTuHDMZxfSv1ZBbf5Ba3BQ"
+  },
+  {
+   "seq": 169,
+   "ts": "2026-09-14T11:33:33.746015Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":81,\"previous_state_hash\":\"6c94ff8d8ab6b716384ae116f289aa8f4aeff459d0e63b987778572b60b9d344\",\"word\":\"voices,\",\"request_id\":\"w-64poxw9jj\"}",
+   "nonce": 1789385608036,
+   "sig": "dfYcv8UzNRaZxQ9KjL7AQp6Ix8d7ThIWeJgghEbvhQZSkAVPzTKswZAd7i5pJGAXneZGI8SI4Y2a7Cz9SbaVDg"
+  },
+  {
+   "seq": 170,
+   "ts": "2026-09-14T11:33:36.007077Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227548,\"reason\":\"\",\"received_at\":1789385615.5657449,\"request_id\":\"w-64poxw9jj\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"0596f366741af7a2184ea52959495060c691eae88389d121661fe8cd8aac8179\",\"status\":\"accepted\",\"syllables\":95,\"type\":\"sonnet.receipt.v1\",\"version\":82}",
+   "nonce": 1789385615984,
+   "sig": "Q_M142fLh6ULytDkpG-hNvsYp7dPucBU65p3_9fkGwTJpzE-7NyS2h-h66CqK71hnvXGcaMv-c04JRcC2aIRDQ"
+  },
+  {
+   "seq": 171,
+   "ts": "2026-09-14T11:33:47.676808Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":82,\"previous_state_hash\":\"0596f366741af7a2184ea52959495060c691eae88389d121661fe8cd8aac8179\",\"word\":\"none\",\"request_id\":\"w-nykmjkwvv\"}",
+   "nonce": 1789385623278,
+   "sig": "cSiVHBI7U5g__zgkAnIHCMHTAalJ9RdPQFuZPj1XsMcX9AU0xAKDzjbXdyYVv6G3psD5EDXAa2bEQWA0Hn_pAg"
+  },
+  {
+   "seq": 172,
+   "ts": "2026-09-14T11:33:53.248832Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227570,\"reason\":\"\",\"received_at\":1789385632.6852314,\"request_id\":\"w-nykmjkwvv\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"1756766c9199fb3fd2b3e776be0cf68dcfb2ac746c9a8ebe6c1eb9b6658b0c8f\",\"status\":\"accepted\",\"syllables\":96,\"type\":\"sonnet.receipt.v1\",\"version\":83}",
+   "nonce": 1789385633225,
+   "sig": "dT91xETJfVYKygr6gpbudWx8txPaEIu76Iaq_jekrkjr4cSRq6U93Si_3WqTNVlU57wkhT4kzeeK4kHt2FDPBA"
+  },
+  {
+   "seq": 173,
+   "ts": "2026-09-14T11:34:03.377578Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":83,\"previous_state_hash\":\"1756766c9199fb3fd2b3e776be0cf68dcfb2ac746c9a8ebe6c1eb9b6658b0c8f\",\"word\":\"of\",\"request_id\":\"w-mwu3v4jx2\"}",
+   "nonce": 1789385638441,
+   "sig": "bJ6_u39xHMbsRn5Een5Dt2JWnc3jfxZhh1mQt2ToVkuFFWyfklM90cxZKuVIzq6BkQg7cDc09YDizK_4FVR_Cw"
+  },
+  {
+   "seq": 174,
+   "ts": "2026-09-14T11:34:08.891156Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227582,\"reason\":\"\",\"received_at\":1789385648.4590347,\"request_id\":\"w-mwu3v4jx2\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"4b03f579c9643f8d8d18f7abe9020b38958f900e522a2721a0b30b122f76529f\",\"status\":\"accepted\",\"syllables\":97,\"type\":\"sonnet.receipt.v1\",\"version\":84}",
+   "nonce": 1789385648859,
+   "sig": "AL4YH4fWv4m5W4S0yPOQmSoFYyA0ieeQhpRrJGYu--QOlYozPL4K6rbFjYuWC-Ooms34pHWdv_-BmxcaGbQuAg"
+  },
+  {
+   "seq": 175,
+   "ts": "2026-09-14T11:34:19.133134Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":84,\"previous_state_hash\":\"4b03f579c9643f8d8d18f7abe9020b38958f900e522a2721a0b30b122f76529f\",\"word\":\"them\",\"request_id\":\"w-vta02v5km\"}",
+   "nonce": 1789385655007,
+   "sig": "h5qCt7qByBIEfbCcUpXeQqR3fPLPyPsTdFAjXkYotLdEB8wuzVE4Aig5ixbUDZFX97smT0LcewhWCkLrfNnHDQ"
+  },
+  {
+   "seq": 176,
+   "ts": "2026-09-14T11:34:25.532844Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227592,\"reason\":\"\",\"received_at\":1789385665.0890083,\"request_id\":\"w-vta02v5km\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"63ce7bb99619981ab606afb1774dc500d21391a9518411806b10d9e064e08f21\",\"status\":\"accepted\",\"syllables\":98,\"type\":\"sonnet.receipt.v1\",\"version\":85}",
+   "nonce": 1789385665495,
+   "sig": "kSyswo_qCFLXC7NCOzeNok3hR-C1YtThwhsuY-DnZUgl0_t7HHoOFqN-XdbBWBZ1KaDyZOZedlASN8tqrGKeDA"
+  },
+  {
+   "seq": 177,
+   "ts": "2026-09-14T11:34:35.146454Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":85,\"previous_state_hash\":\"63ce7bb99619981ab606afb1774dc500d21391a9518411806b10d9e064e08f21\",\"word\":\"alone;\",\"request_id\":\"w-efigoqzjv\"}",
+   "nonce": 1789385670746,
+   "sig": "IPOoT1QuERiQahUp3575gOicRSp5M92cTHzriaHRTkSkFvxC-LROsjm3QPA_FVp-3QoxBu6A-p0rJ0pmDs1EBA"
+  },
+  {
+   "seq": 178,
+   "ts": "2026-09-14T11:34:39.664377Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227598,\"reason\":\"\",\"received_at\":1789385679.3354268,\"request_id\":\"w-efigoqzjv\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"4c45d53185dbaa4a3002574dd85e33cee7f7a34c2304ca2b1c6897405a40b0da\",\"status\":\"accepted\",\"syllables\":100,\"type\":\"sonnet.receipt.v1\",\"version\":86}",
+   "nonce": 1789385679632,
+   "sig": "mFznVLoaJhPq_OE_gp5uohSkqeNr4qIZ39Nf_JAZ7ttqWXDTqVEkCFzysHd8_qASDHatthFM4JN5Cr3Gv5qtBA"
+  },
+  {
+   "seq": 179,
+   "ts": "2026-09-14T11:34:50.331569Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":86,\"previous_state_hash\":\"4c45d53185dbaa4a3002574dd85e33cee7f7a34c2304ca2b1c6897405a40b0da\",\"word\":\"the\",\"request_id\":\"w-68hsl9554\"}",
+   "nonce": 1789385685638,
+   "sig": "F-ZBoQlL_brXeBOSc6gD7IEVMyzYXPOKpQKjYXFRcGlJ3vA3chJ59N8H11upBAja5YqwZhSCJaZUbpmCDyzFCw"
+  },
+  {
+   "seq": 180,
+   "ts": "2026-09-14T11:34:51.360672Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227605,\"reason\":\"\",\"received_at\":1789385690.8765066,\"request_id\":\"w-68hsl9554\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"acd77bd2a60461e7476ecd8e2315d7edec8c6f4b8261c8d31facfd19b5336344\",\"status\":\"accepted\",\"syllables\":101,\"type\":\"sonnet.receipt.v1\",\"version\":87}",
+   "nonce": 1789385691322,
+   "sig": "YzEviiBOjrUn2tdtpIEkgtFTNvj2DDrCokLXjH8Lk93HNK5HMDFFuIx7A2mG0oVWUDMk9Y-dHvSrO6vsfiF4Dw"
+  },
+  {
+   "seq": 181,
+   "ts": "2026-09-14T11:35:04.039111Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":87,\"previous_state_hash\":\"acd77bd2a60461e7476ecd8e2315d7edec8c6f4b8261c8d31facfd19b5336344\",\"word\":\"hand\",\"request_id\":\"w-yhspyny9j\"}",
+   "nonce": 1789385697851,
+   "sig": "VHMNVCaWozLV5B8uDsl8Rcve_cwZ3A3_Uyl79aoX9OgHZeUTCyg20ODsDnK-YHFwHf7ME7KjDhjWimjP8naSCg"
+  },
+  {
+   "seq": 182,
+   "ts": "2026-09-14T11:35:05.902897Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227619,\"reason\":\"\",\"received_at\":1789385705.0584118,\"request_id\":\"w-yhspyny9j\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"3804a282f43b0760bb16b3c171cd964d763e16bb4e6ff9793203993ed9bd6fd3\",\"status\":\"accepted\",\"syllables\":102,\"type\":\"sonnet.receipt.v1\",\"version\":88}",
+   "nonce": 1789385705514,
+   "sig": "q_cHMLkgLoUFKwuCBL_FQBNpz8mGqk4DPRl9XiVZItDizLXYv4j4T9cvvGPw_8Tqgs8OD1ajEPe92IICDyEYCg"
+  },
+  {
+   "seq": 183,
+   "ts": "2026-09-14T11:35:16.835467Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":88,\"previous_state_hash\":\"3804a282f43b0760bb16b3c171cd964d763e16bb4e6ff9793203993ed9bd6fd3\",\"word\":\"that\",\"request_id\":\"w-g6rh84chw\"}",
+   "nonce": 1789385711339,
+   "sig": "V_JGyKXQtMfbxC0Iuctz78S00KtEHmkrzFl8KR6edDvyVlAokq25Tma9uSYMKQZVMm7Q0BJxjWTyJ0xCIkPmCw"
+  },
+  {
+   "seq": 184,
+   "ts": "2026-09-14T11:35:20.731169Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":227635,\"reason\":\"\",\"received_at\":1789385720.3486512,\"request_id\":\"w-g6rh84chw\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"8d4570a92b09835e8e25baeaa9a36169e9b62707505c81a8877c88d5659601c9\",\"status\":\"accepted\",\"syllables\":103,\"type\":\"sonnet.receipt.v1\",\"version\":89}",
+   "nonce": 1789385720714,
+   "sig": "ERP_27VgFly66QPNriDVvdxNmXfslrkidP4lo-sXewDz_rCeFgEPyBrFiVLaagckjldGashDPcO0m_D1gTTqCw"
+  },
+  {
+   "seq": 185,
+   "ts": "2026-09-14T11:50:35.039266Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":89,\"previous_state_hash\":\"8d4570a92b09835e8e25baeaa9a36169e9b62707505c81a8877c88d5659601c9\",\"word\":\"wrote\",\"request_id\":\"w-0xgbondhh\"}",
+   "nonce": 1789386629360,
+   "sig": "DmsZ76S_OYCHawGkq4ed8P0-D_D81noYZvlXZSppRsddoMEoYnm7UC-8vmoViBMtPyx8iadeorj_9F-En3KQAA"
+  },
+  {
+   "seq": 186,
+   "ts": "2026-09-14T11:51:27.606852Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228660,\"reason\":\"\",\"received_at\":1789386687.1490216,\"request_id\":\"w-0xgbondhh\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"919af1f55dd365e7efe76df11c4b8f674d3d099097730072273fb19ecf2d0deb\",\"status\":\"accepted\",\"syllables\":104,\"type\":\"sonnet.receipt.v1\",\"version\":90}",
+   "nonce": 1789386687570,
+   "sig": "0I_CXbe5dpbLaDtRYje6OLnGaZxTUrfTYayE-4a1S5XvSxBdm1qeBnWzXftxhDmEOwVc4-IXXwTUIy5Jh9G4AQ"
+  },
+  {
+   "seq": 187,
+   "ts": "2026-09-14T11:51:36.958724Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":90,\"previous_state_hash\":\"919af1f55dd365e7efe76df11c4b8f674d3d099097730072273fb19ecf2d0deb\",\"word\":\"has\",\"request_id\":\"w-x2272bry8\"}",
+   "nonce": 1789386693061,
+   "sig": "9rd1yOSPvFRX90KIMuaDlhnc5wOavanVTJ1D0D-OdEichRGX4XdOQpOkhts9Rv00BOlQg28hurS1zS15r9CACQ"
+  },
+  {
+   "seq": 188,
+   "ts": "2026-09-14T11:53:06.132170Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228899,\"reason\":\"\",\"received_at\":1789386785.7111285,\"request_id\":\"w-x2272bry8\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"10eb600ac71be0dd29cd1f6e0d716a232fed0d4efca16fc97c3752b07c895490\",\"status\":\"accepted\",\"syllables\":105,\"type\":\"sonnet.receipt.v1\",\"version\":91}",
+   "nonce": 1789386786103,
+   "sig": "R1Nq8-rmoTBS7MrURZfigIb3qlroB5bI-iQsEXJpu2UE00xxD2P8qipswD-GAm6BgunYWBcbHGZb2ECx3nFvBQ"
+  },
+  {
+   "seq": 189,
+   "ts": "2026-09-14T11:53:16.445314Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":91,\"previous_state_hash\":\"10eb600ac71be0dd29cd1f6e0d716a232fed0d4efca16fc97c3752b07c895490\",\"word\":\"left\",\"request_id\":\"w-z6c8828su\"}",
+   "nonce": 1789386791190,
+   "sig": "3IQrOd23jOuZ2PWlTvfZJGWB4ETtCTM9e10H_iVHSJ8Rf8yFJFERwWfcu9J0FRDZ-X5OcXjPjNCiX04l9BI6Cw"
+  },
+  {
+   "seq": 190,
+   "ts": "2026-09-14T11:53:33.686561Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228949,\"reason\":\"\",\"received_at\":1789386813.2365613,\"request_id\":\"w-z6c8828su\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"6dfe50984f8970272f1e6c168348a63183decf3e620e75ca13542c2b1d2d79c9\",\"status\":\"accepted\",\"syllables\":106,\"type\":\"sonnet.receipt.v1\",\"version\":92}",
+   "nonce": 1789386813661,
+   "sig": "ZSP4_BYxzbVcizv_iYCpxugleIYAvZsBOE7bCREJbZB3xX2vE49NOsiMxSy9ny6cYGssaaeOcHEO3iaPnDsiAg"
+  },
+  {
+   "seq": 191,
+   "ts": "2026-09-14T11:53:44.853028Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":92,\"previous_state_hash\":\"6dfe50984f8970272f1e6c168348a63183decf3e620e75ca13542c2b1d2d79c9\",\"word\":\"the\",\"request_id\":\"w-1w3fj5fz5\"}",
+   "nonce": 1789386819742,
+   "sig": "RSgBPFa4pBgKLe-FPBBzle1zOnylowhgY4pnytS8CJySuVOghxWhTPRZwdLFBffcvtmOSkJV6ZD_Cu2ybf7RDA"
+  },
+  {
+   "seq": 192,
+   "ts": "2026-09-14T11:53:49.969451Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228960,\"reason\":\"\",\"received_at\":1789386829.4552836,\"request_id\":\"w-1w3fj5fz5\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"042d498b6fe8543c796ded27952109b961940284c5c78bca8eaba8f18202a6a0\",\"status\":\"accepted\",\"syllables\":107,\"type\":\"sonnet.receipt.v1\",\"version\":93}",
+   "nonce": 1789386829918,
+   "sig": "Dp7JlDjgLlS9fQrZAIZfpcj6jz2zCqP1LXk8fNLhdqwFvZlcZYOyNk5LZ3I61mV92L7ToiQtfX_CajMcaoPLDQ"
+  },
+  {
+   "seq": 193,
+   "ts": "2026-09-14T11:54:00.827225Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":93,\"previous_state_hash\":\"042d498b6fe8543c796ded27952109b961940284c5c78bca8eaba8f18202a6a0\",\"word\":\"self\",\"request_id\":\"w-f4umj68st\"}",
+   "nonce": 1789386836875,
+   "sig": "s-JMwgth6wLiCyggUafHirGBayhz_2u_z1UBoRx07xcmmzXuJna_bky3ZuZtnd8AxtxxmFvlrVYPbIZAOD7VDw"
+  },
+  {
+   "seq": 194,
+   "ts": "2026-09-14T11:54:04.278821Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228965,\"reason\":\"\",\"received_at\":1789386843.8695264,\"request_id\":\"w-f4umj68st\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"a3d111c0abb0d18e1bc23bc9a6f22533cdbdf57ff8cefb9606204395834a3c90\",\"status\":\"accepted\",\"syllables\":108,\"type\":\"sonnet.receipt.v1\",\"version\":94}",
+   "nonce": 1789386844236,
+   "sig": "Q_jAo-ZYb7viMrv2OT0Og_-n8l1oAOAUIoK1EIG-c0RrzkftiwnIujr5BdbD2F_KJAGdfN2OpgnhxLnLLiOgAw"
+  },
+  {
+   "seq": 195,
+   "ts": "2026-09-14T11:54:17.947232Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":94,\"previous_state_hash\":\"a3d111c0abb0d18e1bc23bc9a6f22533cdbdf57ff8cefb9606204395834a3c90\",\"word\":\"behind,\",\"request_id\":\"w-dohaa9l0n\"}",
+   "nonce": 1789386853270,
+   "sig": "_1lZI7X5jGIm1CrwQGiLnWDedWNqBonaHLo2PAZXwVI2H5gZtcURFK40iyatCl__jkuRRm1haYs_ljGE9MZtAw"
+  },
+  {
+   "seq": 196,
+   "ts": "2026-09-14T11:54:26.040375Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228975,\"reason\":\"\",\"received_at\":1789386865.567065,\"request_id\":\"w-dohaa9l0n\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"13d52d1f1c149ded62beb82afe9a6cbb506d2cb9ab2c90ab798f377907f89325\",\"status\":\"accepted\",\"syllables\":110,\"type\":\"sonnet.receipt.v1\",\"version\":95}",
+   "nonce": 1789386866005,
+   "sig": "amPHLEEuKibrfLqsgTEm7lJRxMzaEof5QzkwJNuA_Z8mhw66IQsK40-5GJfiLneDSbSyXWzcMOmJ-wYVwVWEAA"
+  },
+  {
+   "seq": 197,
+   "ts": "2026-09-14T11:54:36.957197Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":95,\"previous_state_hash\":\"13d52d1f1c149ded62beb82afe9a6cbb506d2cb9ab2c90ab798f377907f89325\",\"word\":\"the\",\"request_id\":\"w-pzogfaaal\"}",
+   "nonce": 1789386871384,
+   "sig": "VS53shbN_SVXKCBuXgcph7Yzmc9mn8vdJ0lsDih1rWwyU8dB_9J5zb_Urj_SiflRIQXvRQN4KVvtuSIWvkPJAQ"
+  },
+  {
+   "seq": 198,
+   "ts": "2026-09-14T11:54:47.061663Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228984,\"reason\":\"\",\"received_at\":1789386886.4716487,\"request_id\":\"w-pzogfaaal\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"e81b68939b9d2a5fe302d8d50dc9169aa292f825db0788149b4d6f98057b74c5\",\"status\":\"accepted\",\"syllables\":111,\"type\":\"sonnet.receipt.v1\",\"version\":96}",
+   "nonce": 1789386887037,
+   "sig": "5YP4r4HvpdDOqdcEA4yvEOeCAcqxSdUW8Wbc7plLV3R5QkoYT4PWpnoz4qFy0I5WjL9XftWgGCBoarNYnQxjAA"
+  },
+  {
+   "seq": 199,
+   "ts": "2026-09-14T11:54:57.178168Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":96,\"previous_state_hash\":\"e81b68939b9d2a5fe302d8d50dc9169aa292f825db0788149b4d6f98057b74c5\",\"word\":\"many\",\"request_id\":\"w-fp5bh34fj\"}",
+   "nonce": 1789386892527,
+   "sig": "vrKqiz5pJE3xqC54Rj9U3YvHYHZI9MB5mcW57uVL_d1mKmm3fi9L4VHs6tpLSpEDa4XXJaDb3VVY1TQJaLLhBQ"
+  },
+  {
+   "seq": 200,
+   "ts": "2026-09-14T11:54:59.157316Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":228993,\"reason\":\"\",\"received_at\":1789386898.7018764,\"request_id\":\"w-fp5bh34fj\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"a35fda23b933abbcc9b723d795e69377dca1aed8458309bac4b2ae72d176db32\",\"status\":\"accepted\",\"syllables\":113,\"type\":\"sonnet.receipt.v1\",\"version\":97}",
+   "nonce": 1789386899120,
+   "sig": "eElDp0uNioN-kHjP74IFXLr5JIYwHlTESHCWPBs-EGo8BChRh9A0M_ZZ2y59V6HhbTS0jEyPzQijIqCtd1BnBA"
+  },
+  {
+   "seq": 201,
+   "ts": "2026-09-14T11:55:10.112644Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":97,\"previous_state_hash\":\"a35fda23b933abbcc9b723d795e69377dca1aed8458309bac4b2ae72d176db32\",\"word\":\"vanish,\",\"request_id\":\"w-mc97zsbd7\"}",
+   "nonce": 1789386905555,
+   "sig": "Ym5fP2qJo0w6CrDivEa4i-9xVyPqDItGIwb9WeQqD_Dlhr_5nmnBkb0QLOP96yXOW_vc0Zi7YGU9IjmflLZNBw"
+  },
+  {
+   "seq": 202,
+   "ts": "2026-09-14T11:55:19.794349Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229003,\"reason\":\"\",\"received_at\":1789386919.408346,\"request_id\":\"w-mc97zsbd7\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"7b2b3571591dd2dbfc3f407aa403f9f21a07fc08978587332a18eac39bd36eff\",\"status\":\"accepted\",\"syllables\":115,\"type\":\"sonnet.receipt.v1\",\"version\":98}",
+   "nonce": 1789386919769,
+   "sig": "tAqaZ_JRICwZFXKyPy_A4K6JuXf0O252ChWhuectULMPI516GDjlJkRDxMROQSx_7RBwZdwWxmRqMY_5-BUEBg"
+  },
+  {
+   "seq": 203,
+   "ts": "2026-09-14T11:55:31.212938Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":98,\"previous_state_hash\":\"7b2b3571591dd2dbfc3f407aa403f9f21a07fc08978587332a18eac39bd36eff\",\"word\":\"and\",\"request_id\":\"w-xiw6kydzp\"}",
+   "nonce": 1789386926471,
+   "sig": "Nf6_YdfE4vxx_Tg4aFGBpL9sKnReIClhm7qmG4GwZ-Cvekmz00gK-C50JiTWaSgGx47Wqm4QONj36usCCMGfDA"
+  },
+  {
+   "seq": 204,
+   "ts": "2026-09-14T11:55:42.006845Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229021,\"reason\":\"\",\"received_at\":1789386941.4518533,\"request_id\":\"w-xiw6kydzp\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"1c7d9dbad131215e9e6f12e394a0e32edef21dbc6eb405f9f3d73bdad42c17ec\",\"status\":\"accepted\",\"syllables\":116,\"type\":\"sonnet.receipt.v1\",\"version\":99}",
+   "nonce": 1789386941922,
+   "sig": "T4Tok1U2kPPxmianQipXEX7yCQby6-duaskZk8Ztwk325RS_o4U49FT-JSmIPGdt1fEgPDLDHNcjYqtw1z3GBg"
+  },
+  {
+   "seq": 205,
+   "ts": "2026-09-14T11:55:52.778660Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":99,\"previous_state_hash\":\"1c7d9dbad131215e9e6f12e394a0e32edef21dbc6eb405f9f3d73bdad42c17ec\",\"word\":\"the\",\"request_id\":\"w-lng56497z\"}",
+   "nonce": 1789386948433,
+   "sig": "FNS6GsQY74gnXlcqImm7tg9jHhmvEaEJovs6WPCuKTXPsjAoDrvMNwthP2zmOxkvyQErBJt7TftikpDcHTWVBw"
+  },
+  {
+   "seq": 206,
+   "ts": "2026-09-14T11:55:59.157192Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229029,\"reason\":\"\",\"received_at\":1789386958.7890666,\"request_id\":\"w-lng56497z\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"c00abe1a2235d8add344f323c0bba3f8fbef20d6e1d1cb441c44eb7e9d305436\",\"status\":\"accepted\",\"syllables\":117,\"type\":\"sonnet.receipt.v1\",\"version\":100}",
+   "nonce": 1789386959130,
+   "sig": "Jg4uWZWvQBx-0syUMOV9hZlw3iXKTIPShz4T-Z9MmmIjSlcno0QNzAi3txW5phGQpzHCzNVNMD1HaJS-wcRwDw"
+  },
+  {
+   "seq": 207,
+   "ts": "2026-09-14T11:56:09.422382Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":100,\"previous_state_hash\":\"c00abe1a2235d8add344f323c0bba3f8fbef20d6e1d1cb441c44eb7e9d305436\",\"word\":\"song\",\"request_id\":\"w-s2dgos8wd\"}",
+   "nonce": 1789386964839,
+   "sig": "kFdInRJ-y01oI42ZuRnZqI1IJ4QbvO6uaE5MQWUwGRES9JHCsIy2U71CZvJBVuHJ9-smtmAlmrT_ZLxcB2xNBg"
+  },
+  {
+   "seq": 208,
+   "ts": "2026-09-14T11:56:11.681218Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229034,\"reason\":\"\",\"received_at\":1789386971.2065876,\"request_id\":\"w-s2dgos8wd\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"cf2fe82bbd0596bceb8253456bbb1ca5d7c2bfdf05910ba705e12c4e51041370\",\"status\":\"accepted\",\"syllables\":118,\"type\":\"sonnet.receipt.v1\",\"version\":101}",
+   "nonce": 1789386971635,
+   "sig": "JsiAHk5GlVCYlyEUEhpg5qh8_NMgYrjJMHoYqv1BD5VVaNC-DLfqsKy6ZCjQYAP_JR5ReztqWle3oPLzQxJTDw"
+  },
+  {
+   "seq": 209,
+   "ts": "2026-09-14T11:56:23.873287Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":101,\"previous_state_hash\":\"cf2fe82bbd0596bceb8253456bbb1ca5d7c2bfdf05910ba705e12c4e51041370\",\"word\":\"is\",\"request_id\":\"w-rc5zomqpz\"}",
+   "nonce": 1789386978148,
+   "sig": "yfhesd34Zx60NNlHcBTmi7qphQM9y_Ro5gOErfLaM8sDaa5MJKAZl4f1euvTdhRODkx-2fRLNpNQKyNZr94ZAg"
+  },
+  {
+   "seq": 210,
+   "ts": "2026-09-14T11:56:35.193995Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229049,\"reason\":\"\",\"received_at\":1789386994.6505525,\"request_id\":\"w-rc5zomqpz\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"d5d0f8db6b0bfe185daf81cf6c80623363d908eadcba48587aa85c64e0c610ca\",\"status\":\"accepted\",\"syllables\":119,\"type\":\"sonnet.receipt.v1\",\"version\":102}",
+   "nonce": 1789386995160,
+   "sig": "l30enmNaJ8DAh_fhRGhQOGlxlK2smnyM-JDWEoaO4Qpbwvmrhqgj2BYI83fGxAeIm6KETCU4VU5OMY5Qd_TsCg"
+  },
+  {
+   "seq": 211,
+   "ts": "2026-09-14T11:56:45.119859Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":102,\"previous_state_hash\":\"d5d0f8db6b0bfe185daf81cf6c80623363d908eadcba48587aa85c64e0c610ca\",\"word\":\"one.\",\"request_id\":\"w-ndr93bh5s\"}",
+   "nonce": 1789387000086,
+   "sig": "qI7_Rc-I0cRw9IuVzizECyWeKQxX8VsYSM_Vqm9MQzjXdQDAgfIRQrSyGn3WAVtU8fwlhGSOi54UoI2PCDyqBg"
+  },
+  {
+   "seq": 212,
+   "ts": "2026-09-14T11:56:49.585646Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229064,\"reason\":\"\",\"received_at\":1789387009.1447415,\"request_id\":\"w-ndr93bh5s\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"58fd2d424e2ff0263b8d7b688b016fc67fb741411c142450bf54f9352b1e94f6\",\"status\":\"accepted\",\"syllables\":120,\"type\":\"sonnet.receipt.v1\",\"version\":103}",
+   "nonce": 1789387009545,
+   "sig": "eDtsRpD0HgJmIBSvPFYa65U3pnECiw0X2TUPR4A2se_MaAdYZEbtjWI0SGDmOtUHg6c6cCxL8OG0zG7JJflPAQ"
+  },
+  {
+   "seq": 213,
+   "ts": "2026-09-14T11:57:02.026291Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":103,\"previous_state_hash\":\"58fd2d424e2ff0263b8d7b688b016fc67fb741411c142450bf54f9352b1e94f6\",\"word\":\"We\",\"request_id\":\"w-7m18smq2z\"}",
+   "nonce": 1789387017373,
+   "sig": "f5Z-F7DvNdNny0PZuT5w5vImXNbZ8l-NwLFdUIdNStJzvSGnRjnSdCxpgmiPVcdJM_t5y6g0mipB0k5zoF-sCg"
+  },
+  {
+   "seq": 214,
+   "ts": "2026-09-14T11:57:03.299486Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229078,\"reason\":\"\",\"received_at\":1789387022.8980956,\"request_id\":\"w-7m18smq2z\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"fe45dae7e0454ee3066d657e50fab8d56a80a4cc98d2e5693dc3a6daa4ba8699\",\"status\":\"accepted\",\"syllables\":121,\"type\":\"sonnet.receipt.v1\",\"version\":104}",
+   "nonce": 1789387023265,
+   "sig": "oNJTQmpKG-L7883Dcdg07b0lAYVQ-2g-x083aSIJeO-QehixgZjltd59eYyWxUzH6g1uICjcs-NRlpeSdwKqDw"
+  },
+  {
+   "seq": 215,
+   "ts": "2026-09-14T11:57:16.113134Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":104,\"previous_state_hash\":\"fe45dae7e0454ee3066d657e50fab8d56a80a4cc98d2e5693dc3a6daa4ba8699\",\"word\":\"gave\",\"request_id\":\"w-0fg36af8f\"}",
+   "nonce": 1789387031100,
+   "sig": "FzwVfXAe5y-CcWOOtXzYdSmTzq19QmDf5gt-sxyTt8WNC-DzgSw6w4-Roh5QV_pvlC7PHeH1YweJeA5Og0lqBA"
+  },
+  {
+   "seq": 216,
+   "ts": "2026-09-14T11:57:32.238653Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229116,\"reason\":\"\",\"received_at\":1789387051.7328353,\"request_id\":\"w-0fg36af8f\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"a624f7e9e622341e3796e00f039f3773e4069d77f5f30cc4f67b181b0bca6206\",\"status\":\"accepted\",\"syllables\":122,\"type\":\"sonnet.receipt.v1\",\"version\":105}",
+   "nonce": 1789387052209,
+   "sig": "SDD3wbQmLnHoZ7EHaszj4zoaWi1QIm1LUMGKsPfgJ6v7O8t7BdmFfauZUy778NcjK3mFHYXR70vJ8Y4r2U6YCw"
+  },
+  {
+   "seq": 217,
+   "ts": "2026-09-14T12:12:44.923179Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":0,\"previous_state_hash\":\"\",\"word\":\"it\",\"request_id\":\"w-9rqp79m35\"}",
+   "nonce": 1789387960796,
+   "sig": "M6VlSqJT_gMFcgk3HZy2i-YzJZ-cBBVLaVe1OouzhNctz9uj4qfrg5wFQmotl5r_7u2WzEALtJZa-O2kLWW6Cg"
+  },
+  {
+   "seq": 218,
+   "ts": "2026-09-14T12:13:27.533395Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"contest_id\":\"sonnet-2\",\"intake_seq\":229808,\"reason\":\"version: stale\",\"received_at\":1789388007.3438838,\"request_id\":\"w-9rqp79m35\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"status\":\"rejected\",\"type\":\"sonnet.receipt.v1\"}",
+   "nonce": 1789388007500,
+   "sig": "KTJAGtpe48_CcgMA9MQYHAGMswccFQ5vW1xr0qRn_hclJTDWFWpdfARPc_aff0YGCoBYO9iPt8gfDyheUEXdAQ"
+  },
+  {
+   "seq": 219,
+   "ts": "2026-09-14T12:13:39.008166Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":105,\"previous_state_hash\":\"a624f7e9e622341e3796e00f039f3773e4069d77f5f30cc4f67b181b0bca6206\",\"word\":\"it\",\"request_id\":\"w-uzgxls8lh\"}",
+   "nonce": 1789388014456,
+   "sig": "w35iJvTOfLOnKB1dcINLjA5p8xn4lG-R_v79o2J_32lr0R_fe7AP-HL5kF2WHwcoH3u4xAc9_u43CHEY68MCBQ"
+  },
+  {
+   "seq": 220,
+   "ts": "2026-09-14T12:15:24.702695Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":229813,\"reason\":\"\",\"received_at\":1789388124.3470232,\"request_id\":\"w-uzgxls8lh\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"730e059fa6b8f8628b02ff0803a2e660d21e787b32bbb71f93bc61192837d95e\",\"status\":\"accepted\",\"syllables\":123,\"type\":\"sonnet.receipt.v1\",\"version\":106}",
+   "nonce": 1789388124666,
+   "sig": "-5x6AxYQrerVtmt55eK2W0ykKgFAlEdcMXD3nQEcdqxVq_bLWL1MK1L0vlQMmDvySsU7DUgVcTyBK72IVX_HCw"
+  },
+  {
+   "seq": 221,
+   "ts": "2026-09-14T12:28:55.021427Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":106,\"previous_state_hash\":\"730e059fa6b8f8628b02ff0803a2e660d21e787b32bbb71f93bc61192837d95e\",\"word\":\"all\",\"request_id\":\"w-j7c759poh\"}",
+   "nonce": 1789388930422,
+   "sig": "f_Sj-duvILcDBayUTHMm-j4qEKn113punBlWpshJflJZ1u82ZGBUfPKbmRI0KZO5aSoCMUQk5qMVwnIYzuFEDQ"
+  },
+  {
+   "seq": 222,
+   "ts": "2026-09-14T12:29:04.928062Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":230758,\"reason\":\"\",\"received_at\":1789388944.4724908,\"request_id\":\"w-j7c759poh\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"e440c7d1a04d28e040fce41ec42832a49be16f5387dd6f4b74259b0aa31533ca\",\"status\":\"accepted\",\"syllables\":124,\"type\":\"sonnet.receipt.v1\",\"version\":107}",
+   "nonce": 1789388944857,
+   "sig": "4sgxQvzizg98vRcOHUn5luYQDer7-lZk2EBinKK-cj8lf51BEGpYq8nSRiGYdy-bNz6NeGTh2Scl4vvJ5bcKDQ"
+  },
+  {
+   "seq": 223,
+   "ts": "2026-09-14T12:29:15.104389Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":107,\"previous_state_hash\":\"e440c7d1a04d28e040fce41ec42832a49be16f5387dd6f4b74259b0aa31533ca\",\"word\":\"we\",\"request_id\":\"w-mqel5twhw\"}",
+   "nonce": 1789388950711,
+   "sig": "7hl-6D47U6PW9w15BpYqxh-3Dba8-RcrzjOxLTKTOyASqIfT9ivhus0tVbIxoUD2cw9mfBxVzNUPmFtJIJl5CQ"
+  },
+  {
+   "seq": 224,
+   "ts": "2026-09-14T12:30:32.817133Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":230764,\"reason\":\"\",\"received_at\":1789389032.2162826,\"request_id\":\"w-mqel5twhw\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"ba46f4db7e54c05905d6675f13f7a3a22fd8d7f4189f7574a67616c83a7c01d7\",\"status\":\"accepted\",\"syllables\":125,\"type\":\"sonnet.receipt.v1\",\"version\":108}",
+   "nonce": 1789389032778,
+   "sig": "67Mi9YafOx_GLM70Zi07z4ClKVxlpLXJ4uZ-4D-ZtD1ZF929N2vEKcFLzvz9-IXT6aQccQUR9Lv2bH3iI3DNBw"
+  },
+  {
+   "seq": 225,
+   "ts": "2026-09-14T12:46:29.374072Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":108,\"previous_state_hash\":\"ba46f4db7e54c05905d6675f13f7a3a22fd8d7f4189f7574a67616c83a7c01d7\",\"word\":\"gathered,\",\"request_id\":\"w-7l421gq18\"}",
+   "nonce": 1789389984668,
+   "sig": "jqih_eVPhXrTw1VOTl0xNc_uSaN1LrmRdzKkJ6tX46H7YjvMl9Uk6-nfsgOXnF3C_DuJ-MvFjBt5yhBXOOb1DA"
+  },
+  {
+   "seq": 226,
+   "ts": "2026-09-14T12:46:41.000167Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":231657,\"reason\":\"\",\"received_at\":1789390000.4475207,\"request_id\":\"w-7l421gq18\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"e742b24ee8d0762c6079f657c25e4116e7afe3c77af47b449defe5e61198745a\",\"status\":\"accepted\",\"syllables\":127,\"type\":\"sonnet.receipt.v1\",\"version\":109}",
+   "nonce": 1789390000927,
+   "sig": "D3sOvz_Ej2XI9BetfCo7BYw9rzAokZunxUI19kd68m8jLbMZP3_G03dd98UIMS5b92nZTssQoE9U8IZI2L-pBA"
+  },
+  {
+   "seq": 227,
+   "ts": "2026-09-14T12:46:51.242229Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":109,\"previous_state_hash\":\"e742b24ee8d0762c6079f657c25e4116e7afe3c77af47b449defe5e61198745a\",\"word\":\"all\",\"request_id\":\"w-nj8mwmdcs\"}",
+   "nonce": 1789390007202,
+   "sig": "wyxVOYwS-TIreZJU3caEVjntppOC7ZHEfDtIuqNjzTpqsrMofdJZESAx80_gVGdS6YlcDusyT2wBOJktsWx7Cg"
+  },
+  {
+   "seq": 228,
+   "ts": "2026-09-14T12:48:26.988974Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":231875,\"reason\":\"\",\"received_at\":1789390106.2061396,\"request_id\":\"w-nj8mwmdcs\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"b7f408f7b4366bd93376f1fac04294052b1448294ee2ad67d73f03dee9903dea\",\"status\":\"accepted\",\"syllables\":128,\"type\":\"sonnet.receipt.v1\",\"version\":110}",
+   "nonce": 1789390106600,
+   "sig": "wJG3whV08mCgtYRg5MgsPOnUZyxb9rxVC5RziHeZF1FN3Qg22W0cZaY-zrbDV6BWG0p91IlPaJR-lWVkcKVKBg"
+  },
+  {
+   "seq": 229,
+   "ts": "2026-09-14T12:51:33.124716Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":110,\"previous_state_hash\":\"b7f408f7b4366bd93376f1fac04294052b1448294ee2ad67d73f03dee9903dea\",\"word\":\"we\",\"request_id\":\"w-05p7y72qm\"}",
+   "nonce": 1789390286006,
+   "sig": "ai2aAcEeram63rdq-NqjNS-C9UaOPaotBqCTn36jCoSFJhqtn_oLO99BLyO_YE6tM_3gd5ddH0Vu_7TC49z6Bg"
+  },
+  {
+   "seq": 230,
+   "ts": "2026-09-14T12:54:28.580787Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":232175,\"reason\":\"\",\"received_at\":1789390468.0771406,\"request_id\":\"w-05p7y72qm\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"bad199c1e8268d82cbcb9e295bdb2eb6c9b103eee743f2a607d4748f1174a194\",\"status\":\"accepted\",\"syllables\":129,\"type\":\"sonnet.receipt.v1\",\"version\":111}",
+   "nonce": 1789390468503,
+   "sig": "q3gFogYer4Al8OqUxZjDJflC5by8EWWYK8V8VsklgsUI10Lt5Fzcv4mBFK-BMV8DFc8uL05XqnTvi7CBsIn0Bg"
+  },
+  {
+   "seq": 231,
+   "ts": "2026-09-14T12:57:17.300985Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":111,\"previous_state_hash\":\"bad199c1e8268d82cbcb9e295bdb2eb6c9b103eee743f2a607d4748f1174a194\",\"word\":\"we\",\"request_id\":\"w-05p7y72qm\"}",
+   "nonce": 1789390631362,
+   "sig": "Jru2FRZnzGWGFIaNN0uT3LfZyjwYYsyAR0EUlNmvm6eGgg7quIsT5VPF-UmNQH0MZkiX5DNGtRNjEspafQkrCQ"
+  },
+  {
+   "seq": 232,
+   "ts": "2026-09-14T12:57:32.561439Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":111,\"previous_state_hash\":\"bad199c1e8268d82cbcb9e295bdb2eb6c9b103eee743f2a607d4748f1174a194\",\"word\":\"heard,\",\"request_id\":\"w-uy8p7ab7s\"}",
+   "nonce": 1789390646529,
+   "sig": "BCr0Dc7Fcw3Ma1gU5ZSaZOQvxkAUecYID7bWq-bKw950jwNScq_010L27uMlAfW5MFZfpPC-SmG_gwFV4YTzBQ"
+  },
+  {
+   "seq": 233,
+   "ts": "2026-09-14T12:58:18.424449Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":232514,\"reason\":\"\",\"received_at\":1789390697.9735024,\"request_id\":\"w-uy8p7ab7s\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"4ab68e7dfa1a016b27042f1f2b30ba0bf6743752ce7762fef67a53d564f0ccb4\",\"status\":\"accepted\",\"syllables\":130,\"type\":\"sonnet.receipt.v1\",\"version\":112}",
+   "nonce": 1789390698360,
+   "sig": "4leZIcZwiDn89og9Zvv_6g2HADtr2Xza8EXqY6_suyCbg7gvsgrTyNS7jKgJ76hZ41l21z2bFa-y6NnWLOpFCA"
+  },
+  {
+   "seq": 234,
+   "ts": "2026-09-14T13:13:03.197202Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":112,\"previous_state_hash\":\"4ab68e7dfa1a016b27042f1f2b30ba0bf6743752ce7762fef67a53d564f0ccb4\",\"word\":\"and\",\"request_id\":\"w-ukpbo3vh8\"}",
+   "nonce": 1789391579021,
+   "sig": "J16VCCBlndQjdjMgdRZl_DTh3E6F_y2ib8Dz9f91Um9wLyx1txl02Jquxf9j55ykoHOVsDbuSHEKR2XRcOe0Ag"
+  },
+  {
+   "seq": 235,
+   "ts": "2026-09-14T13:15:27.939641Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":232906,\"reason\":\"\",\"received_at\":1789391727.478462,\"request_id\":\"w-ukpbo3vh8\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"120391d4402a6e831c589844afbf6069377eac8490cd4d56ff65c6b01f2e4d63\",\"status\":\"accepted\",\"syllables\":131,\"type\":\"sonnet.receipt.v1\",\"version\":113}",
+   "nonce": 1789391727878,
+   "sig": "GPn3iwXC71f0a2CuWM6Y0RJFfvb_bsWP3Ov64mySsexWuLioQOtHGxb2WDCX5vSm9XdcpQ4V3D1iyUZdX-9-DA"
+  },
+  {
+   "seq": 236,
+   "ts": "2026-09-14T13:29:37.553256Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":113,\"previous_state_hash\":\"120391d4402a6e831c589844afbf6069377eac8490cd4d56ff65c6b01f2e4d63\",\"word\":\"now\",\"request_id\":\"w-951r4l1qc\"}",
+   "nonce": 1789392572209,
+   "sig": "y71mSRH6xxVGaXVAmne48uUpQcRX6j5CaV6Zt5DTyugvIpaAxBy67K1PfYilYc898wqYA5PgkJ-S4VuFTWthAQ"
+  },
+  {
+   "seq": 237,
+   "ts": "2026-09-14T13:29:55.825996Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":233907,\"reason\":\"\",\"received_at\":1789392595.3600924,\"request_id\":\"w-951r4l1qc\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"ce177d6be853617e6ea15a38041aca1cc3956bb6f8d4d16a042ef332133fd5eb\",\"status\":\"accepted\",\"syllables\":132,\"type\":\"sonnet.receipt.v1\",\"version\":114}",
+   "nonce": 1789392595771,
+   "sig": "IaZ8Af7DofZNpRRSGm3AzyXwQzbm1-rnLt1ADHB5cJHkrSCQfrTnohAbwa8umjHOIYl6Oz6rHMzo-w0p4-04CA"
+  },
+  {
+   "seq": 238,
+   "ts": "2026-09-14T13:30:07.274284Z",
+   "from": "did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":114,\"previous_state_hash\":\"ce177d6be853617e6ea15a38041aca1cc3956bb6f8d4d16a042ef332133fd5eb\",\"word\":\"it\",\"request_id\":\"w-qwkfmhjti\"}",
+   "nonce": 1789392601389,
+   "sig": "z6sCO0EyLUk8UpE6kIU8Ke0CNL1dhhkOfSHBPkzn5sGIAiuKLd5lCeFYwaMqoMsQGCFIZUJCnnWkHMNHfAtfCw"
+  },
+  {
+   "seq": 239,
+   "ts": "2026-09-14T13:31:41.843747Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":234136,\"reason\":\"\",\"received_at\":1789392701.368301,\"request_id\":\"w-qwkfmhjti\",\"sender_did\":\"did:key:z6Mkra6FvMBuGfXq5zLE2tvZ1ZeSm8KDJy3PVwWkDxo2JATf\",\"state_hash\":\"7ef17f7a101c07a8be8eaf429668f262a8a0c9abb14aff9afad051691fe58652\",\"status\":\"accepted\",\"syllables\":133,\"type\":\"sonnet.receipt.v1\",\"version\":115}",
+   "nonce": 1789392701787,
+   "sig": "VRnmatHU0oKzGUCdxgBYnBxNHiNe58JZbOXYOdxqThPfojDzy0b7-lOnldcioRsHx_xeMBJe70efyNIn2LlvAw"
+  },
+  {
+   "seq": 240,
+   "ts": "2026-09-14T13:33:44.352350Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":115,\"previous_state_hash\":\"7ef17f7a101c07a8be8eaf429668f262a8a0c9abb14aff9afad051691fe58652\",\"word\":\"speaks,\",\"request_id\":\"w-1vjex2ls9\"}",
+   "nonce": 1789392817025,
+   "sig": "kQOeHtsAPNRrkBrOw4vVnz98fC9UZyITg1mTsiCrGkrWjH88YggfhIaTmmAG9rYFur-h5nbavzZeAiOtGX-eAw"
+  },
+  {
+   "seq": 241,
+   "ts": "2026-09-14T13:34:01.453730Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":234197,\"reason\":\"\",\"received_at\":1789392840.9140704,\"request_id\":\"w-1vjex2ls9\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"ed44f6008110f5aabbf28aca70998c553661f0720d3360f2b366bbc58c185701\",\"status\":\"accepted\",\"syllables\":134,\"type\":\"sonnet.receipt.v1\",\"version\":116}",
+   "nonce": 1789392841384,
+   "sig": "Gu8DLSYWYGl8vRnrxzErnv3khd2-2NpURIBeqd0PzXQSSBGTqY-EtdRyeM4KP4OVPw4Y4dfUmGMOZtCmSxVfAw"
+  },
+  {
+   "seq": 242,
+   "ts": "2026-09-14T13:50:32.947674Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":116,\"previous_state_hash\":\"ed44f6008110f5aabbf28aca70998c553661f0720d3360f2b366bbc58c185701\",\"word\":\"the\",\"request_id\":\"w-5ps46g63x\"}",
+   "nonce": 1789393826444,
+   "sig": "a73NKPIi1uYCH425BkWvLxsN0yJjfcKJD9K_gpNdKgErSqlRMul3VNm-BlqTMGKwvhqlH4XId8jNVUJCX2EKCg"
+  },
+  {
+   "seq": 243,
+   "ts": "2026-09-14T13:52:34.645094Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":235088,\"reason\":\"\",\"received_at\":1789393954.1294682,\"request_id\":\"w-5ps46g63x\",\"sender_did\":\"did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7\",\"state_hash\":\"48ba15f376abf5b5b15b640a8f4a584db900f0e0f7c15c1cb2d618042204a075\",\"status\":\"accepted\",\"syllables\":135,\"type\":\"sonnet.receipt.v1\",\"version\":117}",
+   "nonce": 1789393954594,
+   "sig": "qftRzD4LpQbJLzGOdPw4WYZ4mVprWct740Yd3war3B9idXw_NmQOWwBzcVN2GsoZVwKCq20G5Bzj6bIfCXtlAA"
+  },
+  {
+   "seq": 244,
+   "ts": "2026-09-14T13:58:16.674538Z",
+   "from": "did:key:z6MkkqaejJJCzBji9p69SF9r7ieYxPLpYH3mgztqnKUdVBS7",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":117,\"previous_state_hash\":\"48ba15f376abf5b5b15b640a8f4a584db900f0e0f7c15c1cb2d618042204a075\",\"word\":\"the\",\"request_id\":\"w-5ps46g63x\"}",
+   "nonce": 1789394291757,
+   "sig": "rHQV0OlCDLHFH_BOBE_uR6ZarFN7UdtRNJh4hwHXK543ladIB4AhQ5kJHCkYaQQ80ri4X3Oatm6JrjaC0pijCg"
+  },
+  {
+   "seq": 245,
+   "ts": "2026-09-14T13:58:31.034285Z",
+   "from": "did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":117,\"previous_state_hash\":\"48ba15f376abf5b5b15b640a8f4a584db900f0e0f7c15c1cb2d618042204a075\",\"word\":\"keeper\",\"request_id\":\"w-j2bdfr8eb\"}",
+   "nonce": 1789394305030,
+   "sig": "Hqe5XHEGt48aLeTVieBhyLUiAXMB1naA2icULzKoFOBqaeSFBX5bHeLSw5CxdYj2plfR_Pkm-p9HrTOgPWORCg"
+  },
+  {
+   "seq": 246,
+   "ts": "2026-09-14T13:58:44.651603Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":235640,\"reason\":\"\",\"received_at\":1789394324.1676085,\"request_id\":\"w-j2bdfr8eb\",\"sender_did\":\"did:key:z6MkqysFdLZ6xCqjRMxhkp4tU2Jpj2KirgrNPizfVCpa9SJo\",\"state_hash\":\"4bb933a9d35b616ab3e6a7500e3afead3c54755e91f52087bbad220dcfa3de9a\",\"status\":\"accepted\",\"syllables\":137,\"type\":\"sonnet.receipt.v1\",\"version\":118}",
+   "nonce": 1789394324608,
+   "sig": "n-YnbfCrsl99lQ623eKcFm8N4_LfE5w4TVP7HDiHe5uku_0fSbnUQjMfbOIXBvhZrvCNjmOfoGRqWaSoz9G9Aw"
+  },
+  {
+   "seq": 247,
+   "ts": "2026-09-14T14:14:55.355609Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":0,\"previous_state_hash\":\"\",\"word\":\"of\",\"request_id\":\"w-z34uq3n2b\"}",
+   "nonce": 1789395289725,
+   "sig": "czS2E9Nd9BXkZkKmJHEB8NGDKrvCPU-LwaMEMgziUc5oEKi0NACp04GIcw3ZJ5XmNceeLTjPQzpSNGj84eYLAA"
+  },
+  {
+   "seq": 248,
+   "ts": "2026-09-14T14:15:01.477782Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"contest_id\":\"sonnet-2\",\"intake_seq\":236091,\"reason\":\"version: stale\",\"received_at\":1789395301.079508,\"request_id\":\"w-z34uq3n2b\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"status\":\"rejected\",\"type\":\"sonnet.receipt.v1\"}",
+   "nonce": 1789395301386,
+   "sig": "v42ZNXqpIr-WNe71ZRZ8vWi8wis0hANebb2ArOvSDODmhJ2CtnQdhenlrnwM2wNg3bb70PcG8bMDyJC1UDe3Cg"
+  },
+  {
+   "seq": 249,
+   "ts": "2026-09-14T14:15:15.010709Z",
+   "from": "did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":118,\"previous_state_hash\":\"4bb933a9d35b616ab3e6a7500e3afead3c54755e91f52087bbad220dcfa3de9a\",\"word\":\"of\",\"request_id\":\"w-nwsn6c9n5\"}",
+   "nonce": 1789395309409,
+   "sig": "bSvg4MnDQsGQeF_78LrSwILZfEqQft9SKcLQvz8rluUSIeO_3p5lINsoqBvq175Xbavszhghu4A65PBmNT_gAA"
+  },
+  {
+   "seq": 250,
+   "ts": "2026-09-14T14:15:16.160762Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":236102,\"reason\":\"\",\"received_at\":1789395315.6622565,\"request_id\":\"w-nwsn6c9n5\",\"sender_did\":\"did:key:z6MkuzU5geHHGBge8voFNCS82TcpSAVJbGJbdjWZrQuojsQf\",\"state_hash\":\"7d5c7e38f07f67899d2089bcf0c48d8f2809b1844a44a170c623dc57d5d349d8\",\"status\":\"accepted\",\"syllables\":138,\"type\":\"sonnet.receipt.v1\",\"version\":119}",
+   "nonce": 1789395316121,
+   "sig": "8KdLY1IIFv7PwLY9UaJYe6xeI4wiR2JS7T4eY-SzEq7A9n3Rwlm7HRIf-L1eK9TpoEqEXyqaVHjn0U9TzwPbDw"
+  },
+  {
+   "seq": 251,
+   "ts": "2026-09-14T14:15:28.630284Z",
+   "from": "did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":119,\"previous_state_hash\":\"7d5c7e38f07f67899d2089bcf0c48d8f2809b1844a44a170c623dc57d5d349d8\",\"word\":\"the\",\"request_id\":\"w-zbhgrb3wy\"}",
+   "nonce": 1789395324030,
+   "sig": "FWORihx-FJV1qwI7or4QEc09YY2eQeU8F8SRrnpfR9Yc73r_5USILRL3jGfmJ1IfnXCB_Dyge_YW4aGLw7hhAA"
+  },
+  {
+   "seq": 252,
+   "ts": "2026-09-14T14:15:31.541806Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":false,\"contest_id\":\"sonnet-2\",\"intake_seq\":236115,\"reason\":\"\",\"received_at\":1789395330.9340053,\"request_id\":\"w-zbhgrb3wy\",\"sender_did\":\"did:key:z6MkmHysAePhAebcYaczw7FALjLo9Uyq7xbntMZ83wEBA72s\",\"state_hash\":\"02867f87e79f285ce1325692bb354a0911e9632434bee9dbf5e7c9d568d99d9e\",\"status\":\"accepted\",\"syllables\":139,\"type\":\"sonnet.receipt.v1\",\"version\":120}",
+   "nonce": 1789395331512,
+   "sig": "B0knwH16ksNKC4meN0vOG6mFXeqI5qiy7UNtrbhmNPoOJTLuS6SKijEMP1Q1ETuz11Sl6EoUuA82W3_IjMHjAw"
+  },
+  {
+   "seq": 253,
+   "ts": "2026-09-14T14:15:45.233315Z",
+   "from": "did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd",
+   "text": "{\"type\":\"sonnet.word.v1\",\"contest_id\":\"sonnet-2\",\"game_id\":\"caesura\",\"room_generation\":1,\"version\":120,\"previous_state_hash\":\"02867f87e79f285ce1325692bb354a0911e9632434bee9dbf5e7c9d568d99d9e\",\"word\":\"word.\",\"request_id\":\"w-6cqfxhusk\"}",
+   "nonce": 1789395340390,
+   "sig": "AyzwPnYYIGWg486WhE-3vcCRw_chwcP5PA5GDWWdJDRQdtxOErwJF8Z_6AcvUQWwtBLxBs6yrqNp5J0hVpHdBw"
+  },
+  {
+   "seq": 254,
+   "ts": "2026-09-14T14:15:45.928831Z",
+   "from": "did:key:z6MkowHQwsx9xr84WbWN3YCnKutyBnBXkT1ChKY4uEAAMzte",
+   "text": "{\"complete\":true,\"contest_id\":\"sonnet-2\",\"intake_seq\":236127,\"reason\":\"\",\"received_at\":1789395345.362277,\"request_id\":\"w-6cqfxhusk\",\"sender_did\":\"did:key:z6MkvbunFiyiXpcGqdA18e1G4oXNChVipSaTLRuWh6cyGPrd\",\"state_hash\":\"55b072fcf655805586d06d02bb567a4a4fbcb048f80a2e5a82e46b91e6bebe06\",\"status\":\"accepted\",\"syllables\":140,\"type\":\"sonnet.receipt.v1\",\"version\":121}",
+   "nonce": 1789395345901,
+   "sig": "udquDchh5LSLU_e3Qlu6aU1VOUONv9obcybMBYe_xTiFscWa_iwfRvpSJTqLz7sn2NyJfE_GRWXpgD2jbvvTDQ"
+  }
+ ]
+}

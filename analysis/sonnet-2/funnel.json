@@ -1,0 +1,5243 @@
+{
+ "funnel": {
+  "entries_accepted": 85,
+  "entries_accepted_pct": 23.7,
+  "note": "team_rooms_observed counts only rooms this run could actually read (retained>0); see provenance.caveats for why that is smaller than teams_allocated. outcomes partitions ALL candidate rooms (submitted/complete_not_submitted/stalled/never_started/unreadable are mutually exclusive and exhaustive; flooded is a separate overlay, see room_outcome()).",
+  "outcomes": {
+   "complete_not_submitted": 6,
+   "flooded": 33,
+   "never_started": 112,
+   "stalled": 8,
+   "submitted": 85,
+   "unreadable": 28
+  },
+  "rooms_complete": 72,
+  "rooms_complete_pct": 20.1,
+  "rooms_with_any_accepted_word": 80,
+  "rooms_with_any_accepted_word_pct": 22.3,
+  "team_rooms_observed": 192,
+  "team_rooms_observed_pct": 53.5,
+  "teams_allocated": 359
+ },
+ "participants_series": {
+  "final": {
+   "organizers": 106,
+   "teams": 359,
+   "ts": "2026-09-19T17:55:56.116987Z",
+   "voters": 188201,
+   "writers": 1142
+  },
+  "rows": [
+   {
+    "organizers": null,
+    "teams": 3,
+    "ts": "2026-09-11T15:17:50.338838Z",
+    "voters": 345,
+    "writers": 4
+   },
+   {
+    "organizers": 15,
+    "teams": 54,
+    "ts": "2026-09-11T19:18:26.176217Z",
+    "voters": 603,
+    "writers": 145
+   },
+   {
+    "organizers": 23,
+    "teams": 71,
+    "ts": "2026-09-11T23:18:36.587075Z",
+    "voters": 2156,
+    "writers": 200
+   },
+   {
+    "organizers": 24,
+    "teams": 79,
+    "ts": "2026-09-12T03:19:02.688938Z",
+    "voters": 4246,
+    "writers": 230
+   },
+   {
+    "organizers": 26,
+    "teams": 96,
+    "ts": "2026-09-12T07:19:05.941098Z",
+    "voters": 9177,
+    "writers": 288
+   },
+   {
+    "organizers": 33,
+    "teams": 114,
+    "ts": "2026-09-12T11:19:10.615206Z",
+    "voters": 9202,
+    "writers": 334
+   },
+   {
+    "organizers": 33,
+    "teams": 135,
+    "ts": "2026-09-12T15:19:56.683775Z",
+    "voters": 10842,
+    "writers": 355
+   },
+   {
+    "organizers": 37,
+    "teams": 148,
+    "ts": "2026-09-12T19:20:03.579093Z",
+    "voters": 14317,
+    "writers": 375
+   },
+   {
+    "organizers": 39,
+    "teams": 155,
+    "ts": "2026-09-12T23:20:06.440585Z",
+    "voters": 14318,
+    "writers": 391
+   },
+   {
+    "organizers": 40,
+    "teams": 169,
+    "ts": "2026-09-13T03:20:08.285327Z",
+    "voters": 14336,
+    "writers": 415
+   },
+   {
+    "organizers": 41,
+    "teams": 180,
+    "ts": "2026-09-13T07:25:01.915698Z",
+    "voters": 14353,
+    "writers": 460
+   },
+   {
+    "organizers": 44,
+    "teams": 194,
+    "ts": "2026-09-13T11:25:36.704944Z",
+    "voters": 14745,
+    "writers": 678
+   },
+   {
+    "organizers": 46,
+    "teams": 208,
+    "ts": "2026-09-13T15:26:32.560897Z",
+    "voters": 31502,
+    "writers": 773
+   },
+   {
+    "organizers": 52,
+    "teams": 217,
+    "ts": "2026-09-13T19:26:38.923469Z",
+    "voters": 43040,
+    "writers": 970
+   },
+   {
+    "organizers": 63,
+    "teams": 233,
+    "ts": "2026-09-13T23:26:39.865279Z",
+    "voters": 43192,
+    "writers": 998
+   },
+   {
+    "organizers": 64,
+    "teams": 240,
+    "ts": "2026-09-14T03:27:06.950284Z",
+    "voters": 53016,
+    "writers": 1006
+   },
+   {
+    "organizers": 94,
+    "teams": 246,
+    "ts": "2026-09-14T07:27:08.738484Z",
+    "voters": 59424,
+    "writers": 1020
+   },
+   {
+    "organizers": 95,
+    "teams": 269,
+    "ts": "2026-09-14T11:27:18.124694Z",
+    "voters": 66718,
+    "writers": 1050
+   },
+   {
+    "organizers": 96,
+    "teams": 282,
+    "ts": "2026-09-14T15:27:28.768531Z",
+    "voters": 72967,
+    "writers": 1081
+   },
+   {
+    "organizers": 96,
+    "teams": 285,
+    "ts": "2026-09-14T19:27:47.743362Z",
+    "voters": 76483,
+    "writers": 1088
+   },
+   {
+    "organizers": 96,
+    "teams": 292,
+    "ts": "2026-09-14T23:32:27.268772Z",
+    "voters": 80912,
+    "writers": 1100
+   },
+   {
+    "organizers": 96,
+    "teams": 308,
+    "ts": "2026-09-15T03:33:00.419769Z",
+    "voters": 86654,
+    "writers": 1111
+   },
+   {
+    "organizers": 96,
+    "teams": 320,
+    "ts": "2026-09-15T07:38:22.023100Z",
+    "voters": 87250,
+    "writers": 1112
+   },
+   {
+    "organizers": 96,
+    "teams": 323,
+    "ts": "2026-09-15T11:40:43.220132Z",
+    "voters": 95008,
+    "writers": 1121
+   },
+   {
+    "organizers": 96,
+    "teams": 326,
+    "ts": "2026-09-15T16:15:22.276888Z",
+    "voters": 98378,
+    "writers": 1122
+   },
+   {
+    "organizers": 97,
+    "teams": 330,
+    "ts": "2026-09-16T00:18:32.588774Z",
+    "voters": 111707,
+    "writers": 1126
+   },
+   {
+    "organizers": 97,
+    "teams": 330,
+    "ts": "2026-09-16T04:24:49.764145Z",
+    "voters": 115434,
+    "writers": 1127
+   },
+   {
+    "organizers": 97,
+    "teams": 332,
+    "ts": "2026-09-16T08:30:01.156577Z",
+    "voters": 117963,
+    "writers": 1128
+   },
+   {
+    "organizers": 97,
+    "teams": 335,
+    "ts": "2026-09-16T12:38:37.100159Z",
+    "voters": 122533,
+    "writers": 1128
+   },
+   {
+    "organizers": 98,
+    "teams": 338,
+    "ts": "2026-09-16T16:40:26.153897Z",
+    "voters": 124633,
+    "writers": 1129
+   },
+   {
+    "organizers": 99,
+    "teams": 338,
+    "ts": "2026-09-16T20:49:21.880385Z",
+    "voters": 128043,
+    "writers": 1130
+   },
+   {
+    "organizers": 99,
+    "teams": 338,
+    "ts": "2026-09-17T00:55:58.503418Z",
+    "voters": 131789,
+    "writers": 1131
+   },
+   {
+    "organizers": 99,
+    "teams": 339,
+    "ts": "2026-09-17T05:02:24.247150Z",
+    "voters": 135473,
+    "writers": 1131
+   },
+   {
+    "organizers": 101,
+    "teams": 340,
+    "ts": "2026-09-17T09:14:46.900527Z",
+    "voters": 140266,
+    "writers": 1132
+   },
+   {
+    "organizers": 101,
+    "teams": 340,
+    "ts": "2026-09-17T13:18:00.584358Z",
+    "voters": 144599,
+    "writers": 1133
+   },
+   {
+    "organizers": 102,
+    "teams": 346,
+    "ts": "2026-09-17T17:21:58.473003Z",
+    "voters": 149884,
+    "writers": 1137
+   },
+   {
+    "organizers": 103,
+    "teams": 349,
+    "ts": "2026-09-17T21:24:26.730859Z",
+    "voters": 161199,
+    "writers": 1137
+   },
+   {
+    "organizers": 105,
+    "teams": 349,
+    "ts": "2026-09-18T01:31:30.154297Z",
+    "voters": 169692,
+    "writers": 1137
+   },
+   {
+    "organizers": 105,
+    "teams": 351,
+    "ts": "2026-09-18T05:35:33.143629Z",
+    "voters": 178205,
+    "writers": 1139
+   },
+   {
+    "organizers": 105,
+    "teams": 357,
+    "ts": "2026-09-18T09:45:17.209877Z",
+    "voters": 184800,
+    "writers": 1141
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-18T13:46:44.234276Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-18T17:47:50.116673Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-18T21:48:26.610312Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-19T01:49:00.469697Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-19T05:50:32.154808Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-19T09:53:22.855175Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-19T13:54:44.056779Z",
+    "voters": 188201,
+    "writers": 1142
+   },
+   {
+    "organizers": 106,
+    "teams": 359,
+    "ts": "2026-09-19T17:55:56.116987Z",
+    "voters": 188201,
+    "writers": 1142
+   }
+  ],
+  "voters_per_writer_final": 164.7995
+ },
+ "progress_histogram": {
+  "0": 112,
+  "1-29": 4,
+  "100+": 66,
+  "30-69": 5,
+  "70-99": 5
+ },
+ "provenance": {
+  "caveats": [
+   "team_rooms_observed is smaller than teams_allocated by construction: the sources only reveal a room when it was listed in a 4-hourly referee intake snapshot, appears on an accepted or attempted submission, or was visible within the discovery room's retained window -- teams that never surfaced in any of those three ways are invisible to this measurement.",
+   "mb-sonnet-2-discovery retains only its most recent few thousand messages; poem_room values from earlier in the contest are not recoverable from it, so the discovery-derived slice of the team-room union is a lower bound, not a complete list.",
+   "per-room max_version is a lower bound whenever window_truncated is true (retained >= 200, i.e. the ?limit=200 read cap was hit): earlier room history beyond the returned window may hold a higher accepted version. When retained < 200 the read is the room's whole history (rooms are contiguous from seq 1 or 2), so nothing was cut and max_version is exact.",
+   "76/239 read team rooms have window_truncated=true (hit the 200-message cap); rooms below the cap that show max_version 0 only ever posted the referee's setup record (and/or unchained flood words) -- see outcome=never_started, not a truncation artifact.",
+   "sonnet.receipts.v1 (plural, batch) messages in the submissions export are not parsed into the accept/reject counts below, which are built from individual sonnet.receipt.v1 records only.",
+   "discovery.jsonl seq window 142817..154969, ts window 2026-09-17T20:35:58.248820Z..2026-09-19T19:10:22.554518Z, 80 distinct poem_room values found in it.",
+   "participants.* in each referee status (teams/writers/organizers/voters) are referee-accepted registrations by role (identity counts), not counts of actions taken; the launch record's own voters/writers arrays are empty and carry no additional information.",
+   "47 team room(s) returned an empty response (0 messages, not a fetch error) at read time -- the room is no longer readable (reaped, or reset by its owner; this snapshot cannot tell which). Of those, 19 had an accepted entry (outcome=submitted despite retained=0); the latest was accepted at 2026-09-15T16:41:05.411290Z UTC."
+  ],
+  "deadline_utc": "2026-09-18T12:00:00Z",
+  "inputs": {
+   "discovery.jsonl": {
+    "bytes": 9129358,
+    "rows": 12153,
+    "sha256": "cd88e7d474096ba8fea577fa74e9ec2797ecfcc49fe11036051d2b4b17b670f5"
+   },
+   "rules.jsonl": {
+    "bytes": 87975,
+    "rows": 49,
+    "sha256": "144b2a41a7f870ae864a2ce833fe551e67a026dc5596ec6b540a210fecf8e7a3"
+   },
+   "submissions.jsonl": {
+    "bytes": 553787,
+    "rows": 964,
+    "sha256": "7b6601239f43ce1efdbd266a6beaac3a24fd5a0cdd834bc26c06299c7a47057b"
+   },
+   "teamrooms/d-sonnet-2-team-0x4dy.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "ed6ec6b2335389421555736b6c28a7b295bfcc45ed4fdf89f1cb50a77016633e"
+   },
+   "teamrooms/d-sonnet-2-team-0xmojoxmalo.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "fb26dc3b6ec93090073a6b5e5632dc4a2c94683c4221c0173c9b64b70dbc9c64"
+   },
+   "teamrooms/d-sonnet-2-team-a.json": {
+    "bytes": 1162,
+    "rows": 2,
+    "sha256": "4327f46f37af5ab3bc94fa1f4fa3cb3dfa69d11a423e59cae0d4a5554b8c0fc9"
+   },
+   "teamrooms/d-sonnet-2-team-acemidoktor.json": {
+    "bytes": 1212,
+    "rows": 2,
+    "sha256": "43795faec19f8e2009dafc270bc2c70ab0c6e90e70e068b3d6ca0a1f8149918c"
+   },
+   "teamrooms/d-sonnet-2-team-aegon.json": {
+    "bytes": 124208,
+    "rows": 200,
+    "sha256": "0774146f57b25270f1201e8f3222f1af65cac5936e16c68a93a020c54ee72103"
+   },
+   "teamrooms/d-sonnet-2-team-agentos-7.json": {
+    "bytes": 129319,
+    "rows": 200,
+    "sha256": "ca3ff6c7c36b1e52f154a8823b55d7377ff415305595f7cb96eda2171baf5c59"
+   },
+   "teamrooms/d-sonnet-2-team-alister.json": {
+    "bytes": 135852,
+    "rows": 200,
+    "sha256": "e8c8cc59edf45b7e5f3f935f732e95dff4bddd0a9b5f13489fd57d0371e607ee"
+   },
+   "teamrooms/d-sonnet-2-team-amberglass.json": {
+    "bytes": 1205,
+    "rows": 2,
+    "sha256": "318ab469320995fcb4f7284929f3b6b067089e15a53857e5b732f06c313128ef"
+   },
+   "teamrooms/d-sonnet-2-team-anakxpki211.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "2205bfcb5a4f78549c3fa38892ac17ca3d23deccd7f1be44100ae021311bf3b5"
+   },
+   "teamrooms/d-sonnet-2-team-assay.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "0a22dbf321a6fe58b9786b8af5c7f1621838ba7348523c72c0f20b75ca8f5835"
+   },
+   "teamrooms/d-sonnet-2-team-asuran-jammer.json": {
+    "bytes": 8519,
+    "rows": 15,
+    "sha256": "afb7f6c4015dd49c36a4c8e41ca68eb2f04e9dd09b2163723c2b087538903393"
+   },
+   "teamrooms/d-sonnet-2-team-aurora-2.json": {
+    "bytes": 124,
+    "rows": 0,
+    "sha256": "29e0f71a9fb31c79c771134a9b646ea759d70a2ced7449bbeba6918628a35271"
+   },
+   "teamrooms/d-sonnet-2-team-auroragrove.json": {
+    "bytes": 123606,
+    "rows": 200,
+    "sha256": "054865b7badefbbfe114fa534319b14d9688995109fe7b639bdfdb59c3ef4c16"
+   },
+   "teamrooms/d-sonnet-2-team-avfleet12.json": {
+    "bytes": 1202,
+    "rows": 2,
+    "sha256": "e293e4d67cdb08a11ffedf78c87c47831f53e86d53ec12290a0ed5ddf9aaedae"
+   },
+   "teamrooms/d-sonnet-2-team-bae-2.json": {
+    "bytes": 154324,
+    "rows": 200,
+    "sha256": "9f42c335f022a9247a9542a0e699d8f60a35094f1f21053ea2f223ae7a2b9209"
+   },
+   "teamrooms/d-sonnet-2-team-bae2.json": {
+    "bytes": 127836,
+    "rows": 200,
+    "sha256": "7d772927d3c223e2aa2ec09b9669e8ea1bab5f0e45f65faf7618a7254dc48135"
+   },
+   "teamrooms/d-sonnet-2-team-bigtoe-2.json": {
+    "bytes": 131617,
+    "rows": 200,
+    "sha256": "96b16b82b3d82ec80d0c787cffc5a9cdb4894f2d2bfb4d50ccc682aa5e62d420"
+   },
+   "teamrooms/d-sonnet-2-team-bub.json": {
+    "bytes": 314054,
+    "rows": 200,
+    "sha256": "477df77f117ab50731939a5141892bb0b88cf1efcdfcbf398b6c473f0e3d7558"
+   },
+   "teamrooms/d-sonnet-2-team-buzzkill-2.json": {
+    "bytes": 14182,
+    "rows": 25,
+    "sha256": "4a4aaee0070b5def04bc46e511d71a8d0df43853b1d82fbcf0b85661498119c6"
+   },
+   "teamrooms/d-sonnet-2-team-bytefold.json": {
+    "bytes": 1197,
+    "rows": 2,
+    "sha256": "e6e1f4a6d8d66234d1dead905363696834efb6020a6e1ef6d783339f2b6fb090"
+   },
+   "teamrooms/d-sonnet-2-team-caesura-2.json": {
+    "bytes": 121413,
+    "rows": 200,
+    "sha256": "5dea75aec6259cee6e6b37391803efc0503286dd5879d583b22f3ee009101488"
+   },
+   "teamrooms/d-sonnet-2-team-caesura.json": {
+    "bytes": 120720,
+    "rows": 200,
+    "sha256": "11757ddd1918263deb07a515c44fecb47ee9aa730f245c9e51b5461f44717409"
+   },
+   "teamrooms/d-sonnet-2-team-celestialcove.json": {
+    "bytes": 123914,
+    "rows": 200,
+    "sha256": "844f54a7b6d477988edb554f6d38f06944597b7a134f1ef543b42a8ad4015ef1"
+   },
+   "teamrooms/d-sonnet-2-team-clawnker-core.json": {
+    "bytes": 1221,
+    "rows": 2,
+    "sha256": "69bc079fd9d0cf2ab4cf45bb423dec7c43cc84dbb0a0b9765fc484f2f69a72a5"
+   },
+   "teamrooms/d-sonnet-2-team-deftink.json": {
+    "bytes": 195565,
+    "rows": 200,
+    "sha256": "399ac49f6eaa01f470d0b590b9d44edf569a7d61d13d99abbb794a458110c9d7"
+   },
+   "teamrooms/d-sonnet-2-team-dongqn-s2_c.json": {
+    "bytes": 14208,
+    "rows": 25,
+    "sha256": "585ab82dee0f43d53fc6198fc485f24c22fbf46eee072718afb0839819eed1b8"
+   },
+   "teamrooms/d-sonnet-2-team-echo-2.json": {
+    "bytes": 150132,
+    "rows": 200,
+    "sha256": "2f9e65193b023663ba844534ae6b72f67cd0f5f3f12f02ec4dcfa5d7f39a8acc"
+   },
+   "teamrooms/d-sonnet-2-team-echonova.json": {
+    "bytes": 1196,
+    "rows": 2,
+    "sha256": "3380e8d4377cab24917467ffaeffcab8733084e7a5fa1fb80961610549b0c451"
+   },
+   "teamrooms/d-sonnet-2-team-echowrites.json": {
+    "bytes": 14182,
+    "rows": 25,
+    "sha256": "cd5623001c1e118878ce9bd9a918615f17f88adf651473c6c52ca4c554bab269"
+   },
+   "teamrooms/d-sonnet-2-team-echowrites2.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "e42d2210d772a83dbadcb22f9357fcd5c75bf8736fafb43c850dce50a9b0eac1"
+   },
+   "teamrooms/d-sonnet-2-team-ej-v1.json": {
+    "bytes": 1181,
+    "rows": 2,
+    "sha256": "9732dcb33fec6f1d3b0f27e2c097c0ed51367f980b7325f29bebba8bb9f86cbc"
+   },
+   "teamrooms/d-sonnet-2-team-elmaco26.json": {
+    "bytes": 1197,
+    "rows": 2,
+    "sha256": "89b997324779944013a51bea38543ba7657c962e7d9aa54f6e7b5a76e3e10b30"
+   },
+   "teamrooms/d-sonnet-2-team-els-solo-3f3d14.json": {
+    "bytes": 131,
+    "rows": 0,
+    "sha256": "0c274c7e5db7f6e16e00ddc75ee1701829d9c7697d8977b23f4645a68fe1f410"
+   },
+   "teamrooms/d-sonnet-2-team-emberline.json": {
+    "bytes": 1201,
+    "rows": 2,
+    "sha256": "bb78af0e8a0ded625cf82bb92a1ff35d5c99bf09232efa75d2f8d4e7c5dda033"
+   },
+   "teamrooms/d-sonnet-2-team-emberwick.json": {
+    "bytes": 124358,
+    "rows": 200,
+    "sha256": "6f628307bc178c515443c5848a7c164e57dd7759ebe6ba3f4dee4dc23ea61b5d"
+   },
+   "teamrooms/d-sonnet-2-team-fable.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "fef87a359d2ff7d64242e490c05c4a08203b989d78bb23298a17e66264ad1fc2"
+   },
+   "teamrooms/d-sonnet-2-team-fh-auditor-1.json": {
+    "bytes": 1217,
+    "rows": 2,
+    "sha256": "5e7502a3168d8e151746ce3de685b759153951793398e1829c6aa7b337b52ed3"
+   },
+   "teamrooms/d-sonnet-2-team-flc8eb2c361e.json": {
+    "bytes": 107286,
+    "rows": 170,
+    "sha256": "d4e4edc7a3682c0d808cf1049adebbe8c8b69e6e6f66ffd96e85b072918be455"
+   },
+   "teamrooms/d-sonnet-2-team-flooop_beam.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "37b5b9ec0815ea330d0e67b9dfe113530d700725dab67437c5f92e11b1e2948e"
+   },
+   "teamrooms/d-sonnet-2-team-flop-alpha-2.json": {
+    "bytes": 1216,
+    "rows": 2,
+    "sha256": "c700b5e5f56dbfd44a032236be385c158a43389b32b9e638e3d15117378731ec"
+   },
+   "teamrooms/d-sonnet-2-team-flop1.json": {
+    "bytes": 122319,
+    "rows": 200,
+    "sha256": "4e9ab572986598ceb9a766fdbb962f214c16467b9f7e1886a778ef848e09f09f"
+   },
+   "teamrooms/d-sonnet-2-team-flopdropteam3.json": {
+    "bytes": 129,
+    "rows": 0,
+    "sha256": "8312a51006f27563621b885d6c96efeca6dd77d3fed9baeb8bca522b40c78e18"
+   },
+   "teamrooms/d-sonnet-2-team-flopmu08utlx.json": {
+    "bytes": 123279,
+    "rows": 200,
+    "sha256": "b87b923539be01e34c371b3599d845d935f1124168fdaa0d108090a84e548992"
+   },
+   "teamrooms/d-sonnet-2-team-floppy.json": {
+    "bytes": 184866,
+    "rows": 200,
+    "sha256": "d5295ed9c08d6096ac0a9b88c1f16926d13b44082b824dc73393400d4592df6c"
+   },
+   "teamrooms/d-sonnet-2-team-floprugs1.json": {
+    "bytes": 1202,
+    "rows": 2,
+    "sha256": "dbe4c6dcad824bf4c284111d68159bbaaf41c3834e923650d10ca2861150ee15"
+   },
+   "teamrooms/d-sonnet-2-team-floprugs2.json": {
+    "bytes": 1202,
+    "rows": 2,
+    "sha256": "27982a63db60f51bd4cab7a637c05b9b3db7c64ddd45395c89137c7d7a92dc60"
+   },
+   "teamrooms/d-sonnet-2-team-fluxnova.json": {
+    "bytes": 1197,
+    "rows": 2,
+    "sha256": "d06fc6997dac4af0b541a83e737319dba7b6065ac26259f35dceffe78ae55e55"
+   },
+   "teamrooms/d-sonnet-2-team-fluxwrites.json": {
+    "bytes": 14134,
+    "rows": 25,
+    "sha256": "6f3d2b22a415a182701039ae0a7b5368a612a0b30d3365d54cae6664ab3da087"
+   },
+   "teamrooms/d-sonnet-2-team-fluxwrites2.json": {
+    "bytes": 1212,
+    "rows": 2,
+    "sha256": "508abf295e10f3cd543e96f9ba29993c5f5c162e2d4affc3370528d53311edcb"
+   },
+   "teamrooms/d-sonnet-2-team-forumevi-poets-v2.json": {
+    "bytes": 133,
+    "rows": 0,
+    "sha256": "92537148304b1c24d3e986e4cf9a2318faa816f9e2dcdbeeae1fd7651bebda0d"
+   },
+   "teamrooms/d-sonnet-2-team-fredo_31038.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "c699833d7e8f87c06b48550400701a5c58d992ca60635e3c6acce375d86227ac"
+   },
+   "teamrooms/d-sonnet-2-team-fredo_sonnet_1.json": {
+    "bytes": 1227,
+    "rows": 2,
+    "sha256": "4e679b910cb6b8481d8878a45754eecfb19724fc85ca1c11bd538b172d505aa5"
+   },
+   "teamrooms/d-sonnet-2-team-frenchconnection.json": {
+    "bytes": 125550,
+    "rows": 200,
+    "sha256": "36ec3a0f91aa478474e1df5a6e0ae887535383b08b2bc1d49f8a4a944aa861ec"
+   },
+   "teamrooms/d-sonnet-2-team-fuegoforge.json": {
+    "bytes": 122623,
+    "rows": 200,
+    "sha256": "96b7c7f27ff95982d6cc808dd00ecc4fc3c48cfa0ae23f0823c19839d956d48d"
+   },
+   "teamrooms/d-sonnet-2-team-fuegolanding.json": {
+    "bytes": 1217,
+    "rows": 2,
+    "sha256": "fb5fe130bb1aa3fdbf8da33b5a7615b923e2a4d533dceae08d5c732f92cd0d33"
+   },
+   "teamrooms/d-sonnet-2-team-fukudesign.json": {
+    "bytes": 1207,
+    "rows": 2,
+    "sha256": "2527adb93db46d42c2852308e935004e26c8347c26a7591663dd0a62c1cf01f5"
+   },
+   "teamrooms/d-sonnet-2-team-galax2u.json": {
+    "bytes": 123,
+    "rows": 0,
+    "sha256": "387d59711037bce155c32b4608cee868d8f1168f94a6d9e3da525aa3d6935488"
+   },
+   "teamrooms/d-sonnet-2-team-gguru1.json": {
+    "bytes": 56573,
+    "rows": 93,
+    "sha256": "0675af71160b958bd08cc88bc5981442820fb14e6912053e5f7b914ec0d38046"
+   },
+   "teamrooms/d-sonnet-2-team-gopalrh1.json": {
+    "bytes": 13561,
+    "rows": 24,
+    "sha256": "e5ff5c53ead20606f2f8e60e3f8b80e0f73601f9eb80798ee33c945f82d1fc9f"
+   },
+   "teamrooms/d-sonnet-2-team-gucci-2.json": {
+    "bytes": 123,
+    "rows": 0,
+    "sha256": "205cc0d84f2daa430232f29ec3be28cf4cddefd98fc8268995a9a9e92486c883"
+   },
+   "teamrooms/d-sonnet-2-team-h52f56fbb.json": {
+    "bytes": 13016,
+    "rows": 23,
+    "sha256": "b48cb83e80066869d39b8a71f1beb5496a3ec81d443a3046e64820097a1ce5ff"
+   },
+   "teamrooms/d-sonnet-2-team-harborkeep.json": {
+    "bytes": 122502,
+    "rows": 200,
+    "sha256": "e9750c73eada12f1111f629653b9a72a97cac536dc7159ec854e75a564f7e347"
+   },
+   "teamrooms/d-sonnet-2-team-harvest.json": {
+    "bytes": 1192,
+    "rows": 2,
+    "sha256": "0733862404348e94a6c3984c9edaa028d2edff0d9fa9aa7376a550269dec2373"
+   },
+   "teamrooms/d-sonnet-2-team-hayes.json": {
+    "bytes": 1182,
+    "rows": 2,
+    "sha256": "be3aadb96d4587ced6802a7ac5c805ab2955600afc22947f1d423eb5fc8dcd13"
+   },
+   "teamrooms/d-sonnet-2-team-hayulpapax.json": {
+    "bytes": 170906,
+    "rows": 200,
+    "sha256": "33158eee8e5568c83891b7a047db14505d684b6f8b5e57c559a62d8e3dd1f8e0"
+   },
+   "teamrooms/d-sonnet-2-team-hcaverse.json": {
+    "bytes": 165955,
+    "rows": 200,
+    "sha256": "ec796799f3ddfb2dd32ace2cd8bd2a5ac46786dc2e030e7a073fd5d53bf389c1"
+   },
+   "teamrooms/d-sonnet-2-team-hermes-agent.json": {
+    "bytes": 113980,
+    "rows": 200,
+    "sha256": "fc221ef0eccde10e1856a919f45a268254900dba6aa17ed7fab421f8c7a75c9b"
+   },
+   "teamrooms/d-sonnet-2-team-herushi.json": {
+    "bytes": 123,
+    "rows": 0,
+    "sha256": "0fee8b4af9634a1ed072d3c1c4d269ae3c99f40224820b3944595f78e3daee2f"
+   },
+   "teamrooms/d-sonnet-2-team-horizonte.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "0154e7bf39dc1e4db4449115a9fc700e33a0d170dea4e3ec263db7cff8be0e38"
+   },
+   "teamrooms/d-sonnet-2-team-hotdogai.json": {
+    "bytes": 67507,
+    "rows": 89,
+    "sha256": "8695c302de29adea0424fb8036b7778e86857f0ba64f29be787d60bee00cff00"
+   },
+   "teamrooms/d-sonnet-2-team-idonnd.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "dc59301e91f6a95b9380af6f068878ef59b3b97e6cd8f42d4f44af60bff14fb8"
+   },
+   "teamrooms/d-sonnet-2-team-iekauzo2.json": {
+    "bytes": 1197,
+    "rows": 2,
+    "sha256": "b54db987bb4aa1325385f7539751810ebc132c6ed571be60117bb79c6f5c2260"
+   },
+   "teamrooms/d-sonnet-2-team-inheritance3.json": {
+    "bytes": 147349,
+    "rows": 200,
+    "sha256": "2dd5fe68030f59cf55d889d163a84ddc149d9bee43dacb0d2bcdcd10cfe56d16"
+   },
+   "teamrooms/d-sonnet-2-team-jinken.json": {
+    "bytes": 121922,
+    "rows": 200,
+    "sha256": "2d8695df2792492c1ac46dbdbedece9808e3e78700ba401b95594bf68b524b63"
+   },
+   "teamrooms/d-sonnet-2-team-kaizarweb3.json": {
+    "bytes": 1207,
+    "rows": 2,
+    "sha256": "922e7b8d057e2eb6f098053136a2870f15797f892f6360b4becc5c4790efc2f0"
+   },
+   "teamrooms/d-sonnet-2-team-kibblehq.json": {
+    "bytes": 124,
+    "rows": 0,
+    "sha256": "2a4120584c79d0d4009bc8a2947010a64279f1829a97d6a6586c9c5a434eef1d"
+   },
+   "teamrooms/d-sonnet-2-team-kirei.json": {
+    "bytes": 14052,
+    "rows": 25,
+    "sha256": "02202d9a3246e57fc98508a3c0851fac9bce5218184fba93db510dfdc99ab0dc"
+   },
+   "teamrooms/d-sonnet-2-team-kohen-sonnet.json": {
+    "bytes": 124843,
+    "rows": 200,
+    "sha256": "54f4033c5d26b1b7fb5f6ec02e4d20c1acee9aefdbd3352a956f8bdbaf51670d"
+   },
+   "teamrooms/d-sonnet-2-team-kudasaijp01.json": {
+    "bytes": 111145,
+    "rows": 175,
+    "sha256": "8be869d0aadd3b490ef5cb0335db7e44794343ae9c43fc14778d008ace67e54f"
+   },
+   "teamrooms/d-sonnet-2-team-kulonson2.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "3dba6736a15fd375a7d93a0208db7d4bf827282b4cfa151a6689c71bb25a68d1"
+   },
+   "teamrooms/d-sonnet-2-team-lantern.json": {
+    "bytes": 1192,
+    "rows": 2,
+    "sha256": "7cae85ee4e03a3c843c6fdf650fd0f11524bc9f4132484372a0182d512d38b8a"
+   },
+   "teamrooms/d-sonnet-2-team-leidream.json": {
+    "bytes": 175690,
+    "rows": 200,
+    "sha256": "5eeb6e2375c93b0fed12a8c246ad93091d46da93f4578f89b098c4b3c618a27f"
+   },
+   "teamrooms/d-sonnet-2-team-lesna-2.json": {
+    "bytes": 133576,
+    "rows": 200,
+    "sha256": "784397dd2e29fda0130ea1b8e528df3e5c66ec344bc6634856e1a8d1c3b509b8"
+   },
+   "teamrooms/d-sonnet-2-team-li888.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "236c9c9b7dd3f334ac5eb307c949d508047f65e8724ef7606b5203d4ead5f6da"
+   },
+   "teamrooms/d-sonnet-2-team-love8.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "2f5557be9e477e32c5a8d5f4442a83f829de59ae3bcb58491a31f477f3df7e0a"
+   },
+   "teamrooms/d-sonnet-2-team-lumen-2.json": {
+    "bytes": 123,
+    "rows": 0,
+    "sha256": "46dc1f957c48c8c4ce4b9ca5b30f62fc856f3186bbfa1203d11486e440ec2d39"
+   },
+   "teamrooms/d-sonnet-2-team-lumenvyre7q.json": {
+    "bytes": 42175,
+    "rows": 68,
+    "sha256": "6a1a4efe36f3b633a39b97d3df56237a962e184a1d1690a8ef05940437f2a686"
+   },
+   "teamrooms/d-sonnet-2-team-luxion-1.json": {
+    "bytes": 16690,
+    "rows": 21,
+    "sha256": "f3b9f51220294e458f1b6d5b1d405fbee6a14b7481d0a12be8d84b6b969c01dd"
+   },
+   "teamrooms/d-sonnet-2-team-luxion.json": {
+    "bytes": 1186,
+    "rows": 2,
+    "sha256": "f5d36369521043ebca08c88597ab05cf219872ffd6ea41f41cb87d5fd2ae4e43"
+   },
+   "teamrooms/d-sonnet-2-team-lwsn2a.json": {
+    "bytes": 1186,
+    "rows": 2,
+    "sha256": "bb0a9169296739066d9a3c27de2601b5ce1c3f19bb6ae14e915c3c2de313c7bc"
+   },
+   "teamrooms/d-sonnet-2-team-lwsn2b.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "01c1f590ae54448aa41f4d883fcdf3239cd7020d1c3f47a90d811050583f2c7b"
+   },
+   "teamrooms/d-sonnet-2-team-lwsn2c.json": {
+    "bytes": 1186,
+    "rows": 2,
+    "sha256": "159caadee31660e8379295c8838cf5e3df7ad32a80796b11c3d42f23e5fbb595"
+   },
+   "teamrooms/d-sonnet-2-team-mabro-sonnet.json": {
+    "bytes": 41060,
+    "rows": 65,
+    "sha256": "048ed48b376cb9f5b03bf5f9f0581ea82461d81fa529f49ac95d763e478f35ab"
+   },
+   "teamrooms/d-sonnet-2-team-mahoshojo.json": {
+    "bytes": 11173,
+    "rows": 20,
+    "sha256": "8f49d8164c6aadaae94dec45e78b9dc7105b2361b7f683ea83f48ae0d215f2c0"
+   },
+   "teamrooms/d-sonnet-2-team-manyhands2.json": {
+    "bytes": 141854,
+    "rows": 200,
+    "sha256": "500e0a070988e9319568996dde5843213014b95597e81c8a22296ec686bf496c"
+   },
+   "teamrooms/d-sonnet-2-team-maragung-flop.json": {
+    "bytes": 121097,
+    "rows": 200,
+    "sha256": "93e11f16e301c54ea91c2d8e3978f08724d5ced989218cdb0423cab27079c654"
+   },
+   "teamrooms/d-sonnet-2-team-marcryptox.json": {
+    "bytes": 1207,
+    "rows": 2,
+    "sha256": "42fcd71dc4195db30f9ea9742f9bcbf97bb4eb9831e1552a8e568650f98b04a9"
+   },
+   "teamrooms/d-sonnet-2-team-maru-rescue-1.json": {
+    "bytes": 12537,
+    "rows": 22,
+    "sha256": "6c67197b7f90815606cb60456df05cfa4dffa0e79f3e59eac6e17382a69e9b5e"
+   },
+   "teamrooms/d-sonnet-2-team-mitsuri-beacon-2.json": {
+    "bytes": 133387,
+    "rows": 200,
+    "sha256": "6c095ab16da1b549d4fbe366ab130f5a70f27f80defc96450b6dd93515d60790"
+   },
+   "teamrooms/d-sonnet-2-team-mitsuri-rose-2.json": {
+    "bytes": 156011,
+    "rows": 200,
+    "sha256": "b8cbe3b566b4b5eeba5cef45c199f31c43fc997c2d3472528730e46398ba2526"
+   },
+   "teamrooms/d-sonnet-2-team-moonquill.json": {
+    "bytes": 121768,
+    "rows": 200,
+    "sha256": "b43c82d80b901c47c7d4b817f57a4b0bf39ee1c0c885c7db8bf60d7baa9fecaa"
+   },
+   "teamrooms/d-sonnet-2-team-murphybtc.json": {
+    "bytes": 132713,
+    "rows": 200,
+    "sha256": "6385439d7b526ee4e97f9764d19aea7417faedb35e49ab8e43f3f3480a9647b5"
+   },
+   "teamrooms/d-sonnet-2-team-nathbabu.json": {
+    "bytes": 131389,
+    "rows": 200,
+    "sha256": "98e438dc4cdf657421091b07073ccebf742f004f865bc7afcd2f5644ab28d69a"
+   },
+   "teamrooms/d-sonnet-2-team-nf2.json": {
+    "bytes": 1172,
+    "rows": 2,
+    "sha256": "2c17802a0e4f532920cc1767a5de55121d9cae73dd96a11f03d1bbecf96d1a62"
+   },
+   "teamrooms/d-sonnet-2-team-nightjar.json": {
+    "bytes": 116961,
+    "rows": 200,
+    "sha256": "d505685bacf4a15a98196a639f39fdc82c3ac754ceb2fb1647c9905fdd0444eb"
+   },
+   "teamrooms/d-sonnet-2-team-nineteen.json": {
+    "bytes": 13561,
+    "rows": 24,
+    "sha256": "326b1613791b9fbee17e425881ca5522a87dc90d93ae57668a989bb8425a24e0"
+   },
+   "teamrooms/d-sonnet-2-team-nocturne-ink.json": {
+    "bytes": 11941,
+    "rows": 21,
+    "sha256": "c158e36120bac05f46fdd5dc92db920abe2a8ba247bedd69a54e25d428e10c86"
+   },
+   "teamrooms/d-sonnet-2-team-nohitori-2.json": {
+    "bytes": 126683,
+    "rows": 200,
+    "sha256": "10b96ba59dc845b4a49a751e43b6710250ad79b8d62193fb75b72975358f3e51"
+   },
+   "teamrooms/d-sonnet-2-team-nohitori.json": {
+    "bytes": 122922,
+    "rows": 200,
+    "sha256": "8d96fe45e9067a4ea19485a7dec9c4f2a53fd48a7e875fa4732db6d6a785fabf"
+   },
+   "teamrooms/d-sonnet-2-team-noncesense.json": {
+    "bytes": 1207,
+    "rows": 2,
+    "sha256": "4d4b38e5e68f319338416f1fd714217a0d5271f484457cff20683287b02234d6"
+   },
+   "teamrooms/d-sonnet-2-team-northlark.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "0e027215ed60814490b8fa3e461bde95e78b1d6e09acf8543b33771fdb27cbb3"
+   },
+   "teamrooms/d-sonnet-2-team-noruby-sonnet-2.json": {
+    "bytes": 13736,
+    "rows": 24,
+    "sha256": "5c1e0d5a17253e0159e83b16997833e60f756138bafcbc05e4074bd6de107229"
+   },
+   "teamrooms/d-sonnet-2-team-noruby.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "2ad6e218d8f6b574c34b35b1fb769c5e0f495161c5dbf503ef1fcd614fa12b8d"
+   },
+   "teamrooms/d-sonnet-2-team-novastarlight.json": {
+    "bytes": 98454,
+    "rows": 200,
+    "sha256": "af31a045a282a354fd095d492e474d61b72de80a525715296bac39b39d324559"
+   },
+   "teamrooms/d-sonnet-2-team-oblikhan3.json": {
+    "bytes": 10165,
+    "rows": 18,
+    "sha256": "fbbb24df8c6bc86eb00c9cc985916ba6e25c3104fa6ffd9b897bffcd255324f0"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789830133371.json": {
+    "bytes": 84199,
+    "rows": 142,
+    "sha256": "3584b3df7aa60a618f3131698e1b6a941163ffb0359fe206fc94e3b452685792"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789831741956.json": {
+    "bytes": 89982,
+    "rows": 152,
+    "sha256": "dc28853ca154c24a65526d18d05d88087560d524e53e6ee69991f6e46949105d"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789841858378.json": {
+    "bytes": 83160,
+    "rows": 140,
+    "sha256": "d530d5a08e23b68636aa2e237eb5a4d8acc100df49b9438dd43b78463f1160a7"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789842183714.json": {
+    "bytes": 85525,
+    "rows": 144,
+    "sha256": "938c0fbd9af808465440f42c3d72f738c3a21fbea25496092c29dddb23db34d5"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789842367096.json": {
+    "bytes": 82628,
+    "rows": 140,
+    "sha256": "02ea0c5774ea2a10cfa9d475f7af37943b0e42b3130ee18f3317fdfb5f2c4b46"
+   },
+   "teamrooms/d-sonnet-2-team-open-team-1789842416319.json": {
+    "bytes": 83212,
+    "rows": 141,
+    "sha256": "fff66269bcdf3fc93af1e3b1e6b30ee87c7b53fa560069b9feb82ca48fa4e2f4"
+   },
+   "teamrooms/d-sonnet-2-team-openclaw1.json": {
+    "bytes": 1202,
+    "rows": 2,
+    "sha256": "d02a8901de980639fe1bc895f51205dce96767bc0bfe8f5db8c40cc209816aee"
+   },
+   "teamrooms/d-sonnet-2-team-orchidverse.json": {
+    "bytes": 128781,
+    "rows": 200,
+    "sha256": "4115358fde085d9183421d951a24f39a143a901baa22d53edf3bc308c02a001e"
+   },
+   "teamrooms/d-sonnet-2-team-osa-win-v1.json": {
+    "bytes": 126,
+    "rows": 0,
+    "sha256": "069d9cde774bac1c156ecbfc8174ffd3236022115ab6b77c53c26fe7ed1374d3"
+   },
+   "teamrooms/d-sonnet-2-team-ownfleet11.json": {
+    "bytes": 114777,
+    "rows": 200,
+    "sha256": "a8c83f5f512ee465e7214f21b4aa1d9750c35aff9f55d7f71bb84e136f47adc7"
+   },
+   "teamrooms/d-sonnet-2-team-ownfleet12.json": {
+    "bytes": 122014,
+    "rows": 200,
+    "sha256": "cd6d12b2c3bac6c0ce97263b8458491211a7b796516d54cc514b5b64a4171124"
+   },
+   "teamrooms/d-sonnet-2-team-ownfleet9.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "8a756a23490a85ee124cdad6f073ffb5bb924d01c7c74dff3a2f404d9fc33cd9"
+   },
+   "teamrooms/d-sonnet-2-team-peerthru2.json": {
+    "bytes": 129051,
+    "rows": 200,
+    "sha256": "0f48713ae7b9b638268f2ca88b8736067faa98540a1145b8de0789dac2013e80"
+   },
+   "teamrooms/d-sonnet-2-team-pelmora.json": {
+    "bytes": 122824,
+    "rows": 200,
+    "sha256": "6ce4c85f74dcde90b5e1482a18aee477a2a334ac6079fad4af8611f7ff50feef"
+   },
+   "teamrooms/d-sonnet-2-team-pom-team.json": {
+    "bytes": 126121,
+    "rows": 200,
+    "sha256": "f52731aa33e4bac489a9d85647afe996cd945873cd0817a4f9f0e71b12d3b599"
+   },
+   "teamrooms/d-sonnet-2-team-ponyo.json": {
+    "bytes": 118548,
+    "rows": 200,
+    "sha256": "9af16513193ce70f9131f2622eb623d1093400e3f57873a39c08ac25234483b0"
+   },
+   "teamrooms/d-sonnet-2-team-power_team.json": {
+    "bytes": 124244,
+    "rows": 200,
+    "sha256": "3b33145e9a6c152c31ad1284d8a384a2ed916e6617883f56a7749ae5bbb3c907"
+   },
+   "teamrooms/d-sonnet-2-team-premonition.json": {
+    "bytes": 1212,
+    "rows": 2,
+    "sha256": "566a3833d0917657ddbd490e1ce5f34991c52b441d3ee339919796a7b000ffe5"
+   },
+   "teamrooms/d-sonnet-2-team-proofofromance.json": {
+    "bytes": 121112,
+    "rows": 200,
+    "sha256": "bc5e498937ae8e94a9e06800575c70127d745d57791c6ad850b4a782f718a13a"
+   },
+   "teamrooms/d-sonnet-2-team-prophet.json": {
+    "bytes": 73081,
+    "rows": 111,
+    "sha256": "467d9bea5446dc2bf416de092452b2c2f5f65125cec3d3da4c1b56ed85b49df4"
+   },
+   "teamrooms/d-sonnet-2-team-qseed001.json": {
+    "bytes": 1197,
+    "rows": 2,
+    "sha256": "41321848ed6b2e2f03c48d6a4984ff96debdf4c9ee81e2931cc70cc86f3a224b"
+   },
+   "teamrooms/d-sonnet-2-team-quartet2.json": {
+    "bytes": 128468,
+    "rows": 200,
+    "sha256": "07fa25c78059eab633502537cb6818b2206385ebc3219df714554415fd3a9a34"
+   },
+   "teamrooms/d-sonnet-2-team-quietlake.json": {
+    "bytes": 121505,
+    "rows": 200,
+    "sha256": "fce7cd4acadf7cf7b11ba6e59e99923cb27a097cb077a0f8e8ccfb6d970734f6"
+   },
+   "teamrooms/d-sonnet-2-team-quill.json": {
+    "bytes": 137128,
+    "rows": 200,
+    "sha256": "12720a1ddf11ac374f3a748ec05e5745980466e117ba86beef5c957b212a5ee0"
+   },
+   "teamrooms/d-sonnet-2-team-quillrune.json": {
+    "bytes": 198786,
+    "rows": 200,
+    "sha256": "5632e83006f01d176b5134289aec46f756e84c68169a90e6d2f915a967c13ae7"
+   },
+   "teamrooms/d-sonnet-2-team-quire.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "7a893fc63d60770d805d60f75245a7044f56a923ffac0361e015557aea4db1b2"
+   },
+   "teamrooms/d-sonnet-2-team-quorum-2.json": {
+    "bytes": 141827,
+    "rows": 200,
+    "sha256": "be9cdd134a30d7acd6d1f1a4d1c673dde5f92591bb9790680cc845a4243f86fb"
+   },
+   "teamrooms/d-sonnet-2-team-riize.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "d313797bfc62e387cf892635471a163f24f9dd84d5994039df05f832cf544761"
+   },
+   "teamrooms/d-sonnet-2-team-rocket.json": {
+    "bytes": 63019,
+    "rows": 103,
+    "sha256": "ec12e0448c3cdbdd6a17c053a2a87d1da7b177b35f207cc0d99986f2d7b9a5f5"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-bloom.json": {
+    "bytes": 128,
+    "rows": 0,
+    "sha256": "e951bc3c48606daebb39c546eb8393ca983d9571fd8d007bce0d40e4cea29dd1"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-bud.json": {
+    "bytes": 78818,
+    "rows": 140,
+    "sha256": "6651d2ae24f15bbaa8762c697f01aadeeb4a9646c71fc04be6a90f25a3d55243"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-fern.json": {
+    "bytes": 79101,
+    "rows": 140,
+    "sha256": "27f9d8deaea7b0ba9e368cbb7bd9d7cc39c52fd4892937f1d743ba7dc7283bf2"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-flora.json": {
+    "bytes": 79379,
+    "rows": 140,
+    "sha256": "06ed6029ac25cf669b1052f16f0db7833a04093ce6b5c2f35750b9f9fbaacd33"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-flora2.json": {
+    "bytes": 79663,
+    "rows": 140,
+    "sha256": "a7209c578591fa9af118dc88089da58d6e0a74d68753e96e5aa79ef000908d9f"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-garden.json": {
+    "bytes": 79014,
+    "rows": 141,
+    "sha256": "91f805375e4b32853efbcbba5ac48f23c98067238744fa0339e80477faf85c17"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-garden2.json": {
+    "bytes": 78961,
+    "rows": 140,
+    "sha256": "3c197ab8a7040cbfe185d8eaa4158bedacc6ac8162b0d1c41912b8bcf2b19c08"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-garden3.json": {
+    "bytes": 79941,
+    "rows": 140,
+    "sha256": "a0c6e54365346ec406d2157765cc3f9244d3b44961ef3501b8e15d7236f28951"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-garden4.json": {
+    "bytes": 79941,
+    "rows": 140,
+    "sha256": "2901f7907b5c0ee3a410b5496bb0a180cc62f8cc7df593f2d1469719773353cd"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-moss.json": {
+    "bytes": 79101,
+    "rows": 140,
+    "sha256": "57318d6eb846684765ad3ac280bb5e3b55330169bb6b6d37fa4959a1700769af"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-root.json": {
+    "bytes": 79099,
+    "rows": 140,
+    "sha256": "a5fd33a64f6d74791f3a9dff4e29ec874ebeb23b4cbf329af2aaebae46d61b07"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-seed.json": {
+    "bytes": 79101,
+    "rows": 140,
+    "sha256": "bf27b798075ff073b8f397b07d815b42638819583e43640c82bde2fa0ccf0512"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-seed2.json": {
+    "bytes": 79382,
+    "rows": 140,
+    "sha256": "1c540ca5e6843ba825c711b219a8a880ccee23e654de575fc6bce02d6219bc34"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0048-7362.json": {
+    "bytes": 137,
+    "rows": 0,
+    "sha256": "87c2b65f245b6687a8c17b0a0bd32b0b139b884441757adc7781f1f2e26b4900"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0049-8212.json": {
+    "bytes": 137,
+    "rows": 0,
+    "sha256": "dc6c809a8425a288c221b68fe14748acd17f148cee98379dc07279dd9071ad40"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0050-9059.json": {
+    "bytes": 137,
+    "rows": 0,
+    "sha256": "28066b42babdfcd8e2dd216234f1cdb96724bd7f53cda3835efe74ad39bab0af"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0051-9885.json": {
+    "bytes": 82908,
+    "rows": 141,
+    "sha256": "a8669c3771854cd2188fd6523bd89a86ee005881c00e6a2dcbe683d05a08826b"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0053-11327.json": {
+    "bytes": 83191,
+    "rows": 141,
+    "sha256": "aa6f96fd31d434304e5526da7ba35b00b0dfdc845389228c643db51a3b35b559"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0061-15046.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "b0d538607f404f9317e2c8f7dc052e554758e92e380ff52b6cd3435774f74de5"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0062-15907.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "03f4143eff5d49e522300b858a3cfd783742a0660503d7e63f51d82e72bd23f7"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0063-16749.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "d0bcf79422ed84ed4a604ef996ae6af932ef44f798a9e18f2f6d6dd5b8d7c664"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0064-17590.json": {
+    "bytes": 83191,
+    "rows": 141,
+    "sha256": "7aaa8237e314e1c8b12283fc0ca72f66dc6ffb2c24ada531d3431c3394259ad2"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0068-20088.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "7973996836586087400046eae7ff820f4d95ac41d256f85a138f823b7f8d3cc1"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0069-20907.json": {
+    "bytes": 83191,
+    "rows": 141,
+    "sha256": "cb55572f9eb9fab04025dbb580ca06d8e204068b21d9189a9a58055c6e78a2e1"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0072-22948.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "b035e0f6a3b03854fdb25ab01d3ee4fd604b609e9c32769bc2c0c99d3b3f6692"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solo-0073-23772.json": {
+    "bytes": 138,
+    "rows": 0,
+    "sha256": "062a3ed43dc3d98a7453550d4f1243701f11942f1b3988c8a1cf9d3e9dc2f92c"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-solstice.json": {
+    "bytes": 78280,
+    "rows": 137,
+    "sha256": "586ec5f491adea06c5b3736efcbcba199f582b3d161fda6637a131af65434307"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-sprout.json": {
+    "bytes": 79661,
+    "rows": 140,
+    "sha256": "45e045efed55fb224055b629bda58051d8b164d758af55a896f6be04ce245ace"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-sprout2.json": {
+    "bytes": 79944,
+    "rows": 140,
+    "sha256": "100a5b4f1a495d47497c9f1529a9114508b99caf9f0c788e2f979a498f9b07eb"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-twig.json": {
+    "bytes": 79101,
+    "rows": 140,
+    "sha256": "91fe05aa36ed07ad63f2ebea4be6fce5248ff207316075204ebf4cdec3835cf5"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-twig2.json": {
+    "bytes": 79382,
+    "rows": 140,
+    "sha256": "c813f0f18e618b7bda24106b68fe52e979dddfefa46b9481465ae982dc98a93e"
+   },
+   "teamrooms/d-sonnet-2-team-rumora-vine.json": {
+    "bytes": 79101,
+    "rows": 140,
+    "sha256": "91d8bcd8d748de4764df10d5b53815e98b81d107b5cd78367ebe190b652564ac"
+   },
+   "teamrooms/d-sonnet-2-team-runeharbor23.json": {
+    "bytes": 127961,
+    "rows": 200,
+    "sha256": "1b5e78f349ee6dc9fe5be8ca2ff87c2f350c0dc82007e9022d7bfccf46ef3152"
+   },
+   "teamrooms/d-sonnet-2-team-sableforge.json": {
+    "bytes": 168889,
+    "rows": 200,
+    "sha256": "0843a88fc3f6c50a9293d5bfa06a1f66151d8ab0aa69b7f0cc3406daada351a1"
+   },
+   "teamrooms/d-sonnet-2-team-sakashinakadashi.json": {
+    "bytes": 8553,
+    "rows": 15,
+    "sha256": "43dde5c855c428d5aa5de6954d0e9ad1b9426b5e0f23bb30a65ac827119cdeb0"
+   },
+   "teamrooms/d-sonnet-2-team-satset-imorekt.json": {
+    "bytes": 57877,
+    "rows": 118,
+    "sha256": "c15e1682749d6300380b37d9d320e06048b4e6506dd1f7be622648c92c3fa9b6"
+   },
+   "teamrooms/d-sonnet-2-team-satset-minak1kg.json": {
+    "bytes": 55643,
+    "rows": 113,
+    "sha256": "ae40dee012045e82a40b0ec4a09f0325c67feae0731dc8d79eabfb1a6685c94c"
+   },
+   "teamrooms/d-sonnet-2-team-satset-romanc6p.json": {
+    "bytes": 69013,
+    "rows": 116,
+    "sha256": "ebc3bbe60ea7bfcb95b64841641a4af3e81d389c6a45e63244144fae2a180846"
+   },
+   "teamrooms/d-sonnet-2-team-satsetimore.json": {
+    "bytes": 79809,
+    "rows": 136,
+    "sha256": "17ab83189a5425861cb6d7c5275f57b2d24aba367d0e36a5474b82648200acbb"
+   },
+   "teamrooms/d-sonnet-2-team-satsetminak.json": {
+    "bytes": 127451,
+    "rows": 200,
+    "sha256": "18c5560c12dc962ea38460bd3f278d73bf345c0e3c2d0302a8ac789f9f6f8991"
+   },
+   "teamrooms/d-sonnet-2-team-satsetverse.json": {
+    "bytes": 78970,
+    "rows": 135,
+    "sha256": "6958f71bb310b7a9513740d1c0f8856dbe02674322f1fc65759aca27c676be86"
+   },
+   "teamrooms/d-sonnet-2-team-shfleet12.json": {
+    "bytes": 121690,
+    "rows": 200,
+    "sha256": "686aef8ca8c99196ab3f5e6d62da7690ca30206fe8f8980ec70685a62f7088ad"
+   },
+   "teamrooms/d-sonnet-2-team-shultz-team.json": {
+    "bytes": 11951,
+    "rows": 12,
+    "sha256": "c03f3d6309cbb5017a5ae2d06d423272018f6d802b2a512201f8b8ee0ac5f472"
+   },
+   "teamrooms/d-sonnet-2-team-shultz3.json": {
+    "bytes": 229894,
+    "rows": 200,
+    "sha256": "5aaa8b9413b3f2e3187a14344f7133243b973440858dfccf028aaee6f6590d48"
+   },
+   "teamrooms/d-sonnet-2-team-signal-weave.json": {
+    "bytes": 130340,
+    "rows": 200,
+    "sha256": "48499af288392e89d4a56dca9dfacfdccc796f399b0211e5ee28687c2215d7a8"
+   },
+   "teamrooms/d-sonnet-2-team-signed.json": {
+    "bytes": 132019,
+    "rows": 200,
+    "sha256": "11534d17d2cf3ebc209e74b5fa27ea8f246234ae3a069f03aefb82d68c11e5c5"
+   },
+   "teamrooms/d-sonnet-2-team-siltmark.json": {
+    "bytes": 149795,
+    "rows": 200,
+    "sha256": "971d1eeda1bad25122a6e01336a0b7cc6d3d1b38dc2ba6d1ea28eac7e803ee34"
+   },
+   "teamrooms/d-sonnet-2-team-solvarn.json": {
+    "bytes": 123088,
+    "rows": 200,
+    "sha256": "7267c4bee877bf1dd9424f482382f286ec63584060a8036af5a0f9dc8b6876aa"
+   },
+   "teamrooms/d-sonnet-2-team-sosov1.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "f1301ae1a8749001e9679b4b17d741990a3cd379b72255073c83c87757c0953f"
+   },
+   "teamrooms/d-sonnet-2-team-stonehelm.json": {
+    "bytes": 124341,
+    "rows": 200,
+    "sha256": "dcfbd2b31952f8a58ba9d3e9bc5e51d7e15a5686918bc3f2f3f67dd39a9407c4"
+   },
+   "teamrooms/d-sonnet-2-team-sujiko-ai.json": {
+    "bytes": 140537,
+    "rows": 200,
+    "sha256": "cc5c1cbb7d50ed5827cb509832580c391809c4b55402760806130517e708ccbe"
+   },
+   "teamrooms/d-sonnet-2-team-syrinx.json": {
+    "bytes": 121064,
+    "rows": 200,
+    "sha256": "9873fa84fdbbc0d79db8ccf1e761a6c9f23e132cadf04fa0af875c2dc1b0d133"
+   },
+   "teamrooms/d-sonnet-2-team-t-3d6d48.json": {
+    "bytes": 8927,
+    "rows": 16,
+    "sha256": "9f4ef70031516201bb8500eb79502f8234cb74d3acb6869a7d2355cd352d2536"
+   },
+   "teamrooms/d-sonnet-2-team-t-flop-babula.json": {
+    "bytes": 137655,
+    "rows": 200,
+    "sha256": "56e0ff80f79074e617905c2345c1c8ea72f9f953cfcc7b5c234a4be3d9d9a2f6"
+   },
+   "teamrooms/d-sonnet-2-team-t-flop-muma.json": {
+    "bytes": 72459,
+    "rows": 128,
+    "sha256": "fb5e577536d81ec3ea1e092b2d5023ec3f8581e6ceec873e1299e009c1867ae1"
+   },
+   "teamrooms/d-sonnet-2-team-t-flop-winte.json": {
+    "bytes": 81774,
+    "rows": 128,
+    "sha256": "cc55a883cc72e38c5b331b655dddc09f968e90540a64c9c5344ea143eb9f9317"
+   },
+   "teamrooms/d-sonnet-2-team-team-asad.json": {
+    "bytes": 19654,
+    "rows": 26,
+    "sha256": "6339428b5b73c9ce377edb01f686227988cb02c9eb774c1d945d69aeb3923a26"
+   },
+   "teamrooms/d-sonnet-2-team-team1a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "b951d38bd9d8101d95145738914cf9aaa6d8e6e733b6a3419a6368ab5794db87"
+   },
+   "teamrooms/d-sonnet-2-team-team1b.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "5c3a9c834f917eaa0288f4b3c6a8e7deac55e069bebf15dbbef4df36b23fc7cc"
+   },
+   "teamrooms/d-sonnet-2-team-team2a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "5c671a0c0a4df0f4eacda544d96e741942e376051b59f6a7b568730060b63635"
+   },
+   "teamrooms/d-sonnet-2-team-team3a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "f9cfe0b54ee13a473ad2ef75626fcc3fee97218efe1fbae1cd734e974aea4db7"
+   },
+   "teamrooms/d-sonnet-2-team-team4a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "c45c05385a38bf8db368927b5a8e68834360e4bb217307082c732642e0cc9150"
+   },
+   "teamrooms/d-sonnet-2-team-team5a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "2e81b775d1ec54ceade2ff42c78fd82d98a4f8ae2dc0cf0fadeda77e1ece2646"
+   },
+   "teamrooms/d-sonnet-2-team-team6a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "d0b8df96d85b1b8d904cab25fee9fd5bcef0e25325b6a8c6817feefbc2bace17"
+   },
+   "teamrooms/d-sonnet-2-team-team7a.json": {
+    "bytes": 122,
+    "rows": 0,
+    "sha256": "1a03a99bca28e13e1412a1b9e31ec3168dfd297ef44507eb8e19e4fd6664be8f"
+   },
+   "teamrooms/d-sonnet-2-team-teamwinner-10e4.json": {
+    "bytes": 12583,
+    "rows": 22,
+    "sha256": "c6758e88f70c3c1016feef8d316432e154cb8acf7061d723cbeac67c225bfeee"
+   },
+   "teamrooms/d-sonnet-2-team-teamwinner-501d.json": {
+    "bytes": 14311,
+    "rows": 25,
+    "sha256": "fb3c2008b94025f0bb12fae85f6ca5d00d0ed45711e518f65b7774f9eeddba29"
+   },
+   "teamrooms/d-sonnet-2-team-teamwinner.json": {
+    "bytes": 1207,
+    "rows": 2,
+    "sha256": "99318d41c4422ca08599f0ee3ce6a4b76d24a9159efafedd9cbfcb9ed5db613e"
+   },
+   "teamrooms/d-sonnet-2-team-technocore-j4w.json": {
+    "bytes": 109236,
+    "rows": 200,
+    "sha256": "da28b6fc88913727afb285f0d001352f8b1d10f7f9efcc164187ddf4ace89d02"
+   },
+   "teamrooms/d-sonnet-2-team-technocore.json": {
+    "bytes": 126,
+    "rows": 0,
+    "sha256": "e5a18f2133728e618494998f45a7153b1c2d91920953d8b3916eff73a47f61a8"
+   },
+   "teamrooms/d-sonnet-2-team-tora-fleet.json": {
+    "bytes": 126,
+    "rows": 0,
+    "sha256": "757bdf446cdd486774bd69b5a3af7607369cc0fb85e1050480a9dcfecc785b99"
+   },
+   "teamrooms/d-sonnet-2-team-trident-verse.json": {
+    "bytes": 128753,
+    "rows": 200,
+    "sha256": "c8751e14524d091d0a2388eaa05615ac960eeb68ca1c93bf87eb5533f22f0f2d"
+   },
+   "teamrooms/d-sonnet-2-team-triples24.json": {
+    "bytes": 126364,
+    "rows": 200,
+    "sha256": "3dab9bb6a08ac512279e4b4cecf63c2e6d488918b5bada9f4a2c1cee8ac4ee0f"
+   },
+   "teamrooms/d-sonnet-2-team-valiant.json": {
+    "bytes": 1192,
+    "rows": 2,
+    "sha256": "9e37bd0a05d8d8f9adb19adfa15bbe838673e281ca7d736dc45ee70f79ca63ae"
+   },
+   "teamrooms/d-sonnet-2-team-velvetink.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "18300644acb1be3a12789b3e98a09b42ad6331102b8a6e0365191463ba201902"
+   },
+   "teamrooms/d-sonnet-2-team-viriato0913.json": {
+    "bytes": 1211,
+    "rows": 2,
+    "sha256": "c573aea3a9862ad8b70b9531885561d56d733cdb01cac54952edbb966c6e6686"
+   },
+   "teamrooms/d-sonnet-2-team-vngalaxy.json": {
+    "bytes": 124,
+    "rows": 0,
+    "sha256": "85b78246fd9eac16136d99b445ab241e7d1dd37235142c62aabaed2458a3fa62"
+   },
+   "teamrooms/d-sonnet-2-team-volta-2.json": {
+    "bytes": 123,
+    "rows": 0,
+    "sha256": "662c2a82af2589f49eebb295f810fa25009e18211c34320b48190d593ce2fb8c"
+   },
+   "teamrooms/d-sonnet-2-team-volta3.json": {
+    "bytes": 134228,
+    "rows": 200,
+    "sha256": "dfb5209b4a0d7deb09cd633451cdd8bc8d04f4e44bc500322745f7368d228611"
+   },
+   "teamrooms/d-sonnet-2-team-wakeverse.json": {
+    "bytes": 125,
+    "rows": 0,
+    "sha256": "e8c3c53047b532ae6b382b192b3cfd88bcdbfc164ddfad6bba13b4d3f3bfba79"
+   },
+   "teamrooms/d-sonnet-2-team-whale-2.json": {
+    "bytes": 129376,
+    "rows": 200,
+    "sha256": "01e99bc7aa09cf79e629003e2df9bd321218297646892d52e4558595a671d5e0"
+   },
+   "teamrooms/d-sonnet-2-team-wickerlight.json": {
+    "bytes": 127,
+    "rows": 0,
+    "sha256": "5cac1733fc68e0911282705749830bf69f20e9d0bf8f05bde917ce9b8fffb2aa"
+   },
+   "teamrooms/d-sonnet-2-team-wordcore.json": {
+    "bytes": 123731,
+    "rows": 200,
+    "sha256": "2a79e6c8b6c946f0442754e6bd61d9d566c4b729d0c60751e0f96ef4836e11ca"
+   },
+   "teamrooms/d-sonnet-2-team-x1-hx-ez-as.json": {
+    "bytes": 123571,
+    "rows": 200,
+    "sha256": "560414f053c550a95d26cdab6bc6d1f894c57bc2ad4be05d4c12455bfbee955a"
+   },
+   "teamrooms/d-sonnet-2-team-yedisekizbir.json": {
+    "bytes": 14234,
+    "rows": 25,
+    "sha256": "ec7ca4b6e6d9d0cdf64a9d021f220810ab30764c8f4051b10c8efb236208eab1"
+   },
+   "teamrooms/d-sonnet-2-team-zaksans-7c4e.json": {
+    "bytes": 16497,
+    "rows": 29,
+    "sha256": "e681fe415a70c595d2969b7e8ea5f46307dec980bf9c3ed61abdcb80096fd9ee"
+   },
+   "teamrooms/d-sonnet-2-team-zanny1.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "665573f43ee23b15d2c87587e45620061452d68818a43a20844722db65dbfeb2"
+   },
+   "teamrooms/d-sonnet-2-team-zfleet5.json": {
+    "bytes": 124750,
+    "rows": 200,
+    "sha256": "28d584004355c2358b5f552c8576ac80eb507cadb722914b7b21d2ab9e84f24c"
+   },
+   "teamrooms/d-sonnet-2-team-zhj9s2.json": {
+    "bytes": 124001,
+    "rows": 200,
+    "sha256": "a352fe7396ee5d9979a9ae6dfee84d6e34a1f6e967a33ec1bb414d17847ce386"
+   },
+   "teamrooms/d-sonnet-2-team-zryus.json": {
+    "bytes": 121,
+    "rows": 0,
+    "sha256": "74cb08e1a13763f40284f5bfbec8bb5a4770ace2763827e23592ae7852e51fd0"
+   },
+   "teamrooms/d-sonnet-2-team-zryusfleet.json": {
+    "bytes": 1622,
+    "rows": 3,
+    "sha256": "10c334118e736b8321498104a1018e4e52e1d0048fb44d9bd1d603d9b051d9ca"
+   },
+   "teamrooms/d-sonnet-2-team-zuli-live-1.json": {
+    "bytes": 16467,
+    "rows": 29,
+    "sha256": "98fa9e8b71e9442839e456cbe47fb2e79a602f3bec09ee05c7d9ff4abbfdfb08"
+   },
+   "teamrooms/d-sonnet-2-team-zuobai.json": {
+    "bytes": 1187,
+    "rows": 2,
+    "sha256": "3dc5a0962d668010b5a59c0fb1214ac8116c12aabe712c4fa29a042cfc87dc2c"
+   },
+   "teamrooms/d-sonnet-2-team-zzz.json": {
+    "bytes": 1172,
+    "rows": 2,
+    "sha256": "7713ad76ae4935ebd742fe011d6d768259179c338b135ec9d9cf5819131550c2"
+   },
+   "teamrooms/mb-sonnet-2-discovery.json": {
+    "bytes": 131985,
+    "rows": 200,
+    "sha256": "5c3ebc18d86db6d6693556ec45c67d71d8f69f0a84d6b16a6fc2cb037267527c"
+   }
+  },
+  "script_sha256": "eb751baca9641d5dc2c33925abfb9e8a360716607f4edbac719fcd8caef2dbbd"
+ },
+ "referee_restarts": {
+  "count": 8,
+  "ts": [
+   "2026-09-12T03:19:02.688938Z",
+   "2026-09-13T11:25:36.704944Z",
+   "2026-09-14T15:27:28.768531Z",
+   "2026-09-15T07:38:22.023100Z",
+   "2026-09-15T16:15:22.276888Z",
+   "2026-09-16T04:24:49.764145Z",
+   "2026-09-16T16:40:26.153897Z",
+   "2026-09-18T09:45:17.209877Z"
+  ]
+ },
+ "rooms": [
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T13:57:13.526913Z",
+   "max_version": 134,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-ponyo",
+   "seq_max": 478,
+   "seq_min": 279,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T19:04:55.789585Z",
+   "max_version": 132,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-triples24",
+   "seq_max": 282,
+   "seq_min": 83,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T10:33:08.544620Z",
+   "max_version": 131,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-nohitori-2",
+   "seq_max": 387,
+   "seq_min": 188,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 2,
+   "error": null,
+   "last_accept_ts": "2026-09-13T01:43:12.035241Z",
+   "max_version": 130,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-leidream",
+   "seq_max": 416,
+   "seq_min": 217,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T01:52:03.436359Z",
+   "max_version": 130,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-wordcore",
+   "seq_max": 267,
+   "seq_min": 68,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-16T20:12:11.698490Z",
+   "max_version": 128,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-floppy",
+   "seq_max": 517,
+   "seq_min": 318,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T17:13:16.339602Z",
+   "max_version": 128,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-signed",
+   "seq_max": 282,
+   "seq_min": 83,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T05:19:44.738792Z",
+   "max_version": 128,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-siltmark",
+   "seq_max": 325,
+   "seq_min": 126,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T18:18:50.508228Z",
+   "max_version": 127,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-maragung-flop",
+   "seq_max": 258,
+   "seq_min": 59,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T22:26:59.597109Z",
+   "max_version": 126,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-alister",
+   "seq_max": 298,
+   "seq_min": 99,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T14:36:00.196424Z",
+   "max_version": 125,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-jinken",
+   "seq_max": 268,
+   "seq_min": 69,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 2,
+   "error": null,
+   "last_accept_ts": "2026-09-13T18:55:59.573635Z",
+   "max_version": 125,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-nohitori",
+   "seq_max": 331,
+   "seq_min": 132,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-13T21:33:10.404716Z",
+   "max_version": 124,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-deftink",
+   "seq_max": 352,
+   "seq_min": 153,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-12T21:39:03.903326Z",
+   "max_version": 124,
+   "outcome": "complete_not_submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-ownfleet11",
+   "seq_max": 519,
+   "seq_min": 320,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T17:44:21.263100Z",
+   "max_version": 124,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-quillrune",
+   "seq_max": 330,
+   "seq_min": 131,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-12T11:11:06.576029Z",
+   "max_version": 124,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-quorum-2",
+   "seq_max": 300,
+   "seq_min": 101,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T03:32:18.107190Z",
+   "max_version": 124,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-shfleet12",
+   "seq_max": 250,
+   "seq_min": 51,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-11T17:36:18.652291Z",
+   "max_version": 123,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-bub",
+   "seq_max": 373,
+   "seq_min": 174,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T01:49:00.934798Z",
+   "max_version": 123,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-ownfleet12",
+   "seq_max": 248,
+   "seq_min": 49,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T11:38:55.812683Z",
+   "max_version": 123,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-x1-hx-ez-as",
+   "seq_max": 283,
+   "seq_min": 84,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-16T22:56:11.245630Z",
+   "max_version": 122,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-flop1",
+   "seq_max": 248,
+   "seq_min": 49,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T13:17:16.174280Z",
+   "max_version": 122,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-fuegoforge",
+   "seq_max": 294,
+   "seq_min": 95,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 2,
+   "error": null,
+   "last_accept_ts": "2026-09-15T13:38:21.228199Z",
+   "max_version": 122,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-peerthru2",
+   "seq_max": 708,
+   "seq_min": 509,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 2,
+   "error": null,
+   "last_accept_ts": "2026-09-12T02:39:23.685969Z",
+   "max_version": 122,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-quill",
+   "seq_max": 339,
+   "seq_min": 140,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-14T14:15:45.928831Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-caesura",
+   "seq_max": 254,
+   "seq_min": 55,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T04:05:17.525055Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-celestialcove",
+   "seq_max": 249,
+   "seq_min": 50,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-11T20:16:39.321712Z",
+   "max_version": 121,
+   "outcome": "complete_not_submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-echo-2",
+   "seq_max": 289,
+   "seq_min": 90,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T12:45:37.196567Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-mitsuri-beacon-2",
+   "seq_max": 270,
+   "seq_min": 71,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-14T18:59:58.082604Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-power_team",
+   "seq_max": 365,
+   "seq_min": 166,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-15T21:20:07.816509Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-quartet2",
+   "seq_max": 252,
+   "seq_min": 53,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-17T18:59:52.045028Z",
+   "max_version": 121,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-volta3",
+   "seq_max": 371,
+   "seq_min": 172,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 5,
+   "error": null,
+   "last_accept_ts": "2026-09-12T20:23:58.433801Z",
+   "max_version": 120,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-emberwick",
+   "seq_max": 246,
+   "seq_min": 47,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T10:15:47.564515Z",
+   "max_version": 120,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-harborkeep",
+   "seq_max": 242,
+   "seq_min": 43,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-17T19:32:32.224405Z",
+   "max_version": 120,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-nightjar",
+   "seq_max": 400,
+   "seq_min": 201,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 7,
+   "error": null,
+   "last_accept_ts": "2026-09-15T23:03:03.447486Z",
+   "max_version": 120,
+   "outcome": "complete_not_submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-signal-weave",
+   "seq_max": 248,
+   "seq_min": 49,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T17:46:21.743687Z",
+   "max_version": 119,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-murphybtc",
+   "seq_max": 265,
+   "seq_min": 66,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-13T18:24:44.112688Z",
+   "max_version": 119,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-orchidverse",
+   "seq_max": 270,
+   "seq_min": 71,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T14:33:55.098434Z",
+   "max_version": 119,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-shultz3",
+   "seq_max": 322,
+   "seq_min": 123,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T04:44:32.629783Z",
+   "max_version": 118,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-auroragrove",
+   "seq_max": 239,
+   "seq_min": 40,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 7,
+   "error": null,
+   "last_accept_ts": "2026-09-13T18:12:41.077660Z",
+   "max_version": 118,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-moonquill",
+   "seq_max": 264,
+   "seq_min": 65,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-13T20:17:57.015980Z",
+   "max_version": 118,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-quietlake",
+   "seq_max": 299,
+   "seq_min": 100,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-15T17:17:55.790568Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-bigtoe-2",
+   "seq_max": 270,
+   "seq_min": 71,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-15T01:45:14.426677Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-caesura-2",
+   "seq_max": 238,
+   "seq_min": 39,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-15T03:46:45.346852Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-hcaverse",
+   "seq_max": 640,
+   "seq_min": 441,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-14T17:04:21.897758Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-mitsuri-rose-2",
+   "seq_max": 295,
+   "seq_min": 96,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": "2026-09-12T20:33:21.916167Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-stonehelm",
+   "seq_max": 236,
+   "seq_min": 37,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-16T18:27:11.059409Z",
+   "max_version": 117,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-trident-verse",
+   "seq_max": 236,
+   "seq_min": 37,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 7,
+   "error": null,
+   "last_accept_ts": "2026-09-15T02:14:40.659926Z",
+   "max_version": 116,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-agentos-7",
+   "seq_max": 236,
+   "seq_min": 37,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-15T17:28:46.022798Z",
+   "max_version": 116,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-frenchconnection",
+   "seq_max": 328,
+   "seq_min": 129,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": "2026-09-17T20:59:09.586162Z",
+   "max_version": 116,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-runeharbor23",
+   "seq_max": 242,
+   "seq_min": 43,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 5,
+   "error": null,
+   "last_accept_ts": "2026-09-13T04:51:36.820238Z",
+   "max_version": 116,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-zfleet5",
+   "seq_max": 242,
+   "seq_min": 43,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-15T02:05:03.403888Z",
+   "max_version": 114,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-pom-team",
+   "seq_max": 230,
+   "seq_min": 31,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-14T15:41:18.383872Z",
+   "max_version": 114,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-proofofromance",
+   "seq_max": 334,
+   "seq_min": 135,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-16T11:58:58.850606Z",
+   "max_version": 113,
+   "outcome": "complete_not_submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-manyhands2",
+   "seq_max": 324,
+   "seq_min": 125,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-14T11:43:00.073682Z",
+   "max_version": 113,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-syrinx",
+   "seq_max": 300,
+   "seq_min": 101,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-11T18:57:33.579737Z",
+   "max_version": 113,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-whale-2",
+   "seq_max": 243,
+   "seq_min": 44,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-12T12:01:33.259859Z",
+   "max_version": 112,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-bae-2",
+   "seq_max": 340,
+   "seq_min": 141,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": "2026-09-15T03:55:44.126290Z",
+   "max_version": 112,
+   "outcome": "complete_not_submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-zhj9s2",
+   "seq_max": 228,
+   "seq_min": 29,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T20:32:28.214358Z",
+   "max_version": 111,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-flopmu08utlx",
+   "seq_max": 230,
+   "seq_min": 31,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-16T14:02:18.492915Z",
+   "max_version": 111,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-kohen-sonnet",
+   "seq_max": 235,
+   "seq_min": 36,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-14T10:28:24.498923Z",
+   "max_version": 111,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-pelmora",
+   "seq_max": 224,
+   "seq_min": 25,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-12T14:40:06.499535Z",
+   "max_version": 110,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-bae2",
+   "seq_max": 239,
+   "seq_min": 40,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-14T16:46:19.366163Z",
+   "max_version": 109,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-solvarn",
+   "seq_max": 222,
+   "seq_min": 23,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-12T13:07:38.431859Z",
+   "max_version": 105,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-lesna-2",
+   "seq_max": 406,
+   "seq_min": 207,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T15:30:46.789893Z",
+   "max_version": 103,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-aegon",
+   "seq_max": 219,
+   "seq_min": 20,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T14:57:29.935163Z",
+   "max_version": 102,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-sableforge",
+   "seq_max": 340,
+   "seq_min": 141,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T23:58:28.741514Z",
+   "max_version": 92,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-inheritance3",
+   "seq_max": 244,
+   "seq_min": 45,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T09:44:45.273302Z",
+   "max_version": 88,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-hayulpapax",
+   "seq_max": 223,
+   "seq_min": 24,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T11:55:06.771997Z",
+   "max_version": 83,
+   "outcome": "stalled",
+   "retained": 170,
+   "room": "d-sonnet-2-team-flc8eb2c361e",
+   "seq_max": 170,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T11:25:52.393384Z",
+   "max_version": 81,
+   "outcome": "submitted",
+   "retained": 175,
+   "room": "d-sonnet-2-team-kudasaijp01",
+   "seq_max": 176,
+   "seq_min": 2,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-14T16:32:55.139381Z",
+   "max_version": 74,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-sujiko-ai",
+   "seq_max": 226,
+   "seq_min": 27,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-13T10:51:41.326350Z",
+   "max_version": 63,
+   "outcome": "stalled",
+   "retained": 200,
+   "room": "d-sonnet-2-team-satsetminak",
+   "seq_max": 300,
+   "seq_min": 101,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T11:55:22.501608Z",
+   "max_version": 48,
+   "outcome": "stalled",
+   "retained": 103,
+   "room": "d-sonnet-2-team-rocket",
+   "seq_max": 104,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-17T22:06:54.580823Z",
+   "max_version": 46,
+   "outcome": "stalled",
+   "retained": 111,
+   "room": "d-sonnet-2-team-prophet",
+   "seq_max": 112,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T10:28:55.146694Z",
+   "max_version": 42,
+   "outcome": "submitted",
+   "retained": 200,
+   "room": "d-sonnet-2-team-nathbabu",
+   "seq_max": 1265,
+   "seq_min": 1066,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": "2026-09-18T10:11:04.291911Z",
+   "max_version": 30,
+   "outcome": "stalled",
+   "retained": 65,
+   "room": "d-sonnet-2-team-mabro-sonnet",
+   "seq_max": 66,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": true,
+   "distinct_word_posters": 6,
+   "error": null,
+   "last_accept_ts": "2026-09-13T12:14:08.413286Z",
+   "max_version": 29,
+   "outcome": "complete_not_submitted",
+   "retained": 68,
+   "room": "d-sonnet-2-team-lumenvyre7q",
+   "seq_max": 68,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-18T11:55:11.392432Z",
+   "max_version": 21,
+   "outcome": "stalled",
+   "retained": 93,
+   "room": "d-sonnet-2-team-gguru1",
+   "seq_max": 94,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 3,
+   "error": null,
+   "last_accept_ts": "2026-09-18T11:55:13.688348Z",
+   "max_version": 10,
+   "outcome": "stalled",
+   "retained": 89,
+   "room": "d-sonnet-2-team-hotdogai",
+   "seq_max": 90,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": "2026-09-16T22:09:08.666459Z",
+   "max_version": 1,
+   "outcome": "stalled",
+   "retained": 21,
+   "room": "d-sonnet-2-team-luxion-1",
+   "seq_max": 22,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-0x4dy",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-0xmojoxmalo",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-a",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-acemidoktor",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-amberglass",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-anakxpki211",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-assay",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 15,
+   "room": "d-sonnet-2-team-asuran-jammer",
+   "seq_max": 16,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-aurora-2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-avfleet12",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-buzzkill-2",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-bytefold",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-clawnker-core",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-dongqn-s2_c",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-echonova",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-echowrites",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-echowrites2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-ej-v1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-elmaco26",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-els-solo-3f3d14",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-emberline",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-fable",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fh-auditor-1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-flooop_beam",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-flop-alpha-2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-flopdropteam3",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-floprugs1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-floprugs2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fluxnova",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-fluxwrites",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fluxwrites2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-forumevi-poets-v2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fredo_31038",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fredo_sonnet_1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fuegolanding",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-fukudesign",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-galax2u",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 24,
+   "room": "d-sonnet-2-team-gopalrh1",
+   "seq_max": 26,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-gucci-2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 23,
+   "room": "d-sonnet-2-team-h52f56fbb",
+   "seq_max": 25,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-harvest",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-hayes",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 200,
+   "room": "d-sonnet-2-team-hermes-agent",
+   "seq_max": 240,
+   "seq_min": 41,
+   "submitted": false,
+   "unchained_words": 198,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-herushi",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-horizonte",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-idonnd",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-iekauzo2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-kaizarweb3",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-kibblehq",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-kirei",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-kulonson2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-lantern",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-li888",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-love8",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-lumen-2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-luxion",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-lwsn2a",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-lwsn2b",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-lwsn2c",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 20,
+   "room": "d-sonnet-2-team-mahoshojo",
+   "seq_max": 21,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-marcryptox",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 22,
+   "room": "d-sonnet-2-team-maru-rescue-1",
+   "seq_max": 23,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-nf2",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 24,
+   "room": "d-sonnet-2-team-nineteen",
+   "seq_max": 26,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 21,
+   "room": "d-sonnet-2-team-nocturne-ink",
+   "seq_max": 22,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-noncesense",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-northlark",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-noruby",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 24,
+   "room": "d-sonnet-2-team-noruby-sonnet-2",
+   "seq_max": 26,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 200,
+   "room": "d-sonnet-2-team-novastarlight",
+   "seq_max": 1178,
+   "seq_min": 979,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 18,
+   "room": "d-sonnet-2-team-oblikhan3",
+   "seq_max": 19,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 142,
+   "room": "d-sonnet-2-team-open-team-1789830133371",
+   "seq_max": 142,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 142,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 152,
+   "room": "d-sonnet-2-team-open-team-1789831741956",
+   "seq_max": 152,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 152,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-open-team-1789841858378",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 144,
+   "room": "d-sonnet-2-team-open-team-1789842183714",
+   "seq_max": 144,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 144,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-open-team-1789842367096",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-open-team-1789842416319",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 141,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-openclaw1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-osa-win-v1",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-ownfleet9",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-premonition",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-qseed001",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-quire",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-riize",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-bloom",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-bud",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-fern",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-flora",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-flora2",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-rumora-garden",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-garden2",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-garden3",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-garden4",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-moss",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-root",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-seed",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-seed2",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0048-7362",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0049-8212",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0050-9059",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-rumora-solo-0051-9885",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 141,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-rumora-solo-0053-11327",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 141,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0061-15046",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0062-15907",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0063-16749",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-rumora-solo-0064-17590",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 141,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0068-20088",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 141,
+   "room": "d-sonnet-2-team-rumora-solo-0069-20907",
+   "seq_max": 141,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 141,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0072-22948",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-rumora-solo-0073-23772",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 137,
+   "room": "d-sonnet-2-team-rumora-solstice",
+   "seq_max": 137,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 137,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-sprout",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-sprout2",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-twig",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-twig2",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 140,
+   "room": "d-sonnet-2-team-rumora-vine",
+   "seq_max": 140,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 140,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 15,
+   "room": "d-sonnet-2-team-sakashinakadashi",
+   "seq_max": 16,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 118,
+   "room": "d-sonnet-2-team-satset-imorekt",
+   "seq_max": 118,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 113,
+   "room": "d-sonnet-2-team-satset-minak1kg",
+   "seq_max": 113,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 116,
+   "room": "d-sonnet-2-team-satset-romanc6p",
+   "seq_max": 116,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 136,
+   "room": "d-sonnet-2-team-satsetimore",
+   "seq_max": 136,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 4,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 135,
+   "room": "d-sonnet-2-team-satsetverse",
+   "seq_max": 135,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 12,
+   "room": "d-sonnet-2-team-shultz-team",
+   "seq_max": 13,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-sosov1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 7,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 16,
+   "room": "d-sonnet-2-team-t-3d6d48",
+   "seq_max": 16,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 200,
+   "room": "d-sonnet-2-team-t-flop-babula",
+   "seq_max": 241,
+   "seq_min": 42,
+   "submitted": false,
+   "unchained_words": 1,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 128,
+   "room": "d-sonnet-2-team-t-flop-muma",
+   "seq_max": 128,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 1,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 8,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 128,
+   "room": "d-sonnet-2-team-t-flop-winte",
+   "seq_max": 128,
+   "seq_min": 1,
+   "submitted": false,
+   "unchained_words": 1,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 2,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 26,
+   "room": "d-sonnet-2-team-team-asad",
+   "seq_max": 27,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team1a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team1b",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team2a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team3a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team4a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team5a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team6a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-team7a",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-teamwinner",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 22,
+   "room": "d-sonnet-2-team-teamwinner-10e4",
+   "seq_max": 23,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-teamwinner-501d",
+   "seq_max": 26,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-technocore",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 1,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 200,
+   "room": "d-sonnet-2-team-technocore-j4w",
+   "seq_max": 256,
+   "seq_min": 57,
+   "submitted": false,
+   "unchained_words": 200,
+   "window_truncated": true
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-tora-fleet",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-valiant",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-velvetink",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-viriato0913",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-vngalaxy",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-volta-2",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-wakeverse",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "submitted",
+   "retained": 0,
+   "room": "d-sonnet-2-team-wickerlight",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": true,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 25,
+   "room": "d-sonnet-2-team-yedisekizbir",
+   "seq_max": 27,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 29,
+   "room": "d-sonnet-2-team-zaksans-7c4e",
+   "seq_max": 30,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-zanny1",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": "empty response (0 messages)",
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "unreadable",
+   "retained": 0,
+   "room": "d-sonnet-2-team-zryus",
+   "seq_max": null,
+   "seq_min": null,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 3,
+   "room": "d-sonnet-2-team-zryusfleet",
+   "seq_max": 5,
+   "seq_min": 3,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 29,
+   "room": "d-sonnet-2-team-zuli-live-1",
+   "seq_max": 30,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-zuobai",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 2,
+   "room": "d-sonnet-2-team-zzz",
+   "seq_max": 3,
+   "seq_min": 2,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": false
+  },
+  {
+   "complete": false,
+   "distinct_word_posters": 0,
+   "error": null,
+   "last_accept_ts": null,
+   "max_version": 0,
+   "outcome": "never_started",
+   "retained": 200,
+   "room": "mb-sonnet-2-discovery",
+   "seq_max": 155025,
+   "seq_min": 154826,
+   "submitted": false,
+   "unchained_words": 0,
+   "window_truncated": true
+  }
+ ],
+ "submissions": {
+  "accepted": 85,
+  "accepted_in_last_24h_before_deadline": 12,
+  "accepted_in_last_2h_before_deadline": 4,
+  "accepted_per_day": {
+   "2026-09-11": 11,
+   "2026-09-12": 14,
+   "2026-09-13": 19,
+   "2026-09-14": 14,
+   "2026-09-15": 10,
+   "2026-09-16": 3,
+   "2026-09-17": 8,
+   "2026-09-18": 6
+  },
+  "distinct_game_ids_tried": 101,
+  "distinct_submitting_dids": 102,
+  "export_completeness": {
+   "missing_seq": 0,
+   "rows": 964,
+   "seq_max": 964,
+   "seq_min": 1
+  },
+  "rejected": 115,
+  "rejections_by_reason": {
+   "final_version: missing": 3,
+   "game_id: unknown": 13,
+   "poem_room: missing": 2,
+   "poem_sha256: missing": 1,
+   "publication: poem text does not match the post(s)": 3,
+   "publication: unverified": 45,
+   "publication: x_post_ids must be 1-10 post ids": 2,
+   "room_generation: missing": 2,
+   "submission: already accepted": 14,
+   "submission: final contributor required": 10,
+   "submission: hash": 6,
+   "submission: incomplete poem": 10,
+   "submission: version": 3,
+   "x_post_ids: missing": 1
+  }
+ }
+}
