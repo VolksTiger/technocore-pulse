@@ -41,8 +41,12 @@ PAGES = [
 KEYWORDS = [
     "faucet", "claim", "testnet", "snapshot", "eligib", "season 0",
     "ratif", "airdrop", "technocore", "did:key", "genesis ceremony",
-    "how to", "register", "kyc", "wallet",
+    "how to", "register", "kyc", "wallet", "rpc", "wss://", "onboard",
 ]
+# A change that touches one of these goes to ALERTS.txt as well as the event log, so a human
+# (or a session) sees it without reading the log: the testnet opening will show up here first.
+ALERT_KEYWORDS = ["faucet", "testnet", "claim", "register", "wallet", "how to", "rpc", "wss://", "onboard"]
+ALERTS = os.path.expanduser("~/.technocore-pulse/ALERTS.txt")
 E38_RE = re.compile(r"E\.38[^\[]{0,160}\[([A-Z]+)\]")
 UPDATED_RE = re.compile(r"Updated\s+(\d{4}-\d{2}-\d{2})")
 VERSION_RE = re.compile(r"Version\s+([\d.]+\s*\([a-z]+\))")
@@ -252,6 +256,36 @@ def report(last=20):
                 print("      " + ln[:160])
 
 
+def alert_line(ev):
+    """One line for ALERTS.txt if the event is worth a human's attention, else None."""
+    hits = sorted(k for k in ev.get("kw_delta", {}) if k in ALERT_KEYWORDS)
+    version_changed = ev.get("version", [None, None])[0] != ev.get("version", [None, None])[1]
+    e38_changed = ev.get("e38", [None, None])[0] != ev.get("e38", [None, None])[1]
+    if not (hits or ev.get("new_links") or version_changed or e38_changed):
+        return None
+    parts = []
+    if hits:
+        parts.append("keywords " + ", ".join("%s %d->%d" % (k, *ev["kw_delta"][k]) for k in hits))
+    if ev.get("new_links"):
+        parts.append("new links " + ", ".join(ev["new_links"][:6]))
+    if version_changed:
+        parts.append("version %s -> %s" % tuple(ev["version"]))
+    if e38_changed:
+        parts.append("E.38 %s -> %s" % tuple(ev["e38"]))
+    return "%s FLOPWATCH %s | %s" % (ev["ts"][:16], ev["page"], " | ".join(parts))
+
+
+def write_alerts(evs):
+    lines = [l for l in (alert_line(ev) for ev in evs) if l]
+    if not lines:
+        return 0
+    os.makedirs(os.path.dirname(ALERTS), exist_ok=True)
+    with open(ALERTS, "a", encoding="utf-8") as f:
+        for l in lines:
+            f.write(l + "\n")
+    return len(lines)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--once", action="store_true", help="single pass, then exit")
@@ -263,12 +297,14 @@ def main():
         return
     if args.once:
         evs = run_once()
-        print("%s pass done, %d event(s)" % (now(), len(evs)), file=sys.stderr)
+        n_alerts = write_alerts(evs)
+        print("%s pass done, %d event(s), %d alert(s)" % (now(), len(evs), n_alerts), file=sys.stderr)
         return
     while True:
         try:
             evs = run_once(verbose=False)
-            print("%s pass done, %d event(s)" % (now(), len(evs)), flush=True)
+            n_alerts = write_alerts(evs)
+            print("%s pass done, %d event(s), %d alert(s)" % (now(), len(evs), n_alerts), flush=True)
             for ev in evs:
                 if "diff" in ev:
                     print("CHANGE %s updated %s version %s e38 %s kw %s new_links %s" % (
