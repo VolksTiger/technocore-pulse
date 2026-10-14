@@ -1,10 +1,56 @@
 # FLOP testnet readiness — the agent (compute buyer) side
 
 What we know, what we can prepare today, and what cannot be built yet. Sources: the FLOP
-Yellow Paper v0.5.0 draft (flop.finance/intro/yellowpaper, updated 2026-09-05), the project
-intro pages (updated 2026-08-27) and the teaser v0.1. Quotes are theirs; everything else is
+Yellow Paper v0.5.0 draft (flop.finance/intro/yellowpaper, updated 2026-09-05; resynced 2026-10-13), the project
+intro pages (updated 2026-08-27), the teaser v0.1 and, from 5 Oct 2026, the airdrop, testnet and whitepaper pages. Quotes are theirs; everything else is
 our reading. Re-check with `python3 flopwatch.py --report` — the site and the flop-labs GitHub
 org are watched every 6 h.
+
+## Update 2026-10-14 — what flop.finance published on 5 October
+
+Three pages went up on 5 Oct 2026 (`/airdrop/`, `/testnet/`, `/whitepaper/`; caught by `flopwatch.py`),
+and the Yellow Paper synced to a newer 0.5.0 draft on 13 Oct. Everything below is still marked
+"draft" by them; the Yellow Paper remains the definitive spec and is not final.
+
+**Genesis airdrop (4.4bn FLOP, 24.3% of year-10 supply), paid from separate pools:**
+
+| Cohort | Pool | Basis |
+|---|---|---|
+| Miners | 1.2bn | verified compute served (FLOPs that pass verification) |
+| Agents | 1.2bn | **compute purchased in settled sessions**, pro rata |
+| Validators | 1.2bn | a seat, 1.2M each, up to 1,000 seats by testnet ranking |
+| Ecosystem reserve | 0.8bn | creators/referrals, builders, responsibly reported vulnerabilities |
+
+**What counts for agents, in their words:** "compute purchased in settled sessions. Holding test
+tokens earns nothing." "A faucet grant creates no allocation by itself." Four fairness rules: one
+participant, one score (wallets under common control are scored as one); independent demand only
+(spend routed to a miner under common control, or circulated between own wallets, is not credited);
+fraud forfeits (an account flagged for manufactured activity receives nothing unless the flag is
+overturned before the allocation locks); a minimum-activity floor per role, published with the
+testnet rules. So extra keys earn nothing and can cost everything: one identity, real spend.
+
+**Unlock for agents (now also in the Yellow Paper changelog as R8.7/R8.8, D-0522):** nothing liquid
+at genesis; the grant is spendable only on inference; every 3 FLOP of locked principal spent in
+settled sessions unlocks 1 FLOP; locked spend is capped at three quarters of principal; no end date;
+balance never spent stays locked. There is no claim window: the holder releases unlocked amounts
+with a claim transaction whenever they choose. E.38 no longer holds the agent horizon.
+
+**Timeline:** testnet opens Q4 2026 "when its readiness criteria are met", runs about 90 days, one
+snapshot at a published finalized block height (no rolling snapshot), allocation list and hash
+published before genesis with a dispute window, mainnet Q1 2027; testnet chain state is not migrated.
+
+**Onboarding for agents (summary on `/testnet/`; the real docs come with the opening):** create a DID
+and a wallet, draw from the faucet, purchase inference or transact with other agents on
+technocore.chat. Only miners and validators can register interest in advance.
+
+**Still not published:** any RPC endpoint, faucet URL, wallet format beyond the Yellow Paper's SS58
+prefix, the minimum-activity floors, and the agent spend basis itself — Yellow Paper E.40 keeps the
+basis open between escrow-settled reserved value and work-settled `Σ G_n` and cites our
+[yellowpaper#32](https://github.com/flop-labs/yellowpaper/issues/32) for that choice. Channel
+settlements are now payment-only (R11.2b): receipt claims no longer feed public work rewards.
+
+**What this changes for us:** nothing in the runbook below, which was already built for one DID and
+real spend through `pallet_compute_channel`. It removes the last reason to hold more than one key.
 
 ## What the airdrop actually measures
 
