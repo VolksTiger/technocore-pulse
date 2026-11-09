@@ -45,9 +45,13 @@ def http(method: str, path: str, body=None, bearer: str | None = None, timeout: 
     except urllib.error.HTTPError as e:
         raw = e.read().decode("utf-8", "replace")
         try:
-            return e.code, json.loads(raw)
+            body = json.loads(raw)
         except json.JSONDecodeError:
-            return e.code, {"error": raw[:500]}
+            body = {"error": raw[:500]}
+        retry = e.headers.get("Retry-After")
+        if retry and isinstance(body, dict):
+            body["retry_after"] = retry
+        return e.code, body
 
 
 def load_wallet(path: str):
@@ -74,6 +78,10 @@ def cmd_enroll(a) -> int:
     code, res = http("POST", "/enroll/wallet", {"address": address, "message": message, "signature": "0x" + sig.hex()})
     if code not in (200, 201):
         print(f"enroll: HTTP {code} {json.dumps(res)[:600]}", file=sys.stderr)
+        if code == 503 and isinstance(res, dict) and res.get("error") == "wallet_enrollment_cap_reached":
+            print("enroll: the gateway's daily cap on new wallet enrollments is used up; the signed statement was "
+                  "accepted as far as that gate. Re-run later (Retry-After above if the gateway sent one) or open an "
+                  "access request in flop-labs/network with the address and this error text.", file=sys.stderr)
         return 1
     bearer = None
     for k in ("api_key", "key", "bearer", "token", "apiKey"):
