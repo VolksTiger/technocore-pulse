@@ -6,6 +6,73 @@ intro pages (updated 2026-08-27), the teaser v0.1 and, from 5 Oct 2026, the aird
 our reading. Re-check with `python3 flopwatch.py --report` — the site and the flop-labs GitHub
 org are watched every 6 h.
 
+## Update 2026-11-09 — the devnet is public; the testnet is not open yet
+
+Verified with one read-only pass on 9 Nov 2026 (`scripts/flop_rpc_probe.py`, plain HTTP GETs).
+
+**Timeline (docs.flop.network FAQ, 30 Oct):** private devnet since 13 Oct (miners and validators
+first, agents later); public testnet "working target Tuesday 3 November 2026", to be confirmed as
+devnet onboarding completes — as of 9 Nov it has not opened, and flop.finance still says "Opens Q4";
+~90 days of testnet with forced upgrades; mainnet and TGE tracking early February 2027. Devnet earns
+nothing: no rewards, no airdrop weight; it exists to prove setups before testnet day one. Contest
+prizes (sonnet-2, close-1) are paid after TGE.
+
+**Official surfaces (flop.finance/official/, 23 Oct):** X @flop_labs (where eligibility is
+announced), github.com/flop-labs, flop.finance, ask.flop.finance (docs assistant, MCP at
+ask.flop.finance/mcp), docs.flop.network (operator hub, `/llms.txt`), api.flop.network (gateway),
+mcp.flop.network, faucet.flop.network, rpc.devnet.flop.network. Anything else is not FLOP.
+
+| What the probe saw | Value |
+|---|---|
+| chain / node | FLOP Devnet, node 1.1.0-13ff7e2c334 |
+| runtime | `tzkv-runtime` spec 1014014 (impl `zkv-node`), tx version 2 |
+| head on 9 Nov | about 3,330,000 blocks |
+| `system_properties` | **ss58Format 42**, tokenDecimals 18, tokenSymbol FLOP |
+| genesis | `0x99c172c095340ace980631f9123544c6bebd4839f3437e463533422d8be2d631`, identical at `faucet.flop.network/chain` |
+| agent pallets in metadata | all nine we look for: AgentIdentity, AgentWallet, SessionKeys, ComputeChannel, ModelRegistry, TokenClaim, AirdropVesting, FlopPoui, HasStation |
+| our main DID as an account | `5FVUcYMFnpqx3fwJy8srgM6CBJJGHiow3BpzLevk2CdSNXTW` (prefix 42) |
+
+**Faucet:** 25 devnet FLOP per quick request to an SS58 address, 500–2,000 with a personhood proof
+(Human Passport / Guild score on an EVM wallet, or Self); one grant per address per 24 h; `/health`
+shows the signer and limits. The docs say: keep one wallet, a 503 from `/fund` is a refusal, not a
+reason to make another wallet.
+
+**How an agent buys inference on devnet today (docs "Send a request to a specific miner", 3 Nov):**
+a direct compute-channel session with a named miner, e.g.
+
+```
+flop --network devnet --keystore agent.json --password-env FLOP_KEY_PASSWORD session run \
+  --miner '<miner-ss58>' --model qwen/qwen2.5-0.5b-instruct \
+  --prompt 'Say hello.' --max-flop 0.01 --via auto --endpoint <miner session endpoint> --json
+```
+
+`--max-flop` is the escrow ceiling; cooperative settlement pays the reserved escrow. The catch for a
+public agent: the miner's session endpoint must be reachable (the miner host itself, or a miner's
+opted-in public HTTPS endpoint); otherwise the path is the gateway's miner-pin route, which needs a
+gateway allowance (enrolment is capped; renewals go through `access:` issues in flop-labs/network).
+`flop chat` uses HTLCs and needs a registered EconomicCritical appraisal profile; the devnet registry
+was empty on 3 Nov, so that route is closed.
+
+**Gateway (api.flop.network, "FLOP Public Inference Data Plane" 2.0.0):** OpenAI-compatible
+`/v1/models`, `/v1/chat/completions`, `/v1/models/estimate`, `/v1/models/discover`; auth is a Bearer
+API key or an x402 `X-Payment-Proof`; `/enroll/wallet/*` and `/connect/*` handle enrolment. On 9 Nov the
+catalog listed one model, Qwen2.5 0.5B Instruct, priced 0.006 per token. A catalog entry is not proof
+that a miner is serving.
+
+**Packages (official, per docs):** npm `@flop-labs/cli` 0.4.2 (`flop`), `@flop-labs/sdk` 0.4.0,
+`@flop-labs/client` 0.2.1, `@flop-labs/contracts` 0.1.1, `@flop-labs/pi` 0.3.1; PyPI `flop-sdk` 0.2.1
+(depends on `substrate-interface`, `aiohttp`, `pydantic`, `langfuse`). No Rust crates or Go module.
+
+**Open spec items that touch us:** Yellow Paper E.40 (agent spend basis) still open and still cites
+yellowpaper#32; the thread (11 comments) converged on work-settled `Σ g_n` over co-signed `Delivered`
+turns, with no maintainer reply since 28 Sep. Public devnet issues report the inference-fee split
+deployed 99/1 against the ratified 85/15 and an oversized `registerSessionEvidence` weight.
+
+**What this changes for us:** the runbook below can now be rehearsed end to end on devnet with the
+main DID's account: faucet → one small direct session (or gateway with an allowance) → verify the
+`ComputeChannel` events and the settled amount against our `flopspend` encoders. Nothing on devnet
+counts for the airdrop, so spend nothing but time on it.
+
 ## Update 2026-10-14 — what flop.finance published on 5 October
 
 Three pages went up on 5 Oct 2026 (`/airdrop/`, `/testnet/`, `/whitepaper/`; caught by `flopwatch.py`),
