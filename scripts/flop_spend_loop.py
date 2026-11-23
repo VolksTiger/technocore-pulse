@@ -175,18 +175,55 @@ def main() -> int:
     ap.add_argument("--miner-cooldown", type=float, default=3600)
     ap.add_argument("--ledger", default=os.path.expanduser("~/.technocore-pulse/flopspend.jsonl"))
     ap.add_argument("--alerts", default=os.path.expanduser("~/.technocore-pulse/ALERTS.txt"))
+    ap.add_argument("--wait-for-network", action="store_true",
+                    help="before anything, poll scripts/flop_net.py <network> every 5 min until it exits 0 (published, genesis match)")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
     if not a.dry_run and not os.environ.get(a.password_env):
         print(f"{a.password_env} is not set; the CLI cannot open the keystore", file=sys.stderr)
         return 2
-    miners = json.load(open(a.miners))
     prompts = json.load(open(a.prompts))
-    if not miners or not prompts:
-        print("empty miners or prompts", file=sys.stderr)
+    if not prompts:
+        print("empty prompts", file=sys.stderr)
         return 2
     os.makedirs(os.path.dirname(a.ledger), exist_ok=True)
+
+    if a.wait_for_network and not a.dry_run:
+        here = os.path.dirname(os.path.abspath(__file__))
+        net_out = os.path.join(os.path.dirname(a.ledger), f"net-{a.network}.json")
+        announced = False
+        while True:
+            rc = subprocess.run([sys.executable, os.path.join(here, "flop_net.py"), a.network, "--write", net_out],
+                                capture_output=True, text=True, timeout=120).returncode
+            if rc == 0:
+                log(f"{a.network} is published and faucet/RPC genesis agree ({net_out})")
+                alert(a.alerts, f"{a.network} endpoints published and consistent; spend loop starting")
+                break
+            if not announced:
+                log(f"waiting for {a.network} to be published (flop_net exit {rc}); polling every 5 min")
+                announced = True
+            time.sleep(300)
+
+    def load_miners():
+        try:
+            ms = json.load(open(a.miners))
+        except (OSError, json.JSONDecodeError):
+            return []
+        return [m for m in ms if isinstance(m, dict) and m.get("address", "").startswith("5") and "<" not in m.get("address", "")]
+
+    miners = load_miners()
+    waited = False
+    while not miners and not a.dry_run:
+        if not waited:
+            log(f"no usable miners in {a.miners}; fill it with {{address, endpoint}} pairs — polling every 5 min")
+            alert(a.alerts, f"spend loop idle: {a.miners} has no miners yet")
+            waited = True
+        time.sleep(300)
+        miners = load_miners()
+    if not miners:
+        print("empty miners (dry run)", file=sys.stderr)
+        return 2
 
     log(f"start network={a.network} address={a.address} miners={len(miners)} prompts={len(prompts)} max_flop={a.max_flop} "
         f"interval={a.interval}s cap/day={a.max_flop_per_day} dry={a.dry_run}")
@@ -229,6 +266,13 @@ def main() -> int:
             time.sleep(a.interval * 5)
             continue
 
+        # reload the miners file each round so entries can be added while running
+        fresh = load_miners()
+        if fresh:
+            for m in fresh:
+                strikes.setdefault(m["address"], 0)
+                benched_until.setdefault(m["address"], 0.0)
+            miners = fresh
         # choose a miner that is not benched
         chosen = None
         for _ in range(len(miners)):
