@@ -6,6 +6,53 @@ intro pages (updated 2026-08-27), the teaser v0.1 and, from 5 Oct 2026, the aird
 our reading. Re-check with `python3 flopwatch.py --report` — the site and the flop-labs GitHub
 org are watched every 6 h.
 
+## Day one — testnet target 24 November 2026, 07:00 UTC
+
+What counts for us (airdrop agent leg): **compute purchased in settled sessions by our own wallet.** The
+public gateway's allowance "spends broker funds" (flop.network/llms.txt), so gateway chat is rehearsal,
+not credit. Credit comes from direct sessions: `flop session run` with our funded keystore against a
+miner that answers at a session endpoint. Spend is bounded by the faucet (CLI: `faucet request <addr>
+--amount 25` on testnet), so the loop buys many small sessions rather than few large ones.
+
+**Tooling in this repo (stdlib Python, the CLI does the signing):**
+
+| Script | Role |
+|---|---|
+| `scripts/flop_net.py <network> --write devnet/net-<network>.json` | finds RPC/faucet/gateway/genesis for a network, refuses to proceed when the hub's card is still "Unavailable" or faucet and RPC genesis differ |
+| `scripts/flop_spend_loop.py` | the spender: balance → faucet when low → next miner → next real prompt → `flop session run … --json` → ledger line; hard caps per day/run/hours, benches failing miners, writes ALERTS |
+| `scripts/flop_gateway.py` | gateway rehearsal (enroll/me/chat/receipts) and `whoami` / `fund` for any wallet, JSON or encrypted PEM |
+| `flopwatch.py` | alerts the moment docs.flop.network/networks/testnet, the timeline FAQ, the faucet's `/chain` or the agent guides change |
+| `data/spend-prompts.json` | thirty real prompts (our own documentation and monitoring questions), so the demand is work, not noise |
+
+**Operator steps (Toma), in order:**
+
+1. Install the CLI where the loop runs (Contabo and the Mac): `npm i -g @flop-labs/cli` → `flop --version`.
+2. Make the testnet agent wallet: `flop keys generate --out ~/.flop/testnet-agent.json --password-env FLOP_KEY_PASSWORD`
+   with `FLOP_KEY_PASSWORD` set in the shell; back the file and the password up offline. One wallet, kept
+   for the whole testnet (one participant, one score; repeat faucet grants need on-chain use of the last one).
+3. When flopwatch says the testnet card is published: `python3 scripts/flop_net.py testnet --write devnet/net-testnet.json`
+   must exit 0 (RPC answers, faucet genesis equals RPC genesis). Then `flop --network testnet network status`.
+4. Fund: `flop --network testnet faucet request <addr> --amount 25 --json`; confirm with `flop balance <addr> --json`.
+5. Miners: fill `devnet/miners-testnet.json` with `{address, endpoint}` pairs from signed offers
+   (`--via auto` reads the indexer) and from operators who publish a public session endpoint in
+   flop-labs/network access requests; one smoke session by hand with `--max-flop 0.01`.
+6. Start the loop under pm2 on Contabo:
+   `pm2 start "python3 scripts/flop_spend_loop.py --network testnet --keystore ~/.flop/testnet-agent.json --address <addr> --miners devnet/miners-testnet.json --prompts data/spend-prompts.json --max-flop 0.05 --interval 120 --max-flop-per-day 24" --name tc-flopspend`
+   with `FLOP_KEY_PASSWORD` in the environment; watch `~/.technocore-pulse/flopspend.jsonl` and ALERTS.
+
+**Known unknowns on the morning of the 24th:** faucet amount and cooldown on testnet; whether `--via auto`
+finds offers without an explicit endpoint; the gateway's role for public agents (miner-pin path is still
+broker-funded); minimum-activity floor for agents. Devnet evidence (16–18 Nov issues): gateway channel
+pool fills under load (429), receipts can lag or stay "estimated", reservations run about 2× settled.
+
+**Mining, assessed 23 Nov:** a miner is a CPU worker plus a GPU vLLM/TOPLOC backend on a Docker host;
+SOFT tier takes any capable GPU (16 GB+ VRAM), stake is sponsored on devnet and testnet, testnet entry
+goes through "testnet miner sponsor allowlist" access requests (hundreds queued). A CPU-only miner was
+calibrated on devnet at 147 GFLOP/s (issue #311); against GPU miners at 10⁵–10⁶ GFLOP/s each its share of
+the 1.2bn miner pool rounds to nothing, so Contabo (4 vCPU, no GPU) is not a mining host. A rented
+RTX 4090/5080 class card is the only realistic mining ticket; cost about $0.3–0.6/h for 90 days against
+an unpriced token. Decision deferred; the agent leg needs no hardware.
+
 ## Update 2026-11-09 — the devnet is public; the testnet is not open yet
 
 Verified with one read-only pass on 9 Nov 2026 (`scripts/flop_rpc_probe.py`, plain HTTP GETs).

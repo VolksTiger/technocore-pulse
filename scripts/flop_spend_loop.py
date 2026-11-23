@@ -1,0 +1,289 @@
+#!/usr/bin/env python3
+"""flop_spend_loop — buy inference on FLOP with our own wallet, in a loop, within hard limits.
+
+The airdrop's agent leg is pro rata to compute *purchased in settled sessions* by the paying
+wallet (flop.finance/airdrop, 5 Oct 2026). The public gateway spends broker funds, so only a
+direct session — our funded wallet → a named miner — counts for us. This loop drives the official
+CLI (`@flop-labs/cli`, `flop session run`) and never touches keys itself: the CLI reads the
+encrypted keystore and its password from an environment variable.
+
+Per round:
+  1. balance (`flop balance <addr> --json`); below --min-balance → faucet
+     (`flop --network N faucet request <addr> [--amount A] --json`), once per --faucet-cooldown
+  2. pick the next miner from --miners (JSON list of {"address","endpoint","model"?}), skipping
+     miners with --miner-strikes consecutive failures for --miner-cooldown seconds
+  3. pick the next prompt from --prompts (JSON list of strings; a real workload, not noise)
+  4. `flop --network N --keystore K --password-env E session run --miner M --model MODEL
+      --prompt P --max-flop X --via auto --endpoint URL --json`, parse the JSON, append one line to
+     --ledger (jsonl): time, miner, model, max_flop, settled fields the CLI reports, outcome
+  5. sleep --interval; stop when any of --max-runs, --max-hours, --max-flop-per-day is reached,
+     or after --max-consecutive-failures (then sleep --failure-sleep and continue)
+
+Alerts (one line each to --alerts, default ~/.technocore-pulse/ALERTS.txt): first settled session,
+every failure streak, faucet refusals, stop conditions. `--dry-run` prints the commands only.
+
+  python3 scripts/flop_spend_loop.py --network testnet --keystore ~/.flop/testnet-agent.json \
+    --address 5... --miners devnet/miners-testnet.json --prompts data/spend-prompts.json \
+    --max-flop 0.05 --interval 90 --max-flop-per-day 20 --dry-run
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shlex
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+
+
+def now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def log(msg: str) -> None:
+    print(f"{now()} {msg}", flush=True)
+
+
+def alert(path: str, msg: str) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(f"{now()[:16]} FLOPSPEND {msg}\n")
+
+
+def run(cmd: list[str], timeout: float, dry: bool):
+    """Run a CLI command; return (returncode, parsed_json_or_None, raw_text)."""
+    if dry:
+        log("DRY " + " ".join(shlex.quote(c) for c in cmd))
+        return 0, None, ""
+    try:
+        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return 124, None, "timeout"
+    except FileNotFoundError:
+        return 127, None, "flop CLI not found on PATH (npm i -g @flop-labs/cli)"
+    raw = (p.stdout or "") + (("\n" + p.stderr) if p.stderr else "")
+    parsed = None
+    for chunk in (p.stdout or "").strip().splitlines()[::-1]:
+        chunk = chunk.strip()
+        if chunk.startswith("{"):
+            try:
+                parsed = json.loads(chunk)
+                break
+            except json.JSONDecodeError:
+                continue
+    if parsed is None and (p.stdout or "").strip().startswith("{"):
+        try:
+            parsed = json.loads(p.stdout)
+        except json.JSONDecodeError:
+            pass
+    return p.returncode, parsed, raw
+
+
+def flop_base(a) -> list[str]:
+    return [a.flop, "--network", a.network]
+
+
+def balance(a) -> float | None:
+    code, j, raw = run(flop_base(a) + ["balance", a.address, "--json"], 60, a.dry_run)
+    if a.dry_run:
+        return None
+    if code != 0 or not isinstance(j, dict):
+        log(f"balance: rc={code} {raw[:200]}")
+        return None
+    for k in ("free", "balance", "free_flop", "available"):
+        v = j.get(k)
+        if v is not None:
+            try:
+                v = float(v)
+                return v / 1e18 if v > 1e12 else v  # raw plancks vs FLOP
+            except (TypeError, ValueError):
+                pass
+    log("balance: unrecognised JSON " + json.dumps(j)[:200])
+    return None
+
+
+def faucet(a) -> bool:
+    cmd = flop_base(a) + ["faucet", "request", a.address, "--json"]
+    if a.faucet_amount:
+        cmd += ["--amount", str(a.faucet_amount)]
+    code, j, raw = run(cmd, 180, a.dry_run)
+    ok = a.dry_run or (code == 0 and (not isinstance(j, dict) or j.get("success", True) and j.get("outcome", "accepted") in ("accepted", "unknown")))
+    log(f"faucet: rc={code} {json.dumps(j)[:300] if j else raw[:300]}")
+    if not ok:
+        alert(a.alerts, f"faucet refused for {a.address[:8]}…: {json.dumps(j)[:160] if j else raw[:160]}")
+    return ok
+
+
+def session(a, miner: dict, prompt: str):
+    model = miner.get("model") or a.model
+    cmd = flop_base(a) + ["--keystore", a.keystore, "--password-env", a.password_env, "session", "run",
+                          "--miner", miner["address"], "--model", model, "--prompt", prompt,
+                          "--max-flop", str(a.max_flop), "--via", a.via, "--json"]
+    if miner.get("endpoint"):
+        cmd += ["--endpoint", miner["endpoint"]]
+    code, j, raw = run(cmd, a.session_timeout, a.dry_run)
+    return code, j, raw, model
+
+
+def summarize(j: dict | None) -> dict:
+    """Pull the settlement facts out of whatever shape the CLI's JSON has."""
+    out = {}
+    if not isinstance(j, dict):
+        return out
+    flat = {}
+
+    def walk(o, prefix=""):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                walk(v, f"{prefix}{k}.")
+        else:
+            flat[prefix[:-1]] = o
+    walk(j)
+    for k, v in flat.items():
+        kl = k.lower()
+        if any(s in kl for s in ("channel", "settle", "minerpaid", "miner_paid", "paid", "escrow", "turn", "gn", "g_n", "tx", "block", "outcome", "status", "stage", "reply", "content", "miner")):
+            if isinstance(v, (str, int, float, bool)) and len(str(v)) <= 200:
+                out[k] = v
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--network", default="testnet")
+    ap.add_argument("--flop", default="flop", help="CLI binary")
+    ap.add_argument("--keystore", required=True)
+    ap.add_argument("--password-env", default="FLOP_KEY_PASSWORD")
+    ap.add_argument("--address", required=True, help="the keystore's SS58 address")
+    ap.add_argument("--miners", required=True, help="JSON list of {address, endpoint, model?}")
+    ap.add_argument("--prompts", required=True, help="JSON list of prompt strings")
+    ap.add_argument("--model", default="qwen/qwen2.5-0.5b-instruct")
+    ap.add_argument("--via", default="auto", choices=["auto", "offer", "force"])
+    ap.add_argument("--max-flop", type=float, default=0.05, help="escrow ceiling per session, FLOP")
+    ap.add_argument("--min-balance", type=float, default=1.0, help="ask the faucet below this, FLOP")
+    ap.add_argument("--faucet-amount", type=float, default=None)
+    ap.add_argument("--faucet-cooldown", type=float, default=6 * 3600, help="seconds between faucet asks")
+    ap.add_argument("--interval", type=float, default=120, help="seconds between sessions")
+    ap.add_argument("--session-timeout", type=float, default=600)
+    ap.add_argument("--max-runs", type=int, default=0, help="0 = unlimited")
+    ap.add_argument("--max-hours", type=float, default=0, help="0 = unlimited")
+    ap.add_argument("--max-flop-per-day", type=float, default=50.0, help="sum of max_flop escrows per UTC day")
+    ap.add_argument("--max-consecutive-failures", type=int, default=6)
+    ap.add_argument("--failure-sleep", type=float, default=1800)
+    ap.add_argument("--miner-strikes", type=int, default=3)
+    ap.add_argument("--miner-cooldown", type=float, default=3600)
+    ap.add_argument("--ledger", default=os.path.expanduser("~/.technocore-pulse/flopspend.jsonl"))
+    ap.add_argument("--alerts", default=os.path.expanduser("~/.technocore-pulse/ALERTS.txt"))
+    ap.add_argument("--dry-run", action="store_true")
+    a = ap.parse_args()
+
+    if not a.dry_run and not os.environ.get(a.password_env):
+        print(f"{a.password_env} is not set; the CLI cannot open the keystore", file=sys.stderr)
+        return 2
+    miners = json.load(open(a.miners))
+    prompts = json.load(open(a.prompts))
+    if not miners or not prompts:
+        print("empty miners or prompts", file=sys.stderr)
+        return 2
+    os.makedirs(os.path.dirname(a.ledger), exist_ok=True)
+
+    log(f"start network={a.network} address={a.address} miners={len(miners)} prompts={len(prompts)} max_flop={a.max_flop} "
+        f"interval={a.interval}s cap/day={a.max_flop_per_day} dry={a.dry_run}")
+    t0 = time.time()
+    runs = settled = 0
+    consecutive_fail = 0
+    last_faucet = 0.0
+    strikes = {m["address"]: 0 for m in miners}
+    benched_until = {m["address"]: 0.0 for m in miners}
+    spent_day = {"day": now()[:10], "flop": 0.0}
+    first_settle_alerted = False
+    mi = pi = 0
+
+    while True:
+        if a.max_runs and runs >= a.max_runs:
+            log("stop: max runs"); alert(a.alerts, f"stopped: max runs {runs} (settled {settled})"); break
+        if a.max_hours and time.time() - t0 > a.max_hours * 3600:
+            log("stop: max hours"); alert(a.alerts, f"stopped: max hours (runs {runs}, settled {settled})"); break
+        day = now()[:10]
+        if spent_day["day"] != day:
+            spent_day = {"day": day, "flop": 0.0}
+        if spent_day["flop"] + a.max_flop > a.max_flop_per_day:
+            log(f"daily cap reached ({spent_day['flop']:.3f} FLOP escrowed today); sleeping 15 min")
+            time.sleep(900 if not a.dry_run else 0)
+            if a.dry_run:
+                break
+            continue
+
+        bal = balance(a)
+        if bal is not None and bal < a.min_balance and time.time() - last_faucet > a.faucet_cooldown:
+            log(f"balance {bal:.4f} FLOP < {a.min_balance}; asking the faucet")
+            faucet(a)
+            last_faucet = time.time()
+            time.sleep(30 if not a.dry_run else 0)
+            bal = balance(a)
+        if bal is not None and bal < a.max_flop * 1.5:
+            log(f"balance {bal:.4f} FLOP too low for a {a.max_flop} escrow; waiting {a.interval * 5:.0f}s")
+            if a.dry_run:
+                break
+            time.sleep(a.interval * 5)
+            continue
+
+        # choose a miner that is not benched
+        chosen = None
+        for _ in range(len(miners)):
+            m = miners[mi % len(miners)]
+            mi += 1
+            if benched_until[m["address"]] <= time.time():
+                chosen = m
+                break
+        if chosen is None:
+            log("all miners benched; sleeping 10 min")
+            if a.dry_run:
+                break
+            time.sleep(600)
+            continue
+        prompt = prompts[pi % len(prompts)]
+        pi += 1
+
+        runs += 1
+        code, j, raw, model = session(a, chosen, prompt)
+        facts = summarize(j)
+        ok = code == 0 and (not isinstance(j, dict) or not j.get("failure"))
+        rec = {"ts": now(), "network": a.network, "miner": chosen["address"], "endpoint": chosen.get("endpoint"),
+               "model": model, "max_flop": a.max_flop, "rc": code, "ok": ok, "facts": facts,
+               "err": None if ok else raw[-400:]}
+        with open(a.ledger, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        spent_day["flop"] += a.max_flop
+        if ok:
+            settled += 1
+            consecutive_fail = 0
+            strikes[chosen["address"]] = 0
+            log(f"session ok #{settled} miner={chosen['address'][:8]}… {json.dumps(facts)[:240]}")
+            if not first_settle_alerted and not a.dry_run:
+                alert(a.alerts, f"first settled session on {a.network}: miner {chosen['address'][:12]}… {json.dumps(facts)[:160]}")
+                first_settle_alerted = True
+        else:
+            consecutive_fail += 1
+            strikes[chosen["address"]] += 1
+            log(f"session FAILED rc={code} miner={chosen['address'][:8]}… {raw[-300:].strip()}")
+            if strikes[chosen["address"]] >= a.miner_strikes:
+                benched_until[chosen["address"]] = time.time() + a.miner_cooldown
+                strikes[chosen["address"]] = 0
+                log(f"benching miner {chosen['address'][:8]}… for {a.miner_cooldown:.0f}s")
+            if consecutive_fail >= a.max_consecutive_failures:
+                alert(a.alerts, f"{consecutive_fail} consecutive session failures on {a.network}; sleeping {a.failure_sleep:.0f}s. last: {raw[-160:].strip()}")
+                consecutive_fail = 0
+                if not a.dry_run:
+                    time.sleep(a.failure_sleep)
+        if a.dry_run and runs >= 2:
+            log("dry run done")
+            break
+        time.sleep(a.interval if not a.dry_run else 0)
+    log(f"end runs={runs} settled={settled}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
