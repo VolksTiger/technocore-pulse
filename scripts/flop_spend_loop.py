@@ -104,16 +104,24 @@ def balance(a) -> float | None:
     return None
 
 
-def faucet(a) -> bool:
+def faucet(a) -> str:
+    """'ok' (grant accepted), 'pending' (queued or outcome unknown: re-check the balance soon,
+    never re-ask in a loop), or 'refused'."""
     cmd = flop_base(a) + ["faucet", "request", a.address, "--json"]
     if a.faucet_amount:
         cmd += ["--amount", str(a.faucet_amount)]
     code, j, raw = run(cmd, 180, a.dry_run)
-    ok = a.dry_run or (code == 0 and (not isinstance(j, dict) or j.get("success", True) and j.get("outcome", "accepted") in ("accepted", "unknown")))
     log(f"faucet: rc={code} {json.dumps(j)[:300] if j else raw[:300]}")
-    if not ok:
-        alert(a.alerts, f"faucet refused for {a.address[:8]}…: {json.dumps(j)[:160] if j else raw[:160]}")
-    return ok
+    if a.dry_run:
+        return "ok"
+    j = j if isinstance(j, dict) else {}
+    text = json.dumps(j).lower() + raw.lower()
+    if code == 0 and j.get("ok", j.get("success", True)) and j.get("outcome", "accepted") == "accepted":
+        return "ok"
+    if any(s in text for s in ("outcome_unknown", "grant_pending", "retry_later", "retryafter", "capacity exhausted", "\"outcome\": \"unknown\"", "degraded")):
+        return "pending"
+    alert(a.alerts, f"faucet refused for {a.address[:8]}…: {json.dumps(j)[:160] if j else raw[:160]}")
+    return "refused"
 
 
 def session(a, miner: dict, prompt: str):
@@ -231,6 +239,7 @@ def main() -> int:
     runs = settled = 0
     consecutive_fail = 0
     last_faucet = 0.0
+    faucet_wait = 0.0  # first ask is immediate; afterwards --faucet-cooldown, or 10 min while a grant is pending
     strikes = {m["address"]: 0 for m in miners}
     benched_until = {m["address"]: 0.0 for m in miners}
     spent_day = {"day": now()[:10], "flop": 0.0}
@@ -253,10 +262,13 @@ def main() -> int:
             continue
 
         bal = balance(a)
-        if bal is not None and bal < a.min_balance and time.time() - last_faucet > a.faucet_cooldown:
+        if bal is not None and bal < a.min_balance and time.time() - last_faucet > faucet_wait:
             log(f"balance {bal:.4f} FLOP < {a.min_balance}; asking the faucet")
-            faucet(a)
+            outcome = faucet(a)
             last_faucet = time.time()
+            # pending/unknown: the grant may still land, so re-check the balance in 10 min instead
+            # of re-asking (the faucet guide says never retry a refusal or an unknown outcome in a loop)
+            faucet_wait = 600 if outcome == "pending" else a.faucet_cooldown
             time.sleep(30 if not a.dry_run else 0)
             bal = balance(a)
         if bal is not None and bal < a.max_flop * 1.5:
