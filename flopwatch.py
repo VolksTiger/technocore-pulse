@@ -41,11 +41,11 @@ PAGES = [
 KEYWORDS = [
     "faucet", "claim", "testnet", "snapshot", "eligib", "season 0",
     "ratif", "airdrop", "technocore", "did:key", "genesis ceremony",
-    "how to", "register", "kyc", "wallet", "rpc", "wss://", "onboard",
+    "how to", "register", "kyc", "wallet", "rpc", "wss://", "onboard", "unavailable", "genesis",
 ]
 # A change that touches one of these goes to ALERTS.txt as well as the event log, so a human
 # (or a session) sees it without reading the log: the testnet opening will show up here first.
-ALERT_KEYWORDS = ["faucet", "testnet", "claim", "register", "wallet", "how to", "rpc", "wss://", "onboard"]
+ALERT_KEYWORDS = ["faucet", "testnet", "claim", "register", "wallet", "how to", "rpc", "wss://", "onboard", "unavailable", "genesis"]
 ALERTS = os.path.expanduser("~/.technocore-pulse/ALERTS.txt")
 E38_RE = re.compile(r"E\.38[^\[]{0,160}\[([A-Z]+)\]")
 UPDATED_RE = re.compile(r"Updated\s+(\d{4}-\d{2}-\d{2})")
@@ -56,10 +56,22 @@ UA = "technocore-pulse/flopwatch (read-only; github.com/VolksTiger/technocore-pu
 # The other official surface: a new repo in the FLOP Labs org (node, faucet, testnet docs) is
 # the signal that the testnet is real; the site may lag it by days.
 GITHUB_ORG = "https://api.github.com/orgs/flop-labs/repos?per_page=100"
+# Off-site pages that flip the moment the testnet is real: the operator hub's testnet network card
+# (every row says "Unavailable" until the chain spec, genesis, RPC and gateway are published), the
+# timeline FAQ (the target date), the faucet's chain card (network + genesis) and the hub's banner.
+EXTERNAL_PAGES = [
+    "https://docs.flop.network/networks/testnet",
+    "https://docs.flop.network/docs/testnet-and-timeline",
+    "https://docs.flop.network/",
+    "https://faucet.flop.network/chain",
+    "https://faucet.flop.network/llms.txt",
+    "https://flop.network/llms.txt",
+]
 
 
 def fetch(path, timeout=30):
-    req = urllib.request.Request(BASE + path, headers={"User-Agent": UA})
+    url = path if path.startswith("http") else BASE + path
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", "replace")
 
@@ -100,6 +112,7 @@ def analyse(text):
 
 
 def slug(path):
+    path = re.sub(r"^https?://", "", path)
     return path.strip("/").replace("/", "_") or "home"
 
 
@@ -205,7 +218,7 @@ def check_github():
 
 def run_once(verbose=True):
     events = []
-    for path in PAGES:
+    for path in PAGES + EXTERNAL_PAGES:
         ev = check_page(path)
         if ev is None:
             continue
