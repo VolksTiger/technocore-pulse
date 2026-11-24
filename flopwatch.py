@@ -59,6 +59,13 @@ GITHUB_ORG = "https://api.github.com/orgs/flop-labs/repos?per_page=100"
 # Off-site pages that flip the moment the testnet is real: the operator hub's testnet network card
 # (every row says "Unavailable" until the chain spec, genesis, RPC and gateway are published), the
 # timeline FAQ (the target date), the faucet's chain card (network + genesis) and the hub's banner.
+# Our open threads with FLOP Labs: alert when a comment lands, a label changes or the state flips.
+ISSUES = [
+    "https://api.github.com/repos/flop-labs/network/issues/1049",   # operator application (testnet validator)
+    "https://api.github.com/repos/flop-labs/network/issues/176",    # devnet gateway allowance
+    "https://api.github.com/repos/flop-labs/yellowpaper/issues/32", # agent spend basis (cited by E.40)
+    "https://api.github.com/repos/flop-labs/tclk/pulls/133",        # whitelist fix
+]
 EXTERNAL_PAGES = [
     "https://docs.flop.network/networks/testnet",
     "https://docs.flop.network/docs/testnet-and-timeline",
@@ -216,8 +223,45 @@ def check_github():
             "diff": ["+" + a for a in added] + ["-" + r for r in removed]}
 
 
+def check_issue(url):
+    """Event when an issue/PR we opened changes: comment count, labels, state, or an assignee."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/vnd.github+json"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            j = json.loads(r.read().decode("utf-8", "replace"))
+    except (urllib.error.URLError, OSError, json.JSONDecodeError) as exc:
+        return {"ts": now(), "page": url, "error": str(exc)[:200]}
+    sig = {
+        "comments": j.get("comments"),
+        "state": j.get("state"),
+        "labels": sorted(l["name"] for l in j.get("labels", [])),
+        "assignees": sorted(a["login"] for a in j.get("assignees", [])),
+        "updated_at": j.get("updated_at"),
+    }
+    key = "issue_" + slug(url)
+    path = os.path.join(STATE_DIR, key + ".json")
+    prev = json.load(open(path)) if os.path.exists(path) else None
+    os.makedirs(STATE_DIR, exist_ok=True)
+    json.dump(sig, open(path, "w"))
+    if prev is None:
+        return {"ts": now(), "page": url, "baseline": True, "meta": {"kw": {}, "sig": sig}}
+    changed = {k: (prev.get(k), v) for k, v in sig.items() if k != "updated_at" and prev.get(k) != v}
+    if not changed:
+        return None
+    return {"ts": now(), "page": url, "updated": [None, None], "version": [None, None], "e38": [None, None],
+            "chars": [0, 0], "kw_delta": {}, "new_links": [], "diff_lines": 0, "diff": [],
+            "issue_change": changed, "title": j.get("title", "")[:80]}
+
+
 def run_once(verbose=True):
     events = []
+    for url in ISSUES:
+        ev = check_issue(url)
+        if ev is not None:
+            events.append(ev)
+            append_event(ev)
+            if verbose:
+                print(json.dumps(ev, ensure_ascii=False))
     for path in PAGES + EXTERNAL_PAGES:
         ev = check_page(path)
         if ev is None:
@@ -271,6 +315,10 @@ def report(last=20):
 
 def alert_line(ev):
     """One line for ALERTS.txt if the event is worth a human's attention, else None."""
+    if ev.get("issue_change"):
+        short = ev["page"].replace("https://api.github.com/repos/flop-labs/", "").replace("/issues/", "#").replace("/pulls/", "#")
+        parts = ["%s %s->%s" % (k, v[0], v[1]) for k, v in ev["issue_change"].items()]
+        return "%s GITHUB %s | %s | %s" % (ev["ts"][:16], short, ev.get("title", ""), "; ".join(parts))
     hits = sorted(k for k in ev.get("kw_delta", {}) if k in ALERT_KEYWORDS)
     version_changed = ev.get("version", [None, None])[0] != ev.get("version", [None, None])[1]
     e38_changed = ev.get("e38", [None, None])[0] != ev.get("e38", [None, None])[1]
