@@ -13,7 +13,7 @@ and checks that the faucet's genesis equals the RPC's, as the docs ask before fu
   python3 scripts/flop_net.py testnet --rpc https://rpc.testnet.flop.network --faucet https://faucet.testnet.flop.network
 
 Exit codes: 0 RPC answers and faucet genesis agrees; 2 RPC unreachable; 3 RPC live but no faucet yet;
-4 faucet and RPC genesis differ (never fund).
+4 faucet and RPC genesis differ (never fund); 5 RPC answers 429 (live, saturated).
 """
 from __future__ import annotations
 
@@ -134,6 +134,9 @@ def main() -> int:
             json.dump(cfg, f, indent=1, ensure_ascii=False)
         print(f"written: {a.write}", file=sys.stderr)
     if "error" in cfg.get("chain", {}):
+        if "429" in cfg["chain"]["error"] or "Too many" in cfg["chain"]["error"]:
+            print(f"{a.network}: RPC live but rate-limited right now ({cfg['chain']['error'][:80]})", file=sys.stderr)
+            return 5
         print(f"{a.network}: RPC not reachable yet ({cfg['chain']['error']})", file=sys.stderr)
         return 2
     if "error" in cfg.get("faucet_chain", {}):

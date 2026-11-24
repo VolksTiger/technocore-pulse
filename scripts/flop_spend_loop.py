@@ -204,11 +204,11 @@ def main() -> int:
         while True:
             rc = subprocess.run([sys.executable, os.path.join(here, "flop_net.py"), a.network, "--write", net_out],
                                 capture_output=True, text=True, timeout=120).returncode
-            if rc in (0, 3):
+            if rc in (0, 3, 5):
                 # 0: faucet known and consistent; 3: chain live, faucet not published — the CLI's own
                 # `faucet request` is the real gate for funds, so start the loop and let it wait on the faucet
-                log(f"{a.network} chain is live (flop_net exit {rc}; {'faucet consistent' if rc == 0 else 'faucet not published yet'}) ({net_out})")
-                alert(a.alerts, f"{a.network} chain live ({'faucet ok' if rc == 0 else 'no faucet yet'}); spend loop starting")
+                log(f"{a.network} chain is live (flop_net exit {rc}; {'faucet consistent' if rc == 0 else 'faucet not published yet' if rc == 3 else 'RPC saturated (429)'}) ({net_out})")
+                alert(a.alerts, f"{a.network} chain live ({'faucet ok' if rc == 0 else 'no faucet yet' if rc == 3 else 'rpc 429'}); spend loop starting")
                 break
             if not announced:
                 log(f"waiting for {a.network} to be published (flop_net exit {rc}); polling every 5 min")
