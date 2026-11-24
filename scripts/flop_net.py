@@ -12,7 +12,8 @@ and checks that the faucet's genesis equals the RPC's, as the docs ask before fu
   python3 scripts/flop_net.py testnet --write devnet/net-testnet.json
   python3 scripts/flop_net.py testnet --rpc https://rpc.testnet.flop.network --faucet https://faucet.testnet.flop.network
 
-Exit code 0 when RPC answers and genesis hashes agree, 2 when the network is still unpublished.
+Exit codes: 0 RPC answers and faucet genesis agrees; 2 RPC unreachable; 3 RPC live but no faucet yet;
+4 faucet and RPC genesis differ (never fund).
 """
 from __future__ import annotations
 
@@ -93,12 +94,14 @@ def main() -> int:
     cfg["docs"] = docs_card(a.network)
     # the hub may name the real endpoints before our guesses resolve
     for u in cfg["docs"].get("urls", []):
-        if u.startswith("wss://rpc.") or u.startswith("https://rpc."):
-            cfg["rpc"] = u.replace("wss://", "https://")
-        elif "faucet." in u:
+        if "faucet" in u:
             cfg["faucet"] = u.rstrip("/")
-        elif "api." in u:
+        elif u.startswith("https://api.") or "gateway" in u:
             cfg["gateway"] = u.rstrip("/")
+        elif u.startswith("wss://"):
+            cfg["rpc"] = u.replace("wss://", "https://").rstrip("/") or cfg["rpc"]
+        elif u.startswith("https://") and "rpc" in u:
+            cfg["rpc"] = u.rstrip("/")
     published = cfg["docs"].get("unavailable_rows", 99) == 0 and bool(cfg["docs"].get("urls"))
     cfg["published_on_docs"] = published
 
@@ -133,9 +136,12 @@ def main() -> int:
     if "error" in cfg.get("chain", {}):
         print(f"{a.network}: RPC not reachable yet ({cfg['chain']['error']})", file=sys.stderr)
         return 2
+    if "error" in cfg.get("faucet_chain", {}):
+        print(f"{a.network}: RPC live (genesis {cfg['chain']['genesis'][:12]}…), faucet not published at {cfg['faucet']} — chain reads only", file=sys.stderr)
+        return 3
     if not cfg["genesis_match"]:
-        print(f"{a.network}: faucet and RPC genesis DIFFER or faucet unknown — do not fund", file=sys.stderr)
-        return 2
+        print(f"{a.network}: faucet and RPC genesis DIFFER — do not fund", file=sys.stderr)
+        return 4
     return 0
 
 
