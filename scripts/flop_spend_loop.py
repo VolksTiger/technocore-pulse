@@ -128,7 +128,7 @@ def session(a, miner: dict, prompt: str):
     model = miner.get("model") or a.model
     cmd = flop_base(a) + ["--keystore", a.keystore, "--password-env", a.password_env, "session", "run",
                           "--miner", miner["address"], "--model", model, "--prompt", prompt,
-                          "--max-flop", str(a.max_flop), "--via", a.via, "--json"]
+                          "--max-flop", str(a.max_flop), "--max-tokens", str(a.max_tokens), "--via", a.via, "--json"]
     if miner.get("endpoint"):
         cmd += ["--endpoint", miner["endpoint"]]
     code, j, raw = run(cmd, a.session_timeout, a.dry_run)
@@ -169,6 +169,7 @@ def main() -> int:
     ap.add_argument("--model", default="qwen/qwen2.5-0.5b-instruct")
     ap.add_argument("--via", default="auto", choices=["auto", "offer", "force"])
     ap.add_argument("--max-flop", type=float, default=0.05, help="escrow ceiling per session, FLOP")
+    ap.add_argument("--max-tokens", type=int, default=160, help="completion tokens per session (CLI/SDK default 256)")
     ap.add_argument("--min-balance", type=float, default=1.0, help="ask the faucet below this, FLOP")
     ap.add_argument("--faucet-amount", type=float, default=None)
     ap.add_argument("--faucet-cooldown", type=float, default=6 * 3600, help="seconds between faucet asks")
