@@ -50,6 +50,8 @@ def http(method: str, url: str, body=None, timeout: float = 60.0):
             return e.code, json.loads(raw), dict(e.headers)
         except json.JSONDecodeError:
             return e.code, {"error": raw[:400]}, dict(e.headers)
+    except (urllib.error.URLError, OSError, TimeoutError) as e:  # unknown outcome: caller keeps the nonce
+        return 0, {"error": f"{type(e).__name__}: {str(e)[:200]}"}, {}
 
 
 class KeystoreSigner:
@@ -153,13 +155,17 @@ def main() -> int:
     message = f"flop-faucet-agent/v1|{a.genesis}|{address}|{nonce}"
     sig = key.sign(message.encode("utf-8"))
     body = {"address": address, "nonce": nonce, "signature": "0x" + sig.hex()}
-    code, res, hdrs = http("POST", f"{a.faucet}{claim_path}", body, timeout=90)
+    # record the nonce as pending BEFORE sending, so a crash or timeout mid-request re-sends the same one
+    entry = state.setdefault(address, {})
+    entry["pending_nonce"] = nonce
+    os.makedirs(os.path.dirname(a.state), exist_ok=True)
+    json.dump(state, open(a.state, "w"), indent=1)
+    code, res, hdrs = http("POST", f"{a.faucet}{claim_path}", body, timeout=180)
     out["claim"] = {"http": code, "nonce": nonce, "reused_nonce": bool(pending), "response": res,
                     "retry_after": hdrs.get("Retry-After")}
 
     final = code == 200 and isinstance(res, dict) and (res.get("success") or res.get("txHash") or res.get("status") in ("included", "finalized"))
     refused = code in (400, 401, 403, 404, 409, 422, 429) or (isinstance(res, dict) and res.get("reason") in ("cooldown", "cap", "refused"))
-    entry = state.setdefault(address, {})
     if final:
         entry["last_nonce"] = nonce
         entry["last_tx"] = res.get("txHash")

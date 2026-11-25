@@ -270,12 +270,19 @@ def main() -> int:
 
     miners = load_miners()
     waited = False
+    last_fund_try = time.time()
     while not miners and not a.dry_run:
         if not waited:
             log(f"no usable miners in {a.miners}; fill it with {{address, endpoint}} pairs — polling every 5 min")
             alert(a.alerts, f"spend loop idle: {a.miners} has no miners yet")
             waited = True
         time.sleep(300)
+        # keep the wallet funded while idle: a pending claim re-sends its nonce, a settled one is skipped by balance
+        if time.time() - last_fund_try > 600:
+            last_fund_try = time.time()
+            b = balance(a)
+            if b is None or b < a.min_balance:
+                log(f"idle funding check: balance {b}; faucet → {faucet(a)}")
         miners = load_miners()
     if not miners:
         print("empty miners (dry run)", file=sys.stderr)
