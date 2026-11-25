@@ -85,13 +85,26 @@ def flop_base(a) -> list[str]:
     return [a.flop, "--network", a.network]
 
 
+def balance_rpc(a) -> float | None:
+    """stdlib fallback: System.Account via state_getStorage (scripts/flop_balance.py)."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    rpc_url = a.rpc or {"testnet": "https://testnet.flop.network", "devnet": "https://rpc.devnet.flop.network"}.get(a.network)
+    if not rpc_url:
+        return None
+    code, j, raw = run([sys.executable, os.path.join(here, "flop_balance.py"), a.address, "--rpc", rpc_url, "--json"], 60, False)
+    if code == 0 and isinstance(j, dict) and "free_flop" in j:
+        return float(j["free_flop"])
+    log(f"balance(rpc): rc={code} {raw[-160:]}")
+    return None
+
+
 def balance(a) -> float | None:
     code, j, raw = run(flop_base(a) + ["balance", a.address, "--json"], 60, a.dry_run)
     if a.dry_run:
         return None
-    if code != 0 or not isinstance(j, dict):
-        log(f"balance: rc={code} {raw[:200]}")
-        return None
+    if code != 0 or not isinstance(j, dict) or j.get("ok") is False:
+        log(f"balance(cli): rc={code} {raw[:160]}; trying RPC")
+        return balance_rpc(a)
     for k in ("free", "balance", "free_flop", "available"):
         v = j.get(k)
         if v is not None:
@@ -184,6 +197,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--network", default="testnet")
     ap.add_argument("--flop", default="flop", help="CLI binary")
+    ap.add_argument("--rpc", default=None, help="HTTP JSON-RPC for the stdlib balance fallback (default per network)")
     ap.add_argument("--keystore", required=True)
     ap.add_argument("--password-env", default="FLOP_KEY_PASSWORD")
     ap.add_argument("--address", required=True, help="the keystore's SS58 address")
@@ -239,6 +253,14 @@ def main() -> int:
                 announced = True
             time.sleep(300)
 
+    # funds first: a claim takes time to finalize and the faucet queue is long, so ask before the miner list exists
+    if not a.dry_run:
+        bal0 = balance(a)
+        log(f"initial balance: {bal0 if bal0 is None else f'{bal0:.4f} FLOP'}")
+        if bal0 is None or bal0 < a.min_balance:
+            outcome0 = faucet(a)
+            log(f"initial faucet outcome: {outcome0}")
+
     def load_miners():
         try:
             ms = json.load(open(a.miners))
@@ -288,7 +310,7 @@ def main() -> int:
             continue
 
         bal = balance(a)
-        if bal is not None and bal < a.min_balance and time.time() - last_faucet > faucet_wait:
+        if (bal is None or bal < a.min_balance) and time.time() - last_faucet > faucet_wait:
             log(f"balance {bal:.4f} FLOP < {a.min_balance}; asking the faucet")
             outcome = faucet(a)
             last_faucet = time.time()
