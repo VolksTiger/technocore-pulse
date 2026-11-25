@@ -129,7 +129,7 @@ def faucet_claim(a) -> str:
     log(f"faucet claim: rc={code} " + json.dumps(claim.get("response") if claim else (j or raw[-300:]))[:300])
     if code == 0:
         return "ok"
-    if code in (3, 5):  # faucet not open / outcome unknown — re-check later, same nonce is re-sent
+    if code in (2, 3, 5):  # faucet unreachable (5xx) / not open / outcome unknown — re-check later, same nonce is re-sent
         return "pending"
     if code == 4:
         alert(a.alerts, f"testnet faucet refused {a.address[:8]}…: {json.dumps(claim.get('response'))[:160]}")
