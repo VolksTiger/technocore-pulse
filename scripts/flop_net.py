@@ -27,10 +27,11 @@ import urllib.request
 
 UA = "technocore-pulse/flop-net (read-only; github.com/VolksTiger/technocore-pulse)"
 GUESS = {
-    "devnet": {"rpc": "https://rpc.devnet.flop.network", "faucet": "https://faucet.flop.network",
+    # 25 Nov 2026: faucet.flop.network serves the TESTNET; the devnet faucet moved to faucet.devnet.flop.network
+    "devnet": {"rpc": "https://rpc.devnet.flop.network", "faucet": "https://faucet.devnet.flop.network",
                "gateway": "https://api.flop.network", "explorer": "https://explorer.devnet.flop.network"},
-    "testnet": {"rpc": "https://rpc.testnet.flop.network", "faucet": "https://faucet.testnet.flop.network",
-                "gateway": "https://api.flop.network", "explorer": "https://explorer.testnet.flop.network"},
+    "testnet": {"rpc": "https://testnet.flop.network", "faucet": "https://faucet.flop.network",
+                "gateway": None, "explorer": "https://testnet.flopscan.io"},
 }
 
 
@@ -108,6 +109,9 @@ def main() -> int:
     try:
         _, raw = get(f"{cfg['faucet']}/chain")
         cfg["faucet_chain"] = json.loads(raw)
+        fnet = str(cfg["faucet_chain"].get("network", "")).lower()
+        if fnet and fnet != a.network:
+            cfg["faucet_chain"] = {"error": f"faucet at {cfg['faucet']} serves {fnet}, not {a.network}", "served": cfg["faucet_chain"]}
     except (urllib.error.URLError, OSError, json.JSONDecodeError) as exc:
         cfg["faucet_chain"] = {"error": str(exc)[:200]}
 
