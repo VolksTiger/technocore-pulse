@@ -104,9 +104,32 @@ def balance(a) -> float | None:
     return None
 
 
+def faucet_claim(a) -> str:
+    """Testnet signed agent claim through scripts/flop_faucet_claim.py (the CLI has no command for it yet)."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    cmd = [sys.executable, os.path.join(here, "flop_faucet_claim.py"), "--network", a.network, "--keystore", a.keystore,
+           "--password-env", a.password_env, "--address", a.address, "--json"]
+    code, j, raw = run(cmd, 240, a.dry_run)
+    if a.dry_run:
+        return "ok"
+    claim = (j or {}).get("claim", {}) if isinstance(j, dict) else {}
+    log(f"faucet claim: rc={code} " + json.dumps(claim.get("response") if claim else (j or raw[-300:]))[:300])
+    if code == 0:
+        return "ok"
+    if code in (3, 5):  # faucet not open / outcome unknown — re-check later, same nonce is re-sent
+        return "pending"
+    if code == 4:
+        alert(a.alerts, f"testnet faucet refused {a.address[:8]}…: {json.dumps(claim.get('response'))[:160]}")
+        return "refused"
+    alert(a.alerts, f"faucet claim error rc={code}: {(raw or json.dumps(j))[-160:]}")
+    return "pending"
+
+
 def faucet(a) -> str:
     """'ok' (grant accepted), 'pending' (queued or outcome unknown: re-check the balance soon,
     never re-ask in a loop), or 'refused'."""
+    if a.network == "testnet":
+        return faucet_claim(a)
     cmd = flop_base(a) + ["faucet", "request", a.address, "--json"]
     if a.faucet_amount:
         cmd += ["--amount", str(a.faucet_amount)]

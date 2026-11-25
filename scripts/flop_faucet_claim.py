@@ -11,11 +11,11 @@ Implements flop.network/llms.txt "Get Testnet FLOP" (25 Nov 2026), which no CLI 
 Re-sending the same nonce returns the same transaction and never pays twice, so the nonce of a request
 whose outcome is unknown is kept in --state and re-sent before any new nonce is used.
 
-Key material: --seed-file with the 32-byte ed25519 seed as hex (0600; written once from
-`flop keys export`), or --wallet (rehearsal JSON / encrypted PEM, as in flop_gateway.py). Stdlib +
-cryptography; never prints the key.
+Key material: --keystore (the encrypted Polkadot JSON from `flop keys generate`, signed through
+scripts/flop_sign.cjs with the password from $FLOP_KEY_PASSWORD), --seed-file (32-byte ed25519 seed hex,
+0600), or --wallet (rehearsal JSON / encrypted PEM, as in flop_gateway.py). Never prints the key.
 
-  python3 scripts/flop_faucet_claim.py --seed-file /root/.flop/testnet-agent.seed --address 5CY8… --json
+  python3 scripts/flop_faucet_claim.py --keystore /root/.flop/testnet-agent.json --address 5CY8… --json
   python3 scripts/flop_faucet_claim.py --seed-file … --address … --check-only     # limits + chain only
 """
 from __future__ import annotations
@@ -52,9 +52,37 @@ def http(method: str, url: str, body=None, timeout: float = 60.0):
             return e.code, {"error": raw[:400]}, dict(e.headers)
 
 
+class KeystoreSigner:
+    """Signs through scripts/flop_sign.cjs (the CLI's bundled @polkadot/keyring); the key stays in its
+    encrypted Polkadot JSON file and the password is read from the environment by the node process."""
+
+    def __init__(self, keystore: str, password_env: str):
+        import subprocess  # noqa: PLC0415
+        self.subprocess = subprocess
+        self.keystore = keystore
+        self.password_env = password_env
+        self.signer = os.path.join(os.path.dirname(os.path.abspath(__file__)), "flop_sign.cjs")
+        probe = self._sign("flop-faucet-agent/v1|probe")
+        self.address = probe["address"]
+        self.public_hex = probe["publicKey"]
+
+    def _sign(self, message: str) -> dict:
+        p = self.subprocess.run(["node", self.signer, self.keystore, message, "--password-env", self.password_env],
+                                capture_output=True, text=True, timeout=60)
+        if p.returncode != 0:
+            raise SystemExit(f"signer failed: {p.stderr.strip()[:300]}")
+        return json.loads(p.stdout.strip().splitlines()[-1])
+
+    def sign(self, data: bytes) -> bytes:
+        return bytes.fromhex(self._sign(data.decode("utf-8"))["signature"][2:])
+
+
 def load_key(a):
     from cryptography.hazmat.primitives import serialization  # noqa: PLC0415
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey  # noqa: PLC0415
+    if a.keystore:
+        s = KeystoreSigner(a.keystore, a.password_env)
+        return s, s.address
     if a.seed_file:
         seed = open(a.seed_file).read().strip()
         if seed.startswith("0x"):
@@ -75,6 +103,8 @@ def main() -> int:
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--seed-file")
     g.add_argument("--wallet")
+    g.add_argument("--keystore", help="Polkadot JSON keystore from `flop keys generate`; signs via scripts/flop_sign.cjs")
+    ap.add_argument("--password-env", default="FLOP_KEY_PASSWORD")
     ap.add_argument("--address", help="SS58 to fund; must be the key's own address (checked)")
     ap.add_argument("--state", default=os.path.expanduser("~/.technocore-pulse/faucet-claims.json"))
     ap.add_argument("--check-only", action="store_true")
